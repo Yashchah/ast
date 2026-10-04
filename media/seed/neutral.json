@@ -1,0 +1,146 @@
+{
+  "lang": "neutral",
+  "note": "UNVERIFIED. Three language-neutral pseudocode tracing items for languages with no local runtime (spec V1-5, V1-7 BLITZ). Nothing here is ever executed: 'answer' and each transform's 'prints' are hand-traced claims, so these items must be stored with verified = false (evidence uses slip .2 and guess +.1, and mutant matching stays off). Pseudocode rules: SET x TO v assigns; PRINT a, b prints the values separated by one space and ends the line; PRINT \"text\" prints the text without quotes; WHILE c ... END WHILE tests c before every pass; FOR EACH x IN [...] ... END FOR visits the items in order; IF c THEN s runs s only when c is true. Lines inside a block are indented by four spaces. There are no slots or themes: each template is one fixed item.",
+  "patterns": {
+    "variables-assignment": {
+      "kind": "shape",
+      "name": "Assign and reassign names",
+      "useWhen": "you store a value and later replace it",
+      "template": "SET <name> TO <value>\nSET <name> TO <name> <op> <change>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "A name keeps its value until a later line assigns again",
+      "useCases": [
+        "Keep a running score that changes each round",
+        "Remember the previous value before updating a variable",
+        "Swap two values using a temporary name",
+        "Count the lives left after each hit",
+        "Track the current balance after each deposit",
+        "Store a starting value to compare with later"
+      ]
+    },
+    "while-loop-termination": {
+      "kind": "shape",
+      "name": "Loop until a condition",
+      "useWhen": "you repeat until something changes, count unknown",
+      "template": "WHILE <condition>\n    <body that moves toward stopping>\nEND WHILE",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "The condition is checked only before each pass",
+      "useCases": [
+        "Halve a number until it drops below one",
+        "Keep asking until the answer is valid",
+        "Pay off a loan month by month",
+        "Count the digits of a number",
+        "Double savings until they reach a goal",
+        "Serve customers until the queue is empty"
+      ]
+    },
+    "loop-accumulator": {
+      "kind": "shape",
+      "name": "Accumulate in a loop",
+      "useWhen": "you need one result built from every item",
+      "template": "SET total TO <start>\nFOR EACH <x> IN <xs>\n    SET total TO total <op> <x>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Start the best value at the first item, not 0",
+      "useCases": [
+        "Add up the prices in a shopping cart",
+        "Count the words longer than five letters",
+        "Find the highest temperature of the week",
+        "Join names into one comma-separated string",
+        "Multiply all the numbers in a list together",
+        "Total the minutes of a playlist"
+      ]
+    }
+  },
+  "templates": [
+    {
+      "id": "neutral-var-before-after",
+      "tag": "variables-assignment",
+      "family": "pseudo-before-after",
+      "kind": "probe",
+      "code": "SET price TO 14\nSET saved TO price\nPRINT \"before\", price, saved\nSET price TO price + 22\nPRINT \"after\", price, saved",
+      "slots": {},
+      "themes": {},
+      "transforms": [
+        {
+          "misconceptionId": "assignment-links-names",
+          "find": "PRINT \"after\", price, saved",
+          "replace": "PRINT \"after\", price, price",
+          "belief": "Changing price later also changes saved",
+          "refutation": "SET saved TO price gave saved the value price had at that moment; a new value for price later does not reach saved.",
+          "rule": "Assignment copies the current value; later changes do not follow.",
+          "prints": "before 14 14\nafter 36 36"
+        },
+        {
+          "misconceptionId": "print-sees-later-assignment",
+          "find": "PRINT \"before\", price, saved",
+          "replace": "PRINT \"before\", 36, saved",
+          "belief": "The first PRINT already shows the updated price",
+          "refutation": "Lines run top to bottom: when the first PRINT runs, the line that changes price has not run yet.",
+          "rule": "Each PRINT shows the values as they are at that line.",
+          "prints": "before 36 14\nafter 36 14"
+        }
+      ],
+      "parSec": 6,
+      "verified": false,
+      "answer": "before 14 14\nafter 36 14"
+    },
+    {
+      "id": "neutral-while-drain",
+      "tag": "while-loop-termination",
+      "family": "pseudo-drain",
+      "kind": "probe",
+      "code": "SET fuel TO 11\nWHILE fuel > 0\n    SET fuel TO fuel - 4\n    PRINT fuel\nEND WHILE\nPRINT \"end\", fuel",
+      "slots": {},
+      "themes": {},
+      "transforms": [
+        {
+          "misconceptionId": "stops-mid-body",
+          "find": "    PRINT fuel",
+          "replace": "    IF fuel > 0 THEN PRINT fuel",
+          "belief": "The loop quits as soon as fuel drops to 0 or below",
+          "refutation": "The condition is only checked at the top; once a pass starts, every line of it runs, including the PRINT.",
+          "rule": "WHILE checks its condition only before each pass.",
+          "prints": "7\n3\nend -1"
+        },
+        {
+          "misconceptionId": "last-value-after-loop",
+          "find": "PRINT \"end\", fuel",
+          "replace": "PRINT \"end\", fuel + 4",
+          "belief": "After the loop, fuel holds the last value that passed the test",
+          "refutation": "The loop ends only after fuel fails the test, so it keeps the value that failed.",
+          "rule": "After a WHILE loop, the variable holds the failing value.",
+          "prints": "7\n3\n-1\nend 3"
+        }
+      ],
+      "parSec": 7,
+      "verified": false,
+      "answer": "7\n3\n-1\nend -1"
+    },
+    {
+      "id": "neutral-acc-best",
+      "tag": "loop-accumulator",
+      "family": "pseudo-best",
+      "kind": "probe",
+      "code": "SET best TO 0\nFOR EACH t IN [-5, -2, -9]\n    IF t > best THEN SET best TO t\nEND FOR\nPRINT best",
+      "slots": {},
+      "themes": {},
+      "transforms": [
+        {
+          "misconceptionId": "max-starts-at-zero",
+          "find": "SET best TO 0",
+          "replace": "SET best TO -5",
+          "belief": "Starting best at 0 still finds the highest value",
+          "refutation": "Every value here is negative, so none of them beats the starting value and best never changes.",
+          "rule": "Start the best value at the first item, not 0.",
+          "prints": "-2"
+        }
+      ],
+      "parSec": 6,
+      "verified": false,
+      "answer": "0"
+    }
+  ]
+}

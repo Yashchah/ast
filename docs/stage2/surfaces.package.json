@@ -1,0 +1,46 @@
+{
+  "commands": [
+    {
+      "command": "deliberate.next",
+      "title": "Do the next thing",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.skipAction",
+      "title": "Not Now (skip the current suggestion)",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.gotIt",
+      "title": "Got It (the hint helped)",
+      "category": "Deliberate"
+    }
+  ],
+  "keybindings": [
+    {
+      "command": "deliberate.next",
+      "key": "alt+n",
+      "mac": "ctrl+alt+n",
+      "when": "!inQuickOpen && !suggestWidgetVisible && !inSnippetMode"
+    }
+  ],
+  "menus": {
+    "commandPalette": [
+      {
+        "command": "deliberate.skipAction",
+        "when": "deliberate.hasAction"
+      },
+      {
+        "command": "deliberate.gotIt",
+        "when": "deliberate.building"
+      }
+    ]
+  },
+  "settings": {
+    "deliberate.showTimers": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show the task timer in the Deliberate status-bar item and the correct-under-par streak in its tooltip."
+    }
+  }
+}

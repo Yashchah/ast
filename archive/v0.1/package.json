@@ -1,0 +1,217 @@
+{
+  "name": "deliberate-coach",
+  "displayName": "Deliberate — Learn by Building",
+  "description": "A coding coach that watches you build, detects when you're stuck, teaches the missing concept, and climbs a hint ladder instead of writing your code. Runs on your Codex (ChatGPT) plan by default.",
+  "version": "0.1.0",
+  "publisher": "yashc",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Education",
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "learning",
+    "tutor",
+    "coach",
+    "deliberate practice",
+    "claude"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "deliberate",
+          "title": "Deliberate",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "deliberate": [
+        {
+          "type": "webview",
+          "id": "deliberate.coach",
+          "name": "Coach"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "deliberate.open",
+        "title": "Open Coach",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.newProject",
+        "title": "Start a New Goal",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.hint",
+        "title": "I'm Stuck — Give Me a Hint",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.teach",
+        "title": "Teach Me the Concept",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.checkWork",
+        "title": "Check My Work",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.ask",
+        "title": "Ask the Coach",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.explainSelection",
+        "title": "Help Me Understand This Code",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.speedDrill",
+        "title": "Start a Speed Drill",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.codexLogin",
+        "title": "Sign in to Codex",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.setApiKey",
+        "title": "Set Anthropic API Key",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.resetProfile",
+        "title": "Erase Learner Profile",
+        "category": "Deliberate"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "deliberate.hint",
+        "key": "ctrl+alt+h",
+        "mac": "cmd+alt+h"
+      },
+      {
+        "command": "deliberate.checkWork",
+        "key": "ctrl+alt+enter",
+        "mac": "cmd+alt+enter"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "deliberate.explainSelection",
+          "when": "editorHasSelection",
+          "group": "navigation@90"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Deliberate",
+      "properties": {
+        "deliberate.provider": {
+          "type": "string",
+          "enum": [
+            "codex",
+            "anthropic",
+            "vscode-lm"
+          ],
+          "enumDescriptions": [
+            "Codex CLI signed in with your ChatGPT account: uses your Codex plan's limits, no API key.",
+            "Claude API with structured outputs (needs an API key: run 'Deliberate: Set Anthropic API Key' or set ANTHROPIC_API_KEY).",
+            "Any model exposed through VS Code's Language Model API (e.g. GitHub Copilot). No extra key."
+          ],
+          "default": "codex",
+          "description": "Which model provider the coach uses."
+        },
+        "deliberate.codexModel": {
+          "type": "string",
+          "default": "gpt-6.1-sol",
+          "description": "Model for the 'codex' provider."
+        },
+        "deliberate.codexFast": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use Codex's Fast service tier (about 1.5x speed; uses more of your plan's limits)."
+        },
+        "deliberate.codexPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the codex binary. Empty = auto-detect the newest one (the Codex desktop app's bundled CLI or `codex` on PATH)."
+        },
+        "deliberate.model": {
+          "type": "string",
+          "default": "claude-opus-5-5",
+          "description": "Claude model id when provider is 'anthropic'."
+        },
+        "deliberate.vscodeLmFamily": {
+          "type": "string",
+          "default": "",
+          "description": "Model family to request when provider is 'vscode-lm' (empty = first available)."
+        },
+        "deliberate.stuckThresholdMinutes": {
+          "type": "number",
+          "default": 7,
+          "minimum": 2,
+          "description": "Base minutes of active, progress-free work before the coach offers help. Scaled per concept: weak concepts get help sooner, strong ones get more room."
+        },
+        "deliberate.proactiveHints": {
+          "type": "string",
+          "enum": [
+            "offer",
+            "auto",
+            "off"
+          ],
+          "enumDescriptions": [
+            "Ask before giving a hint when you look stuck.",
+            "Give the next hint automatically when you look stuck.",
+            "Only give hints when you ask."
+          ],
+          "default": "offer"
+        },
+        "deliberate.maxFollowUps": {
+          "type": "number",
+          "default": 4,
+          "minimum": 0,
+          "description": "Maximum chained follow-up tasks on one concept before moving on through the roadmap."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --tsconfig test/tsconfig.json --test test/*.test.ts",
+    "package": "npm run typecheck && npm test && node esbuild.mjs --production && vsce package --no-dependencies --allow-missing-repository",
+    "vscode:prepublish": "node esbuild.mjs --production"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "marked": "^18.0.14",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/vscode": "1.93.0",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}

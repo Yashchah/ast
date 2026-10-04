@@ -1,0 +1,249 @@
+:root {
+  --gap: 8px;
+  --radius: 6px;
+  --good: var(--vscode-testing-iconPassed, #3fb950);
+  --cool: var(--vscode-progressBar-background, #3794ff);
+  --warm: var(--vscode-editorWarning-foreground, #d29922);
+  --hot: var(--vscode-editorError-foreground, #f85149);
+  --info: var(--vscode-editorInfo-foreground, #3794ff);
+  --border: var(--vscode-panel-border, rgba(128, 128, 128, 0.35));
+  --card-bg: var(--vscode-sideBar-background);
+  --subtle-bg: var(--vscode-editorWidget-background, rgba(128, 128, 128, 0.08));
+  --mono: var(--vscode-editor-font-family, monospace);
+}
+
+body {
+  padding: 0 10px 10px;
+  color: var(--vscode-foreground);
+  background: var(--vscode-sideBar-background);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  line-height: 1.45;
+}
+
+h2, h3 { margin: 12px 0 6px; font-weight: 600; }
+h2 { font-size: 1.15em; }
+h3 { font-size: 1.02em; }
+p { margin: 6px 0; }
+code { font-family: var(--mono); font-size: 0.95em; }
+.muted { color: var(--vscode-descriptionForeground); }
+.small { font-size: 0.88em; }
+[hidden] { display: none !important; }
+
+button {
+  font: inherit;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid var(--vscode-button-border, transparent);
+  color: var(--vscode-button-secondaryForeground);
+  background: var(--vscode-button-secondaryBackground);
+  cursor: pointer;
+}
+button:hover:not([disabled]) { background: var(--vscode-button-secondaryHoverBackground); }
+button.primary { color: var(--vscode-button-foreground); background: var(--vscode-button-background); }
+button.primary:hover:not([disabled]) { background: var(--vscode-button-hoverBackground); }
+button[disabled] { opacity: 0.5; cursor: default; }
+button.link {
+  padding: 0 2px; border: none; background: transparent; color: var(--vscode-textLink-foreground);
+  text-decoration: underline; cursor: pointer;
+}
+button.link:hover:not([disabled]) { background: transparent; color: var(--vscode-textLink-activeForeground); }
+button:focus-visible, textarea:focus-visible, [data-log]:focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-offset: 1px; }
+
+textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  padding: 6px;
+  font: inherit;
+  color: var(--vscode-input-foreground);
+  background: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-border, var(--border));
+  border-radius: 3px;
+}
+
+/* Onboarding */
+#onboarding textarea { margin: 6px 0 10px; }
+#onboarding .how { padding-left: 18px; margin-top: 16px; }
+#onboarding .how li { margin-bottom: 8px; }
+#ob-busy, #busy { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; color: var(--vscode-descriptionForeground); }
+#busy #pww { margin-left: auto; }
+
+/* Tabs */
+.tabs {
+  position: sticky; top: 0; z-index: 2;
+  display: flex; gap: 2px;
+  padding-top: 8px;
+  background: var(--vscode-sideBar-background);
+  border-bottom: 1px solid var(--border);
+}
+.tabs button { background: transparent; color: var(--vscode-descriptionForeground); border: none; border-bottom: 2px solid transparent; border-radius: 0; }
+.tabs button.active { color: var(--vscode-foreground); border-bottom-color: var(--vscode-focusBorder); }
+.tabs button:hover { background: transparent !important; color: var(--vscode-foreground); }
+
+/* Status strip: the task card (interface, spec ladder, time, stuck meter) */
+#status { padding: 8px 0 4px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+#status:empty { display: none; }
+.status-title { font-weight: 600; margin-bottom: 6px; }
+.iface { margin: 2px 0 6px; overflow-x: auto; white-space: nowrap; }
+.iface code { padding: 1px 4px; border-radius: 3px; background: var(--vscode-textCodeBlock-background, rgba(0, 0, 0, 0.2)); }
+.pill {
+  display: inline-block; padding: 0 6px; border-radius: 9px; font-size: 0.8em; font-weight: 500;
+  background: var(--vscode-badge-background); color: var(--vscode-badge-foreground);
+}
+.pill.solo { background: transparent; color: var(--info); border: 1px solid var(--info); }
+.notice { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 4px 0; color: var(--vscode-descriptionForeground); }
+.notice.error { color: var(--hot); }
+.meter-row { display: grid; grid-template-columns: 40px 1fr auto; gap: 6px; align-items: center; margin: 3px 0; font-size: 0.9em; }
+.meter-label { color: var(--vscode-descriptionForeground); }
+.meter-val { font-variant-numeric: tabular-nums; color: var(--vscode-descriptionForeground); }
+.meter { height: 6px; border-radius: 3px; background: var(--subtle-bg); overflow: hidden; }
+.fill { height: 100%; width: 0; border-radius: 3px; transition: width 0.4s; }
+.fill.good { background: var(--good); }
+.fill.cool { background: var(--cool); }
+.fill.warm { background: var(--warm); }
+.fill.hot { background: var(--hot); }
+.good-text { color: var(--good); }
+.warm-text { color: var(--warm); }
+
+.ladder { margin: 4px 0 6px; }
+.specs { list-style: none; margin: 4px 0; padding: 0; font-size: 0.92em; }
+.spec { display: flex; gap: 6px; align-items: baseline; padding: 1px 0; }
+.sicon { width: 12px; flex: none; text-align: center; }
+.spec-passed { color: var(--vscode-descriptionForeground); }
+.spec-passed .sicon { color: var(--good); }
+.spec-failed { font-weight: 600; }
+.spec-failed .sicon { color: var(--hot); }
+.spec-not-yet .sicon, .spec-not-run .sicon { color: var(--vscode-descriptionForeground); }
+.target { margin-top: 2px; overflow-x: auto; }
+
+/* Feed: compact log lines, plus full cards for tasks, answers, reviews and errors */
+.card {
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 10px;
+  margin: 0 0 var(--gap);
+  background: var(--subtle-bg);
+}
+.card header { font-weight: 600; margin-bottom: 4px; }
+.card .body > :first-child { margin-top: 0; }
+.card .body > :last-child { margin-bottom: 0; }
+.card.kind-task { border-left-color: var(--cool); }
+.card.kind-lesson { border-left-color: var(--good); }
+.card.kind-hint { border-left-color: var(--warm); }
+.card.kind-question { border-left-color: var(--vscode-focusBorder); }
+.card.kind-review { border-left-color: var(--cool); }
+.card.kind-info { border-left-color: var(--info); }
+.card.kind-error { border-left-color: var(--hot); }
+.card.kind-you { background: transparent; border-style: dashed; border-left-style: solid; }
+.card.kind-you header { color: var(--vscode-descriptionForeground); font-weight: 500; }
+.card pre, .log pre, .tpl {
+  overflow-x: auto; padding: 6px 8px; border-radius: 4px;
+  background: var(--vscode-textCodeBlock-background, rgba(0, 0, 0, 0.2));
+}
+.card code { font-family: var(--mono); font-size: 0.95em; }
+.card ul, .card ol { padding-left: 20px; }
+.card blockquote { margin: 6px 0; padding-left: 8px; border-left: 2px solid var(--border); color: var(--vscode-descriptionForeground); }
+
+.log {
+  display: grid; grid-template-columns: auto auto 1fr; gap: 0 6px; align-items: baseline;
+  margin: 0 0 4px; padding: 2px 4px; border-radius: 3px; font-size: 0.9em; cursor: pointer;
+}
+.log:hover { background: var(--vscode-list-hoverBackground); }
+.log-time { color: var(--vscode-descriptionForeground); font-variant-numeric: tabular-nums; }
+.log-title { font-weight: 600; white-space: nowrap; }
+.log-body {
+  min-width: 0; overflow: hidden; color: var(--vscode-descriptionForeground);
+  white-space: nowrap; text-overflow: ellipsis;
+}
+.log-body > * { display: inline; margin: 0 0.4em 0 0; }
+.log-body pre { display: none; }
+.log.open { grid-template-columns: auto 1fr; }
+.log.open .log-body { grid-column: 1 / -1; white-space: normal; overflow: visible; padding: 2px 0 2px 4px; }
+.log.open .log-body > * { display: block; margin: 2px 0; }
+.log.open .log-body pre { display: block; }
+.log .actions { grid-column: 1 / -1; margin-top: 4px; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+
+/* Composer: Ask and the optional own plan only */
+#composer {
+  position: sticky; bottom: 0;
+  padding: 8px 0 4px;
+  background: var(--vscode-sideBar-background);
+  border-top: 1px solid var(--border);
+}
+#mode-label { font-size: 0.85em; font-weight: 600; letter-spacing: 0.02em; color: var(--vscode-descriptionForeground); margin-bottom: 4px; }
+#composer-buttons { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.hint-text { font-size: 0.8em; color: var(--vscode-descriptionForeground); margin-top: 4px; }
+
+/* Roadmap */
+.milestone { margin: 10px 0; }
+.ms-title { font-weight: 600; margin-bottom: 4px; }
+.task-row {
+  display: flex; gap: 8px; align-items: baseline; width: 100%; text-align: left;
+  background: transparent; border: none; color: var(--vscode-foreground); padding: 3px 8px; border-radius: 3px;
+}
+.task-row .tname { flex: 1; }
+.task-row:hover { background: var(--vscode-list-hoverBackground) !important; }
+.task-row.current { background: var(--vscode-list-activeSelectionBackground); color: var(--vscode-list-activeSelectionForeground); }
+.task-row.status-done { color: var(--vscode-descriptionForeground); }
+.task-row.status-done .ticon { color: var(--good); }
+.ticon { width: 12px; flex: none; }
+
+/* Progress */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 6px; margin: 10px 0; }
+.stats div { display: flex; flex-direction: column; padding: 6px; border-radius: var(--radius); background: var(--subtle-bg); }
+.stats b { font-size: 1.3em; font-variant-numeric: tabular-nums; }
+.stats span { font-size: 0.82em; color: var(--vscode-descriptionForeground); }
+.calib { margin: 0 0 8px; }
+.concept { margin: 8px 0; }
+.concept-head { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 3px; }
+.chip {
+  display: inline-block; padding: 0 6px; border-radius: 9px; font-size: 0.78em; font-weight: 600;
+  border: 1px solid currentColor;
+}
+.chip-misconception { color: var(--hot); }
+.chip-fixing { color: var(--warm); }
+.chip-unknown { color: var(--vscode-descriptionForeground); }
+.chip-fragile { color: var(--warm); }
+.chip-learning { color: var(--cool); }
+.chip-solid { color: var(--good); }
+.chip-fluent { color: var(--vscode-badge-foreground); background: var(--good); border-color: var(--good); }
+.flag {
+  display: inline-block; margin-left: 4px; padding: 0 4px; border-radius: 3px; font-size: 0.75em;
+  color: var(--vscode-descriptionForeground); border: 1px dashed var(--border);
+}
+.beliefs { list-style: none; margin: 3px 0 0; padding: 0 0 0 4px; font-size: 0.88em; }
+.belief { margin: 1px 0; }
+.bstat { font-size: 0.85em; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; margin-right: 4px; }
+.belief-active .bstat { color: var(--hot); }
+.belief-fixing .bstat { color: var(--warm); }
+.belief-candidate .bstat { color: var(--vscode-descriptionForeground); }
+
+.deck { display: grid; gap: 6px; }
+.pcard { padding: 6px 8px; border-radius: var(--radius); background: var(--subtle-bg); border-left: 3px solid var(--good); }
+.pcard-head { margin-bottom: 2px; }
+.tpl { margin: 4px 0; font-family: var(--mono); font-size: 0.9em; white-space: pre; }
+
+table.pace, table.pace-ms { width: 100%; border-collapse: collapse; font-size: 0.9em; margin: 4px 0 8px; }
+table.pace td { padding: 2px 4px; border-bottom: 1px solid var(--border); vertical-align: baseline; }
+table.pace td:first-child { color: var(--vscode-descriptionForeground); }
+table.pace td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+table.pace-ms th { text-align: left; font-weight: 600; color: var(--vscode-descriptionForeground); padding: 2px 4px; border-bottom: 1px solid var(--border); }
+table.pace-ms td { padding: 2px 4px; font-variant-numeric: tabular-nums; }
+.solo-list { padding-left: 18px; font-size: 0.9em; margin: 4px 0; }
+.mistakes { padding-left: 18px; }
+.mistakes li { margin-bottom: 6px; }
+.exec { margin-top: 14px; padding-top: 8px; border-top: 1px solid var(--border); }
+
+.spinner {
+  display: inline-block; flex: none;
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--vscode-descriptionForeground); border-top-color: transparent;
+  animation: spin 0.8s linear infinite;
+}
+.spinner.inline { width: 9px; height: 9px; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } .fill { transition: none; } }

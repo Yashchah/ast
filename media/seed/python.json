@@ -1,0 +1,4309 @@
+{
+  "lang": "python",
+  "patterns": {
+    "variables-assignment": {
+      "kind": "shape",
+      "name": "Assign and reassign names",
+      "useWhen": "you store a value and later replace it",
+      "template": "<name> = <value>\n<name> = <name> <op> <change>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "A name keeps its value until a later line assigns again",
+      "useCases": [
+        "Keep a running score that changes each round",
+        "Remember the previous value before updating a variable",
+        "Swap two values using a temporary name",
+        "Count the lives left after each hit",
+        "Track the current balance after each deposit",
+        "Store a starting value to compare with later"
+      ]
+    },
+    "numbers-int-float": {
+      "kind": "shape",
+      "name": "Whole and decimal numbers",
+      "useWhen": "you divide, convert or round numbers",
+      "template": "<a> / <b>        # always a float\nint(<x>)         # drops the decimals\nround(<x>, <digits>)",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "/ always gives a float; int() cuts, never rounds",
+      "useCases": [
+        "Split a bill evenly between friends",
+        "Average a list of test scores",
+        "Convert minutes to hours with decimals",
+        "Show a price rounded to two decimals",
+        "Turn a decimal rating into whole stars",
+        "Check whether two measured lengths are close enough"
+      ]
+    },
+    "integer-division-modulo": {
+      "kind": "shape",
+      "name": "Floor division and remainder",
+      "useWhen": "you need whole groups and what is left over",
+      "template": "<groups> = <n> // <size>\n<left> = <n> % <size>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "// floors toward minus infinity, so negatives go down",
+      "useCases": [
+        "Turn total minutes into hours and minutes",
+        "Split players into full teams and leftovers",
+        "Check whether a number is even",
+        "Get the last digit of a number",
+        "Wrap a clock hour past twelve",
+        "Find which row a grid cell index falls in"
+      ]
+    },
+    "str-vs-number": {
+      "kind": "semantics",
+      "name": "Text versus number values",
+      "useWhen": "values come from input, files or text fields",
+      "template": "",
+      "rule": "Quotes make text; + joins text but adds numbers.",
+      "howItRuns": "'2' + '3' joins two strings into '23'; int('2') + int('3') converts first, then adds to 5.",
+      "pitfall": "Digits in quotes are text: convert with int() first",
+      "useCases": [
+        "Add two numbers typed in by a user",
+        "Build an order code from digit strings",
+        "Sort version numbers stored as text",
+        "Total prices read from a CSV file",
+        "Pad a number with zeros for an ID",
+        "Compare ages entered as text"
+      ]
+    },
+    "string-indexing": {
+      "kind": "shape",
+      "name": "Index into a string",
+      "useWhen": "you need one character at a known position",
+      "template": "<s>[0]     # first\n<s>[-1]    # last\n<s>[<i>]   # counting from 0",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Positions start at 0, and the last is len - 1",
+      "useCases": [
+        "Get the first letter of a name for initials",
+        "Check whether a word ends with a vowel",
+        "Read the check digit at the end of a code",
+        "Compare the first and last letters of a word",
+        "Find the middle character of a string",
+        "Show the second letter of a password hint"
+      ]
+    },
+    "string-methods": {
+      "kind": "shape",
+      "name": "Call string methods",
+      "useWhen": "you need a changed copy of some text",
+      "template": "<new> = <text>.<method>(<args>)",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Methods return a new string; the original never changes",
+      "useCases": [
+        "Clean spaces from a name typed by a user",
+        "Make a search ignore capital letters with lower()",
+        "Replace every comma with a semicolon",
+        "Check whether a file name ends with .py",
+        "Turn a title into upper case for a heading",
+        "Count how many times a letter appears"
+      ]
+    },
+    "comparison-equality": {
+      "kind": "shape",
+      "name": "Compare values",
+      "useWhen": "you order or match values, including text",
+      "template": "<a> == <b>\n<a> < <b>    # text: letter by letter",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Text compares letter by letter, and capitals come first",
+      "useCases": [
+        "Sort names alphabetically before printing",
+        "Check whether a typed answer matches the key",
+        "Find the earliest word in a list",
+        "Compare a stored ID with a typed one",
+        "Check that a score beats the high score",
+        "Match a command name ignoring capital letters"
+      ]
+    },
+    "conditionals": {
+      "kind": "shape",
+      "name": "Branch with if and else",
+      "useWhen": "the program must choose between different actions",
+      "template": "if <test1>: <a>\nelif <test2>: <b>\nelse: <c>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Only the first true branch of an if/elif chain runs",
+      "useCases": [
+        "Give a letter grade from a test score",
+        "Show a warning when the battery is low",
+        "Pick free, standard or express shipping by weight",
+        "Say whether a number is negative, zero or positive",
+        "Greet the user by time of day",
+        "Apply a discount only to members"
+      ]
+    },
+    "booleans-truthiness": {
+      "kind": "semantics",
+      "name": "Truthy and falsy values",
+      "useWhen": "you test a value directly in an if or while",
+      "template": "",
+      "rule": "Empty, zero and None are false; everything else is true.",
+      "howItRuns": "if x: calls bool(x); [], '', 0 and None give False, so '0' and [0] count as true.",
+      "pitfall": "'0', ' ' and [0] are not empty, so they are true",
+      "useCases": [
+        "Skip blank lines when reading a file",
+        "Show a default name when the input is empty",
+        "Stop a loop when the queue runs out",
+        "Check whether any search results came back",
+        "Use a fallback value with or",
+        "Warn when a shopping cart is empty"
+      ]
+    },
+    "for-range-bounds": {
+      "kind": "shape",
+      "name": "Count with a range loop",
+      "useWhen": "you repeat something a known number of times",
+      "template": "for <i> in range(<start>, <stop>):\n    <body>    # stop is excluded",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "range stops just before the stop value",
+      "useCases": [
+        "Print a times table from 1 to 10",
+        "Repeat a greeting three times",
+        "Visit every index of a list",
+        "Count down from 10 to 1",
+        "Take every second number up to 20",
+        "Number the lines of a report starting at 1"
+      ]
+    },
+    "loop-accumulator": {
+      "kind": "shape",
+      "name": "Accumulate in a loop",
+      "useWhen": "you need one result built from every item",
+      "template": "total = <start>\nfor <x> in <xs>:\n    total = total <op> <x>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Set the starting value once, before the loop",
+      "useCases": [
+        "Add up the prices in a shopping cart",
+        "Count the words longer than five letters",
+        "Find the highest temperature of the week",
+        "Join names into one comma-separated string",
+        "Multiply all the numbers in a list together",
+        "Total the minutes of a playlist"
+      ]
+    },
+    "while-loop-termination": {
+      "kind": "shape",
+      "name": "Loop until a condition",
+      "useWhen": "you repeat until something changes, count unknown",
+      "template": "while <condition>:\n    <body that moves toward stopping>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "The condition is checked only before each pass",
+      "useCases": [
+        "Halve a number until it drops below one",
+        "Keep asking until the answer is valid",
+        "Pay off a loan month by month",
+        "Count the digits of a number",
+        "Double savings until they reach a goal",
+        "Serve customers until the queue is empty"
+      ]
+    },
+    "break-continue": {
+      "kind": "shape",
+      "name": "Exit or skip iterations",
+      "useWhen": "a loop should stop early or skip some items",
+      "template": "for <x> in <xs>:\n    if <stop>: break\n    if <skip>: continue",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "break leaves only the innermost loop",
+      "useCases": [
+        "Stop reading at the first blank line",
+        "Skip comment lines that start with #",
+        "Find the first negative number and stop",
+        "Ignore invalid entries while summing",
+        "Stop a game loop when the player quits",
+        "Search a grid row by row for a target"
+      ]
+    },
+    "list-indexing": {
+      "kind": "shape",
+      "name": "Index into a list",
+      "useWhen": "you need one item at a known position",
+      "template": "<xs>[0]    # first\n<xs>[-1]   # last\n<xs>[<i>] = <value>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Index 0 is first; the last index is len - 1",
+      "useCases": [
+        "Get the winner from the front of a ranked list",
+        "Read the newest entry at the end of a log",
+        "Replace the third score after a regrade",
+        "Swap the first and last items",
+        "Look up a month name by its number",
+        "Read the middle value of a sorted list"
+      ]
+    },
+    "list-slicing": {
+      "kind": "shape",
+      "name": "Slice a sequence",
+      "useWhen": "you need a run of items from a list or string",
+      "template": "<seq>[<start>:<stop>]",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "The item at the stop index is never included",
+      "useCases": [
+        "Take the first three scores from a list",
+        "Drop the header row from a list of lines",
+        "Get the last two characters of a file name",
+        "Keep a list without its first and last items",
+        "Split a list into a first half and a second half",
+        "Read every second item of a list",
+        "Reverse a string in one step"
+      ]
+    },
+    "list-mutation-methods": {
+      "kind": "shape",
+      "name": "Change a list in place",
+      "useWhen": "you add, remove or reorder items in an existing list",
+      "template": "<xs>.append(<item>)\n<xs>.sort()\n<item> = <xs>.pop()",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "append and sort return None; they change the list itself",
+      "useCases": [
+        "Add a new message to a chat history",
+        "Remove the most recent undo step",
+        "Sort a leaderboard in place",
+        "Add several items from another list at once",
+        "Insert an item at the front of a queue",
+        "Remove a finished task by its name"
+      ]
+    },
+    "alias-copy": {
+      "kind": "semantics",
+      "name": "Aliases share one object",
+      "useWhen": "two names might point at the same list or dict",
+      "template": "",
+      "rule": "Assignment never copies: both names share one object.",
+      "howItRuns": "b = a makes b another name for the same list; changes through either name show in both.",
+      "pitfall": "Copy with .copy() before changing a list you must keep",
+      "useCases": [
+        "Keep the original list while sorting a copy",
+        "Pass a list to a function without it being changed",
+        "Store snapshots of a list for an undo history",
+        "Build a grid whose rows change independently",
+        "Reset a game board to its starting layout",
+        "Compare a list before and after editing it"
+      ]
+    },
+    "string-split-join": {
+      "kind": "shape",
+      "name": "Split and join text",
+      "useWhen": "you turn text into pieces, or pieces into text",
+      "template": "<parts> = <text>.split(<sep>)\n<text> = <sep>.join(<parts>)",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "split keeps empty pieces; join needs strings only",
+      "useCases": [
+        "Break a CSV line into fields",
+        "Split a sentence into words",
+        "Rebuild a date with dashes instead of slashes",
+        "Join a list of names with commas",
+        "Turn a list of numbers into one line of text",
+        "Count the words in a title"
+      ]
+    },
+    "dict-access-missing-key": {
+      "kind": "shape",
+      "name": "Look up a key safely",
+      "useWhen": "a key might be missing from a dictionary",
+      "template": "<d>.get(<key>, <default>)\nif <key> in <d>: <use d[key]>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "d[key] raises KeyError when the key is missing",
+      "useCases": [
+        "Look up a price that may not be listed",
+        "Read an optional setting with a default",
+        "Check whether a username is taken",
+        "Translate a word if it is in the glossary",
+        "Show zero stock for an unknown product",
+        "Find a phone number by name safely"
+      ]
+    },
+    "counting-with-dict": {
+      "kind": "shape",
+      "name": "Count with a dictionary",
+      "useWhen": "you need how many times each value appears",
+      "template": "<counts> = {}\nfor <x> in <xs>:\n    <counts>[<x>] = <counts>.get(<x>, 0) + 1",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Create the dict once, before the loop",
+      "useCases": [
+        "Count how often each word appears in a text",
+        "Tally votes for each candidate",
+        "Count letters to check for anagrams",
+        "Find the most common error code in a log",
+        "Count visitors per day of the week",
+        "Count how many students got each grade"
+      ]
+    },
+    "function-def-call": {
+      "kind": "shape",
+      "name": "Define and call a function",
+      "useWhen": "you will run the same steps more than once",
+      "template": "def <name>(<params>):\n    <body>\n<name>(<args>)",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "def only defines; nothing runs until you call with ()",
+      "useCases": [
+        "Greet each guest with the same message",
+        "Compute a rectangle's area for several rooms",
+        "Convert many temperatures from Celsius to Fahrenheit",
+        "Format a price the same way everywhere",
+        "Check several passwords with one rule",
+        "Draw a border line above and below a title"
+      ]
+    },
+    "function-return-vs-print": {
+      "kind": "shape",
+      "name": "Return a value, not print",
+      "useWhen": "a function's result is needed by other code",
+      "template": "def <name>(<params>):\n    return <result>\n<value> = <name>(<args>)",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "print only shows a value; return hands it back",
+      "useCases": [
+        "Compute a total that another function will use",
+        "Check a password and use the answer in an if",
+        "Convert a temperature and store the result",
+        "Build a greeting string to print later",
+        "Find the largest value and reuse it",
+        "Stop searching as soon as a match is found"
+      ]
+    },
+    "reading-tracebacks": {
+      "kind": "shape",
+      "name": "Read a traceback",
+      "useWhen": "a program crashed and you need to find why",
+      "template": "Read bottom up: the error type and message,\nthen the last frame: its line and code",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "The last frame shows where it failed, not always the bug",
+      "useCases": [
+        "Find which line raised an IndexError",
+        "Tell a typo NameError from a missing import",
+        "See which call passed a bad value into a helper",
+        "Spot a KeyError from a misspelled dictionary key",
+        "Find where a None value was used by mistake",
+        "Explain a ZeroDivisionError in an average function"
+      ]
+    }
+  },
+  "templates": [
+    {
+      "id": "py-var-before-after",
+      "tag": "variables-assignment",
+      "family": "before-after",
+      "kind": "probe",
+      "code": "{{@a}} = {{x}}\n{{@b}} = {{@a}}\nprint('before', {{@a}}, {{@b}})\n{{@a}} = {{@a}} + {{d}}\nprint('after', {{@a}}, {{@b}})",
+      "slots": {
+        "x": { "gen": "int", "min": 10, "max": 40 },
+        "k": { "gen": "int", "min": 1, "max": 5 },
+        "d": { "gen": "derive", "expr": "11 * k" },
+        "xd": { "gen": "derive", "expr": "x + d" }
+      },
+      "themes": {
+        "score": { "a": "score", "b": "saved" },
+        "lives": { "a": "lives", "b": "start" },
+        "price": { "a": "price", "b": "old_price" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "assignment-links-names",
+          "find": "print('after', {{@a}}, {{@b}})",
+          "replace": "print('after', {{@a}}, {{@a}})",
+          "belief": "Changing {{@a}} later also changes {{@b}}",
+          "refutation": "{{@b}} = {{@a}} gave {{@b}} the value {{@a}} had at that moment; a new value for {{@a}} later does not reach {{@b}}.",
+          "rule": "Assignment copies the current value; later changes do not follow."
+        },
+        {
+          "misconceptionId": "print-sees-later-assignment",
+          "find": "print('before', {{@a}}, {{@b}})",
+          "replace": "print('before', {{xd}}, {{@b}})",
+          "belief": "The first print already shows the updated {{@a}}",
+          "refutation": "Lines run top to bottom: when the first print runs, the line that changes {{@a}} has not run yet.",
+          "rule": "Each print shows the values as they are at that line."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-var-swap",
+      "tag": "variables-assignment",
+      "family": "swap",
+      "kind": "probe",
+      "code": "{{@a}} = '{{w1}}'\n{{@b}} = '{{w2}}'\n{{@a}} = {{@b}}\n{{@b}} = {{@a}}\nprint({{@a}}, {{@b}})",
+      "slots": {
+        "w1": { "gen": "word", "pool": "fruits" },
+        "w2": { "gen": "word", "pool": "colors" }
+      },
+      "themes": {
+        "seats": { "a": "left", "b": "right" },
+        "cups": { "a": "cup1", "b": "cup2" },
+        "hands": { "a": "first", "b": "second" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "swap-without-temp",
+          "find": "{{@b}} = {{@a}}",
+          "replace": "{{@b}} = '{{w1}}'",
+          "belief": "These two lines swap {{@a}} and {{@b}}",
+          "refutation": "After {{@a}} = {{@b}}, the old value of {{@a}} is gone, so {{@b}} = {{@a}} copies the new value straight back.",
+          "rule": "Swapping needs a temporary name, or a, b = b, a."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-var-text",
+      "tag": "variables-assignment",
+      "family": "text-update",
+      "kind": "probe",
+      "code": "{{@name}} = '{{w}}'\n{{@copy}} = {{@name}}\n{{@name}} = {{@name}} + '{{s}}'\nprint([{{@name}}, {{@copy}}])",
+      "slots": {
+        "w": { "gen": "word", "pool": "animals" },
+        "s": { "gen": "pick", "options": ["_v2", "_old", "_new", "_x1"] }
+      },
+      "themes": {
+        "file": { "name": "filename", "copy": "backup" },
+        "user": { "name": "user", "copy": "original" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "assignment-links-names",
+          "find": "print([{{@name}}, {{@copy}}])",
+          "replace": "print([{{@name}}, {{@name}}])",
+          "belief": "{{@copy}} also gets the new ending",
+          "refutation": "{{@copy}} was given the text {{@name}} held at that moment; building a new text for {{@name}} leaves {{@copy}} unchanged.",
+          "rule": "Assignment copies the current value; later changes do not follow."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-var-example",
+      "tag": "variables-assignment",
+      "family": "save-reset",
+      "kind": "example",
+      "code": "{{@total}} = 0\n{{@total}} = {{@total}} + {{a}}\n{{@total}} = {{@total}} + {{b}}\n{{@before}} = {{@total}}\n{{@total}} = 0\nprint({{@before}}, {{@total}})",
+      "slots": {
+        "a": { "gen": "int", "min": 3, "max": 30 },
+        "b": { "gen": "int", "min": 3, "max": 30 }
+      },
+      "themes": {
+        "cart": { "total": "cart_total", "before": "last_cart" },
+        "steps": { "total": "steps", "before": "yesterday" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 1, "label": "Start the total at zero" },
+        { "line": 2, "label": "Add the first amount" },
+        { "line": 3, "label": "Add the second amount" },
+        { "line": 4, "label": "Save the current value" },
+        { "line": 5, "label": "Reset the total" },
+        { "line": 6, "label": "The saved value is unchanged" }
+      ]
+    },
+    {
+      "id": "py-var-rotate",
+      "tag": "variables-assignment",
+      "family": "rotate-three",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@a}}, {{@b}}, {{@c}}):\n    {{@tmp}} = {{@a}}\n    {{@a}} = {{@b}}\n    {{@b}} = {{@c}}\n    [[1]]\n    return [{{@a}}, {{@b}}, {{@c}}]",
+      "slots": {
+        "x": { "gen": "int", "min": 10, "max": 19 },
+        "y": { "gen": "int", "min": 20, "max": 29 },
+        "z": { "gen": "int", "min": 30, "max": 39 }
+      },
+      "themes": {
+        "queue": { "fn": "rotate", "a": "first", "b": "second", "c": "third", "tmp": "saved" },
+        "seats": { "fn": "shift_seats", "a": "left", "b": "middle", "c": "right", "tmp": "held" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@c}} = {{@tmp}}"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@c}} = {{@a}}", "misconceptionId": "swap-without-temp" }
+      ],
+      "harness": "check({{@fn}}(1, 2, 3) == [2, 3, 1], 'rotates 1, 2, 3 one place left')\ncheck({{@fn}}({{x}}, {{y}}, {{z}}) == [{{y}}, {{z}}, {{x}}], 'the first value ends up last')"
+    },
+    {
+      "id": "py-var-contrast",
+      "tag": "variables-assignment",
+      "family": "copy-then-change",
+      "kind": "contrast",
+      "code": "{{@a}} = {{x}}\n{{@a}} = {{@a}} + {{d}}\n{{@b}} = {{@a}}\nprint({{@a}}, {{@b}})",
+      "contrastCode": "{{@a}} = {{x}}\n{{@b}} = {{@a}}\n{{@a}} = {{@a}} + {{d}}\nprint({{@a}}, {{@b}})",
+      "slots": {
+        "x": { "gen": "int", "min": 2, "max": 20 },
+        "d": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "score": { "a": "score", "b": "saved" },
+        "level": { "a": "level", "b": "start" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "assignment-links-names",
+      "rule": "b = a takes the value a has at that line."
+    },
+    {
+      "id": "py-num-split-bill",
+      "tag": "numbers-int-float",
+      "family": "split-bill",
+      "kind": "probe",
+      "code": "{{@total}} = {{t}}\n{{@share}} = {{@total}} / {{p}}\n{{@whole}} = int({{@share}})\nprint(repr({{@share}}), repr({{@whole}}))",
+      "slots": {
+        "p": { "gen": "pick", "options": [4, 8] },
+        "j": { "gen": "int", "min": 0, "max": 5 },
+        "q": { "gen": "derive", "expr": "10 * j + 9" },
+        "t": { "gen": "derive", "expr": "p * q + p - 1" }
+      },
+      "themes": {
+        "bill": { "total": "bill", "share": "each", "whole": "coins" },
+        "pizza": { "total": "slices", "share": "per_kid", "whole": "full" },
+        "rope": { "total": "rope", "share": "piece", "whole": "whole_m" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "division-gives-int",
+          "find": "{{@total}} / {{p}}",
+          "replace": "{{@total}} // {{p}}",
+          "belief": "{{@total}} / {{p}} gives a whole number",
+          "refutation": "The / operator always gives a float, even for two whole numbers that divide evenly; only // gives a whole number.",
+          "rule": "/ always returns a float; // gives a whole number."
+        },
+        {
+          "misconceptionId": "int-conversion-rounds",
+          "find": "int({{@share}})",
+          "replace": "round({{@share}})",
+          "belief": "int() rounds {{@share}} to the nearest whole number",
+          "refutation": "int() simply cuts off everything after the decimal point; it never rounds up.",
+          "rule": "int() drops the decimals; round() rounds."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-num-mean-type",
+      "tag": "numbers-int-float",
+      "family": "mean-type",
+      "kind": "probe",
+      "code": "{{@a}} = {{x}}\n{{@b}} = {{y}}\n{{@mean}} = ({{@a}} + {{@b}}) / 2\nprint(repr({{@mean}}), type({{@mean}}).__name__)",
+      "slots": {
+        "x": { "gen": "int", "min": 10, "max": 40 },
+        "y": { "gen": "int", "min": 10, "max": 40 }
+      },
+      "themes": {
+        "temps": { "a": "monday", "b": "tuesday", "mean": "avg" },
+        "scores": { "a": "test1", "b": "test2", "mean": "mean" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "division-gives-int",
+          "find": "({{@a}} + {{@b}}) / 2",
+          "replace": "({{@a}} + {{@b}}) // 2",
+          "belief": "Dividing two whole numbers by 2 gives a whole number",
+          "refutation": "The / operator always gives a float, even for two whole numbers that divide evenly; only // gives a whole number.",
+          "rule": "/ always returns a float; // gives a whole number."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-num-float-sum",
+      "tag": "numbers-int-float",
+      "family": "float-sum",
+      "kind": "probe",
+      "code": "{{@a}} = 0.{{d1}}\n{{@b}} = 0.{{d2}}\n{{@total}} = {{@a}} + {{@b}}\nprint({{@total}} == 0.{{s}})\nprint(repr({{@total}}))",
+      "slots": {
+        "pair": { "gen": "pick", "options": [12, 17, 21, 24, 27, 36, 42, 63, 71, 72] },
+        "d1": { "gen": "derive", "expr": "pair // 10" },
+        "d2": { "gen": "derive", "expr": "pair % 10" },
+        "s": { "gen": "derive", "expr": "d1 + d2" }
+      },
+      "themes": {
+        "money": { "a": "coin", "b": "tip", "total": "paid" },
+        "lengths": { "a": "left", "b": "right", "total": "width" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "float-math-exact",
+          "find": "{{@total}} = {{@a}} + {{@b}}",
+          "replace": "{{@total}} = 0.{{s}}",
+          "belief": "{{@a}} + {{@b}} is exactly 0.{{s}}",
+          "refutation": "Decimals like these are stored in binary as tiny approximations, so their sum is a hair off and == fails.",
+          "rule": "Floats are approximate: compare with a tolerance, never ==."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-num-rounding",
+      "tag": "numbers-int-float",
+      "family": "rounding",
+      "kind": "probe",
+      "code": "{{@a}} = {{e}}.5\nprint([round({{@a}}), round({{@a}} + 1), round({{@a}} + 2)])",
+      "slots": {
+        "h": { "gen": "int", "min": 1, "max": 20 },
+        "e": { "gen": "derive", "expr": "2 * h" }
+      },
+      "themes": {
+        "stars": { "a": "stars" },
+        "sizes": { "a": "size" },
+        "marks": { "a": "mark" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "round-half-up",
+          "find": "print([round({{@a}}), round({{@a}} + 1), round({{@a}} + 2)])",
+          "replace": "print([int({{@a}} + 0.5), int({{@a}} + 1.5), int({{@a}} + 2.5)])",
+          "belief": "round() always rounds a half up",
+          "refutation": "Python rounds an exact half to the nearest even whole number, so some halves go down and some go up.",
+          "rule": "round() sends exact halves to the even neighbour."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-num-example",
+      "tag": "numbers-int-float",
+      "family": "share-rounding",
+      "kind": "example",
+      "code": "{{@total}} = {{t}}\n{{@people}} = {{p}}\n{{@share}} = {{@total}} / {{@people}}\n{{@rounded}} = round({{@share}}, 2)\n{{@coins}} = int({{@share}})\nprint(repr({{@share}}), repr({{@rounded}}), repr({{@coins}}))",
+      "slots": {
+        "t": { "gen": "int", "min": 50, "max": 99 },
+        "p": { "gen": "pick", "options": [3, 6, 7] }
+      },
+      "themes": {
+        "bill": { "total": "bill", "people": "people", "share": "share", "rounded": "to_pay", "coins": "whole" },
+        "trip": { "total": "fuel", "people": "riders", "share": "each", "rounded": "shown", "coins": "cut" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 3, "label": "True division gives a float" },
+        { "line": 4, "label": "Round to two decimals" },
+        { "line": 5, "label": "int() drops the decimals" },
+        { "line": 6, "label": "repr shows each exact value" }
+      ]
+    },
+    {
+      "id": "py-num-mean",
+      "tag": "numbers-int-float",
+      "family": "mean-of-list",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@items}}):\n    {{@total}} = 0\n    for {{@x}} in {{@items}}:\n        {{@total}} = {{@total}} + {{@x}}\n    if len({{@items}}) == 0:\n        return 0.0\n    return [[1]]",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 20 },
+        "k": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "derive", "expr": "a + 2 * k" },
+        "m": { "gen": "derive", "expr": "a + k" }
+      },
+      "themes": {
+        "scores": { "fn": "mean_score", "items": "scores", "total": "total", "x": "score" },
+        "temps": { "fn": "average_temp", "items": "temps", "total": "total", "x": "t" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@total}} / len({{@items}})"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@total}} // len({{@items}})", "misconceptionId": "division-gives-int" }
+      ],
+      "harness": "check({{@fn}}([1, 2]) == 1.5, 'the mean of 1 and 2 is 1.5')\ncheck({{@fn}}([{{a}}, {{b}}]) == {{m}}, 'mean of two values')\ncheck({{@fn}}([]) == 0.0, 'an empty list gives 0.0')\ncheck(type({{@fn}}([2, 4])) == float, 'the mean is always a float')"
+    },
+    {
+      "id": "py-num-contrast",
+      "tag": "numbers-int-float",
+      "family": "slash-vs-floor",
+      "kind": "contrast",
+      "code": "{{@share}} = {{t}} // {{p}}\nprint(repr({{@share}}))",
+      "contrastCode": "{{@share}} = {{t}} / {{p}}\nprint(repr({{@share}}))",
+      "slots": {
+        "p": { "gen": "pick", "options": [4, 8] },
+        "q": { "gen": "int", "min": 2, "max": 30 },
+        "t": { "gen": "derive", "expr": "p * q + p - 1" }
+      },
+      "themes": {
+        "bill": { "share": "each" },
+        "rope": { "share": "piece" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "division-gives-int",
+      "rule": "/ always returns a float; // floors to a whole number."
+    },
+    {
+      "id": "py-mod-minutes",
+      "tag": "integer-division-modulo",
+      "family": "minutes",
+      "kind": "probe",
+      "code": "{{@total}} = {{m}}\n{{@mins}} = {{@total}} // 60\n{{@secs}} = {{@total}} % 60\nprint([{{@mins}}, {{@secs}}])",
+      "slots": {
+        "h": { "gen": "pick", "options": [19, 29] },
+        "u": { "gen": "int", "min": 3, "max": 5 },
+        "v": { "gen": "int", "min": 0, "max": 8 },
+        "r": { "gen": "derive", "expr": "10 * u + v" },
+        "m": { "gen": "derive", "expr": "60 * h + r" }
+      },
+      "themes": {
+        "video": { "total": "seconds", "mins": "mins", "secs": "secs" },
+        "song": { "total": "length", "mins": "m", "secs": "s" },
+        "timer": { "total": "timer", "mins": "minutes", "secs": "rest" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "floor-div-rounds",
+          "find": "{{@total}} // 60",
+          "replace": "round({{@total}} / 60)",
+          "belief": "{{@total}} // 60 rounds to the nearest minute",
+          "refutation": "// always rounds down to the whole number below, even when the leftover is more than half.",
+          "rule": "// rounds down; it never rounds to the nearest."
+        },
+        {
+          "misconceptionId": "mod-gives-quotient",
+          "find": "{{@total}} % 60",
+          "replace": "{{@total}} // 60",
+          "belief": "% 60 gives how many times 60 fits",
+          "refutation": "% gives what is left over after taking out whole sixties; // is the one that counts them.",
+          "rule": "% gives the remainder; // gives how many times."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-mod-negative",
+      "tag": "integer-division-modulo",
+      "family": "negative",
+      "kind": "probe",
+      "code": "{{@delta}} = -{{a}}\n{{@q}} = {{@delta}} // {{b}}\n{{@r}} = {{@delta}} % {{b}}\nprint([{{@q}}, {{@r}}])",
+      "slots": {
+        "b": { "gen": "pick", "options": [3, 5, 6] },
+        "k": { "gen": "pick", "options": [9, 19, 29] },
+        "r0": { "gen": "int", "min": 1, "max": 2 },
+        "a": { "gen": "derive", "expr": "b * k + r0" }
+      },
+      "themes": {
+        "temps": { "delta": "drop", "q": "steps", "r": "extra" },
+        "money": { "delta": "debt", "q": "weeks", "r": "leftover" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "floor-div-truncates-negatives",
+          "find": "{{@delta}} // {{b}}",
+          "replace": "int({{@delta}} / {{b}})",
+          "belief": "// on a negative number just drops the decimals",
+          "refutation": "// rounds down toward minus infinity, so a negative result moves further from zero, not toward it.",
+          "rule": "// floors: negative results round away from zero."
+        },
+        {
+          "misconceptionId": "mod-negative-sign",
+          "find": "{{@delta}} % {{b}}",
+          "replace": "-({{a}} % {{b}})",
+          "belief": "{{@delta}} % {{b}} gives a negative remainder",
+          "refutation": "In Python the remainder takes the sign of the divisor, so % by a positive number is never negative.",
+          "rule": "% by a positive number is never negative."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-mod-digits",
+      "tag": "integer-division-modulo",
+      "family": "digits",
+      "kind": "probe",
+      "code": "{{@n}} = {{x}}\n{{@last}} = {{@n}} % 10\n{{@rest}} = {{@n}} // 10\nprint([{{@rest}}, {{@last}}])",
+      "slots": {
+        "j": { "gen": "int", "min": 1, "max": 5 },
+        "t": { "gen": "derive", "expr": "10 * j + 9" },
+        "u": { "gen": "int", "min": 6, "max": 8 },
+        "x": { "gen": "derive", "expr": "10 * t + u" }
+      },
+      "themes": {
+        "pin": { "n": "pin", "last": "last", "rest": "rest" },
+        "year": { "n": "code", "last": "ones", "rest": "tens" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "mod-gives-quotient",
+          "find": "{{@n}} % 10",
+          "replace": "{{@n}} // 10",
+          "belief": "% 10 gives how many tens are in {{@n}}",
+          "refutation": "% gives the remainder after dividing, which here is the last digit; // counts the tens.",
+          "rule": "% gives the remainder; // gives how many times."
+        },
+        {
+          "misconceptionId": "floor-div-rounds",
+          "find": "{{@n}} // 10",
+          "replace": "round({{@n}} / 10)",
+          "belief": "{{@n}} // 10 rounds to the nearest ten",
+          "refutation": "// always rounds down to the whole number below, even when the leftover is more than half.",
+          "rule": "// rounds down; it never rounds to the nearest."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-mod-example",
+      "tag": "integer-division-modulo",
+      "family": "boxes",
+      "kind": "example",
+      "code": "{{@total}} = {{n}}\n{{@per_box}} = {{k}}\n{{@boxes}} = {{@total}} // {{@per_box}}\n{{@spare}} = {{@total}} % {{@per_box}}\nprint(repr({{@boxes}}), repr({{@spare}}))\nprint({{@boxes}} * {{@per_box}} + {{@spare}} == {{@total}})",
+      "slots": {
+        "n": { "gen": "int", "min": 20, "max": 99 },
+        "k": { "gen": "int", "min": 3, "max": 9 }
+      },
+      "themes": {
+        "eggs": { "total": "eggs", "per_box": "per_box", "boxes": "boxes", "spare": "spare" },
+        "teams": { "total": "players", "per_box": "team_size", "boxes": "teams", "spare": "bench" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 3, "label": "Count the full groups" },
+        { "line": 4, "label": "Find what is left over" },
+        { "line": 5, "label": "Both results are whole numbers" },
+        { "line": 6, "label": "Groups and remainder rebuild total" }
+      ]
+    },
+    {
+      "id": "py-mod-clock",
+      "tag": "integer-division-modulo",
+      "family": "clock",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@total}}):\n    {{@hours}} = [[1]]\n    {{@mins}} = [[2]]\n    if {{@mins}} < 10:\n        return str({{@hours}}) + ':0' + str({{@mins}})\n    return str({{@hours}}) + ':' + str({{@mins}})",
+      "slots": {
+        "h": { "gen": "int", "min": 1, "max": 9 },
+        "r": { "gen": "int", "min": 31, "max": 59 },
+        "m": { "gen": "derive", "expr": "60 * h + r" }
+      },
+      "themes": {
+        "clock": { "fn": "clock", "total": "minutes", "hours": "h", "mins": "m" },
+        "video": { "fn": "runtime", "total": "length", "hours": "hrs", "mins": "mins" }
+      },
+      "transforms": [],
+      "parSec": 30,
+      "solutions": ["{{@total}} // 60", "{{@total}} % 60"],
+      "wrongFills": [
+        { "blank": 1, "fill": "round({{@total}} / 60)", "misconceptionId": "floor-div-rounds" },
+        { "blank": 2, "fill": "{{@total}} // 60", "misconceptionId": "mod-gives-quotient" }
+      ],
+      "harness": "check({{@fn}}(125) == '2:05', '125 minutes is 2:05')\ncheck({{@fn}}({{m}}) == '{{h}}:{{r}}', 'whole hours, then the minutes left over')"
+    },
+    {
+      "id": "py-mod-contrast",
+      "tag": "integer-division-modulo",
+      "family": "floor-vs-round",
+      "kind": "contrast",
+      "code": "{{@hours}} = round({{m}} / 60)\nprint(repr({{@hours}}))",
+      "contrastCode": "{{@hours}} = {{m}} // 60\nprint(repr({{@hours}}))",
+      "slots": {
+        "h": { "gen": "int", "min": 1, "max": 4 },
+        "r": { "gen": "int", "min": 31, "max": 59 },
+        "m": { "gen": "derive", "expr": "60 * h + r" }
+      },
+      "themes": {
+        "movie": { "hours": "hours" },
+        "shift": { "hours": "full" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "floor-div-rounds",
+      "rule": "// always rounds down, never to the nearest."
+    },
+    {
+      "id": "py-str-join-digits",
+      "tag": "str-vs-number",
+      "family": "join-digits",
+      "kind": "probe",
+      "code": "{{@a}} = '{{x}}'\n{{@b}} = '{{y}}'\nprint(repr({{@a}} + {{@b}}))\nprint(repr({{@a}} * {{k}}))",
+      "slots": {
+        "x": { "gen": "int", "min": 1, "max": 9 },
+        "y": { "gen": "int", "min": 1, "max": 9 },
+        "k": { "gen": "int", "min": 2, "max": 3 }
+      },
+      "themes": {
+        "codes": { "a": "area", "b": "line" },
+        "ages": { "a": "first", "b": "second" },
+        "scores": { "a": "left", "b": "right" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "digit-strings-add",
+          "find": "repr({{@a}} + {{@b}})",
+          "replace": "repr(int({{@a}}) + int({{@b}}))",
+          "belief": "{{@a}} + {{@b}} adds the two numbers",
+          "refutation": "Both values are in quotes, so they are strings; + on strings glues the text together.",
+          "rule": "+ joins strings; convert with int() to add."
+        },
+        {
+          "misconceptionId": "string-times-number-math",
+          "find": "repr({{@a}} * {{k}})",
+          "replace": "repr(int({{@a}}) * {{k}})",
+          "belief": "{{@a}} * {{k}} multiplies the number",
+          "refutation": "A string times a whole number repeats the text that many times; it does no arithmetic.",
+          "rule": "A string times n repeats the text n times."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-str-text-order",
+      "tag": "str-vs-number",
+      "family": "text-order",
+      "kind": "probe",
+      "code": "{{@a}} = '{{x}}'\n{{@b}} = '{{y}}'\nprint(repr(min({{@a}}, {{@b}})), {{@a}} < {{@b}})",
+      "slots": {
+        "f": { "gen": "int", "min": 1, "max": 5 },
+        "g": { "gen": "int", "min": 0, "max": 9 },
+        "x": { "gen": "derive", "expr": "10 * f + g" },
+        "y": { "gen": "int", "min": 6, "max": 9 }
+      },
+      "themes": {
+        "versions": { "a": "v_new", "b": "v_old" },
+        "rooms": { "a": "room_a", "b": "room_b" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "digit-strings-compare-numerically",
+          "find": "print(repr(min({{@a}}, {{@b}})), {{@a}} < {{@b}})",
+          "replace": "print(repr(min({{@a}}, {{@b}}, key=int)), int({{@a}}) < int({{@b}}))",
+          "belief": "'{{x}}' and '{{y}}' compare as numbers",
+          "refutation": "Strings compare character by character from the left, so the first digits decide, not the size of the number.",
+          "rule": "Text compares character by character, not by numeric size."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-str-add-mixed",
+      "tag": "str-vs-number",
+      "family": "add-mixed",
+      "kind": "probe",
+      "code": "{{@count}} = {{n}}\n{{@extra}} = '{{m}}'\n{{@total}} = {{@count}} + {{@extra}}\nprint(repr({{@total}}))",
+      "slots": {
+        "n": { "gen": "int", "min": 2, "max": 30 },
+        "m": { "gen": "int", "min": 2, "max": 30 }
+      },
+      "themes": {
+        "tickets": { "count": "sold", "extra": "walk_ins", "total": "total" },
+        "apples": { "count": "apples", "extra": "more", "total": "basket" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "mixed-plus-adds",
+          "find": "{{@count}} + {{@extra}}",
+          "replace": "{{@count}} + int({{@extra}})",
+          "belief": "{{@count}} + {{@extra}} does the arithmetic",
+          "refutation": "Python refuses to add a number and a string; it raises an error instead of guessing which you meant.",
+          "rule": "Mixing a number and a string with + raises TypeError."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-str-contrast",
+      "tag": "str-vs-number",
+      "family": "convert-then-add",
+      "kind": "contrast",
+      "code": "{{@a}} = int('{{x}}') + int('{{y}}')\nprint(repr({{@a}}))",
+      "contrastCode": "{{@a}} = '{{x}}' + '{{y}}'\nprint(repr({{@a}}))",
+      "slots": {
+        "x": { "gen": "int", "min": 1, "max": 9 },
+        "y": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "total": { "a": "total" },
+        "code": { "a": "code" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "digit-strings-add",
+      "rule": "+ joins strings; convert with int() to add numbers."
+    },
+    {
+      "id": "py-str-example",
+      "tag": "str-vs-number",
+      "family": "convert",
+      "kind": "example",
+      "code": "{{@typed}} = '{{x}}'\n{{@more}} = '{{y}}'\nprint(repr({{@typed}} + {{@more}}))\n{{@n}} = int({{@typed}}) + int({{@more}})\nprint(repr({{@n}}))\nprint(repr(str({{@n}}) + '{{unit}}'))",
+      "slots": {
+        "x": { "gen": "int", "min": 2, "max": 40 },
+        "y": { "gen": "int", "min": 2, "max": 40 },
+        "unit": { "gen": "pick", "options": [" kg", " cm", " pts"] }
+      },
+      "themes": {
+        "form": { "typed": "typed", "more": "more", "n": "total" },
+        "shop": { "typed": "qty", "more": "extra", "n": "count" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 3, "label": "Strings join as text" },
+        { "line": 4, "label": "Convert, then add" },
+        { "line": 5, "label": "A real number now" },
+        { "line": 6, "label": "Back to text with str()" }
+      ]
+    },
+    {
+      "id": "py-str-sum-csv",
+      "tag": "str-vs-number",
+      "family": "sum-csv",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@line}}):\n    {{@parts}} = {{@line}}.split(',')\n    {{@total}} = 0\n    for {{@p}} in {{@parts}}:\n        {{@total}} = {{@total}} + [[1]]\n    return {{@total}}",
+      "slots": {
+        "a": { "gen": "int", "min": 2, "max": 50 },
+        "b": { "gen": "int", "min": 2, "max": 50 },
+        "s": { "gen": "derive", "expr": "a + b" }
+      },
+      "themes": {
+        "prices": { "fn": "total_price", "line": "csv", "parts": "cells", "total": "total", "p": "cell" },
+        "scores": { "fn": "sum_scores", "line": "row", "parts": "fields", "total": "points", "p": "field" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["int({{@p}})"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@p}}", "misconceptionId": "mixed-plus-adds" }
+      ],
+      "harness": "check({{@fn}}('1,2,3') == 6, 'adds 1, 2 and 3')\ncheck({{@fn}}('{{a}},{{b}}') == {{s}}, 'adds the numbers written in the text')"
+    },
+    {
+      "id": "py-sidx-letter-pair",
+      "tag": "string-indexing",
+      "family": "letter-pair",
+      "kind": "probe",
+      "code": "{{@word}} = '{{w}}'\n{{@code}} = {{@word}}[{{i}}] + {{@word}}[{{k}}]\nprint({{@code}})\nprint({{@word}}[-1])",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "planet", "garden", "window", "pocket", "basket", "turnip", "violin", "marble", "rocket", "castle",
+            "jungle", "candle", "pencil", "silver", "forest", "museum", "helmet", "lizard", "magnet", "parcel"
+          ]
+        },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "k": { "gen": "int", "min": 3, "max": 4 },
+        "i0": { "gen": "derive", "expr": "i - 1" },
+        "k0": { "gen": "derive", "expr": "k - 1" }
+      },
+      "themes": {
+        "secret": { "word": "secret", "code": "code" },
+        "tag": { "word": "item", "code": "short" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "{{@word}}[{{i}}] + {{@word}}[{{k}}]",
+          "replace": "{{@word}}[{{i0}}] + {{@word}}[{{k0}}]",
+          "belief": "Index {{i}} is letter number {{i}}, counting from 1",
+          "refutation": "Positions count from zero, so each index here is one letter further along than counting from one suggests.",
+          "rule": "Index 0 is the first character."
+        },
+        {
+          "misconceptionId": "negative-index-error",
+          "find": "{{@word}}[-1]",
+          "replace": "{{@word}}[len({{@word}})]",
+          "belief": "{{@word}}[-1] is an error",
+          "refutation": "Negative indexes count back from the end of the string, so -1 means the last character.",
+          "rule": "Index -1 is the last character."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-sidx-last-letters",
+      "tag": "string-indexing",
+      "family": "last-letters",
+      "kind": "probe",
+      "code": "{{@name}} = '{{w}}'\n{{@n}} = len({{@name}})\nprint({{@n}}, {{@name}}[{{@n}} - 1] + {{@name}}[{{@n}} - 2])",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "planet", "garden", "window", "pocket", "basket", "turnip", "violin", "marble", "rocket", "castle",
+            "jungle", "candle", "pencil", "silver", "forest", "museum", "helmet", "lizard", "magnet", "parcel"
+          ]
+        }
+      },
+      "themes": {
+        "word": { "name": "word", "n": "size" },
+        "label": { "name": "label", "n": "length" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "last-index-is-length",
+          "find": "{{@name}}[{{@n}} - 1] + {{@name}}[{{@n}} - 2]",
+          "replace": "{{@name}}[{{@n}} - 2] + {{@name}}[{{@n}} - 3]",
+          "belief": "{{@name}}[{{@n}} - 1] is the second-to-last letter",
+          "refutation": "The last character sits at index len minus one, because counting starts at zero.",
+          "rule": "The last index is len - 1."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-sidx-change-letter",
+      "tag": "string-indexing",
+      "family": "change-letter",
+      "kind": "probe",
+      "code": "{{@word}} = '{{w}}'\n{{@word}}[0] = '{{c}}'\nprint({{@word}})",
+      "slots": {
+        "w": { "gen": "word", "pool": "animals" },
+        "c": { "gen": "pick", "options": ["b", "d", "m", "r", "t", "z"] }
+      },
+      "themes": {
+        "pet": { "word": "pet" },
+        "tag": { "word": "label" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "string-item-assignable",
+          "find": "{{@word}}[0] = '{{c}}'",
+          "replace": "{{@word}} = '{{c}}' + {{@word}}[1:]",
+          "belief": "{{@word}}[0] = '{{c}}' changes the first letter",
+          "refutation": "Strings cannot be changed in place; to get a different word you must build a new string.",
+          "rule": "Strings are immutable: build a new one instead."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-sidx-len-index",
+      "tag": "string-indexing",
+      "family": "len-index",
+      "kind": "probe",
+      "code": "{{@code}} = '{{w}}'\n{{@end}} = {{@code}}[len({{@code}})]\nprint({{@end}})",
+      "slots": {
+        "w": { "gen": "word", "pool": "colors" }
+      },
+      "themes": {
+        "word": { "code": "word", "end": "last" },
+        "color": { "code": "color", "end": "tail" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "last-index-is-length",
+          "find": "[len({{@code}})]",
+          "replace": "[len({{@code}}) - 1]",
+          "belief": "{{@code}}[len({{@code}})] is the last character",
+          "refutation": "Indexes run from zero to len minus one, so position len is one past the end.",
+          "rule": "The last index is len - 1."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-sidx-example",
+      "tag": "string-indexing",
+      "family": "positions",
+      "kind": "example",
+      "code": "{{@word}} = '{{w}}'\n{{@first}} = {{@word}}[0]\n{{@second}} = {{@word}}[1]\n{{@last}} = {{@word}}[-1]\n{{@also_last}} = {{@word}}[len({{@word}}) - 1]\nprint({{@first}}, {{@second}}, {{@last}}, {{@also_last}})",
+      "slots": {
+        "w": { "gen": "word", "pool": "animals" }
+      },
+      "themes": {
+        "pet": { "word": "pet", "first": "first", "second": "second", "last": "last", "also_last": "end" },
+        "tag": { "word": "tag", "first": "a", "second": "b", "last": "z", "also_last": "z2" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "Index 0 is the first" },
+        { "line": 3, "label": "Index 1 is the second" },
+        { "line": 4, "label": "-1 counts from the end" },
+        { "line": 5, "label": "len - 1 is also last" }
+      ]
+    },
+    {
+      "id": "py-sidx-initials",
+      "tag": "string-indexing",
+      "family": "initials",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@words}}):\n    {{@out}} = ''\n    for {{@w}} in {{@words}}:\n        if {{@w}}:\n            {{@out}} = {{@out}} + [[1]]\n    return {{@out}}",
+      "slots": {
+        "n1": { "gen": "word", "pool": "names" },
+        "f1": { "gen": "word", "pool": "fruits" },
+        "c1": { "gen": "word", "pool": "cities" }
+      },
+      "themes": {
+        "initials": { "fn": "initials", "words": "words", "out": "letters", "w": "word" },
+        "acronym": { "fn": "acronym", "words": "parts", "out": "short", "w": "part" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@w}}[0]"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@w}}[1]", "misconceptionId": "index-starts-at-one" }
+      ],
+      "harness": "check({{@fn}}(['Ada', 'Lovelace']) == 'AL', 'initials of Ada Lovelace')\ncheck({{@fn}}(['{{n1}}', '{{f1}}', '{{c1}}']) == '{{n1}}'[0] + '{{f1}}'[0] + '{{c1}}'[0], 'one letter per word')"
+    },
+    {
+      "id": "py-sidx-contrast",
+      "tag": "string-indexing",
+      "family": "zero-based",
+      "kind": "contrast",
+      "code": "{{@word}} = '{{w}}'\nprint({{@word}}[{{i0}}] + {{@word}}[{{k0}}])",
+      "contrastCode": "{{@word}} = '{{w}}'\nprint({{@word}}[{{i}}] + {{@word}}[{{k}}])",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "planet", "garden", "window", "pocket", "basket", "turnip", "violin", "marble", "rocket", "castle",
+            "jungle", "candle", "pencil", "silver", "forest", "museum", "helmet", "lizard", "magnet", "parcel"
+          ]
+        },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "k": { "gen": "int", "min": 3, "max": 4 },
+        "i0": { "gen": "derive", "expr": "i - 1" },
+        "k0": { "gen": "derive", "expr": "k - 1" }
+      },
+      "themes": {
+        "secret": { "word": "secret" },
+        "tag": { "word": "item" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "index-starts-at-one",
+      "rule": "Index 0 is the first character."
+    },
+    {
+      "id": "py-smeth-unsaved",
+      "tag": "string-methods",
+      "family": "unsaved-result",
+      "kind": "probe",
+      "code": "{{@tag}} = '{{w}} {{v}}'\n{{@tag}}.upper()\n{{@nice}} = {{@tag}}.title()\nprint([{{@tag}}, {{@nice}}])",
+      "slots": {
+        "w": { "gen": "word", "pool": "colors" },
+        "v": { "gen": "word", "pool": "animals" }
+      },
+      "themes": {
+        "label": { "tag": "label", "nice": "heading" },
+        "pet": { "tag": "pet", "nice": "sign" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "string-method-mutates",
+          "find": "{{@tag}}.upper()",
+          "replace": "{{@tag}} = {{@tag}}.upper()",
+          "belief": "{{@tag}}.upper() changes {{@tag}} itself",
+          "refutation": "String methods return a new string; without assigning the result back, {{@tag}} still holds the original text.",
+          "rule": "String methods return new text; assign it to keep it."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-smeth-replace",
+      "tag": "string-methods",
+      "family": "replace-words",
+      "kind": "probe",
+      "code": "{{@s}} = '{{f}}, {{c}}, {{f}}'\n{{@t}} = {{@s}}.replace('{{f}}', '{{a}}')\nprint({{@s}})\nprint({{@t}})",
+      "slots": {
+        "f": { "gen": "word", "pool": "fruits" },
+        "c": { "gen": "word", "pool": "colors" },
+        "a": { "gen": "word", "pool": "animals" }
+      },
+      "themes": {
+        "menu": { "s": "menu", "t": "new_menu" },
+        "order": { "s": "order", "t": "fixed" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "replace-first-only",
+          "find": "{{@s}}.replace('{{f}}', '{{a}}')",
+          "replace": "{{@s}}.replace('{{f}}', '{{a}}', 1)",
+          "belief": "replace changes only the first '{{f}}'",
+          "refutation": "replace swaps every match in the string unless you pass a count as a third argument.",
+          "rule": "replace changes every match unless given a count."
+        },
+        {
+          "misconceptionId": "string-method-mutates",
+          "find": "print({{@s}})",
+          "replace": "print({{@t}})",
+          "belief": "replace also changes {{@s}} itself",
+          "refutation": "{{@s}} is never changed: replace builds a new string, and only {{@t}} holds it.",
+          "rule": "String methods return new text; assign it to keep it."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-smeth-strip",
+      "tag": "string-methods",
+      "family": "strip-ends",
+      "kind": "probe",
+      "code": "{{@raw}} = '--{{w1}}--{{w2}}--'\n{{@clean}} = {{@raw}}.strip('-')\n{{@raw}}.upper()\nprint({{@raw}})\nprint({{@clean}})",
+      "slots": {
+        "w1": { "gen": "word", "pool": "fruits" },
+        "w2": { "gen": "word", "pool": "cities" }
+      },
+      "themes": {
+        "banner": { "raw": "banner", "clean": "text" },
+        "field": { "raw": "entry", "clean": "value" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "strip-removes-inside",
+          "find": "{{@raw}}.strip('-')",
+          "replace": "{{@raw}}.replace('-', '')",
+          "belief": "strip('-') also removes the dashes between the words",
+          "refutation": "strip only trims characters at the two ends; the ones between words stay where they are.",
+          "rule": "strip() trims the ends only, never the middle."
+        },
+        {
+          "misconceptionId": "string-method-mutates",
+          "find": "{{@raw}}.upper()",
+          "replace": "{{@raw}} = {{@raw}}.upper()",
+          "belief": "upper() changes {{@raw}} itself",
+          "refutation": "upper returns a new string; the line throws that result away, so {{@raw}} keeps its original letters.",
+          "rule": "String methods return new text; assign it to keep it."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-smeth-example",
+      "tag": "string-methods",
+      "family": "slug",
+      "kind": "example",
+      "code": "{{@raw}} = '  {{w}} {{v}}  '\n{{@clean}} = {{@raw}}.strip()\n{{@title}} = {{@clean}}.title()\n{{@dashed}} = {{@title}}.replace(' ', '-')\nprint(repr({{@raw}}))\nprint(repr({{@dashed}}))",
+      "slots": {
+        "w": { "gen": "word", "pool": "colors" },
+        "v": { "gen": "word", "pool": "animals" }
+      },
+      "themes": {
+        "slug": { "raw": "raw", "clean": "clean", "title": "title", "dashed": "slug" },
+        "label": { "raw": "typed", "clean": "trimmed", "title": "nice", "dashed": "label" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "Trim spaces at both ends" },
+        { "line": 3, "label": "Capitalise each word" },
+        { "line": 4, "label": "Swap spaces for dashes" },
+        { "line": 5, "label": "The original is unchanged" }
+      ]
+    },
+    {
+      "id": "py-smeth-clean-names",
+      "tag": "string-methods",
+      "family": "clean-names",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@names}}):\n    {{@out}} = []\n    for {{@name}} in {{@names}}:\n        [[1]]\n        {{@out}}.append({{@name}})\n    return {{@out}}",
+      "slots": {
+        "n1": { "gen": "word", "pool": "names" }
+      },
+      "themes": {
+        "guests": { "fn": "clean_names", "names": "guests", "out": "cleaned", "name": "guest" },
+        "tags": { "fn": "normalise", "names": "tags", "out": "result", "name": "tag" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@name}} = {{@name}}.strip().lower()"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@name}}.strip().lower()", "misconceptionId": "string-method-mutates" }
+      ],
+      "harness": "check({{@fn}}(['  Ada ', 'BEN']) == ['ada', 'ben'], 'trims and lowers each name')\ncheck({{@fn}}([' {{n1}}  ']) == ['{{n1}}'.lower()], 'one padded name')"
+    },
+    {
+      "id": "py-smeth-contrast",
+      "tag": "string-methods",
+      "family": "assign-result",
+      "kind": "contrast",
+      "code": "{{@s}} = '{{w}}'\n{{@s}} = {{@s}}.upper()\nprint({{@s}})",
+      "contrastCode": "{{@s}} = '{{w}}'\n{{@s}}.upper()\nprint({{@s}})",
+      "slots": {
+        "w": { "gen": "word", "pool": "colors" }
+      },
+      "themes": {
+        "label": { "s": "label" },
+        "city": { "s": "place" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "string-method-mutates",
+      "rule": "A method result is lost unless you assign it."
+    },
+    {
+      "id": "py-cmp-by-length",
+      "tag": "comparison-equality",
+      "family": "by-length",
+      "kind": "probe",
+      "code": "{{@a}} = '{{w1}}'\n{{@b}} = '{{w2}}'\nprint(min({{@a}}, {{@b}}), {{@a}} < {{@b}})",
+      "slots": {
+        "w1": { "gen": "pick", "options": ["plum", "pear", "lime", "kiwi", "yam", "pea", "sage"] },
+        "w2": {
+          "gen": "pick",
+          "options": ["apple", "banana", "cherry", "apricot", "avocado", "coconut", "damson"]
+        }
+      },
+      "themes": {
+        "shop": { "a": "item", "b": "other" },
+        "menu": { "a": "left", "b": "right" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "string-compare-by-length",
+          "find": "print(min({{@a}}, {{@b}}), {{@a}} < {{@b}})",
+          "replace": "print(min({{@a}}, {{@b}}, key=len), len({{@a}}) < len({{@b}}))",
+          "belief": "Shorter words count as smaller when comparing text",
+          "refutation": "Strings compare letter by letter from the left, like a dictionary; length only matters when one word is a prefix.",
+          "rule": "Text compares alphabetically, letter by letter, not by length."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-cmp-capitals",
+      "tag": "comparison-equality",
+      "family": "capitals",
+      "kind": "probe",
+      "code": "{{@a}} = '{{n}}'\n{{@b}} = '{{f}}'\nprint({{@a}} < {{@b}}, max({{@a}}, {{@b}}))",
+      "slots": {
+        "n": { "gen": "word", "pool": "names" },
+        "f": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "guest": { "a": "guest", "b": "snack" },
+        "pair": { "a": "owner", "b": "fruit" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "capitals-compare-bigger",
+          "find": "print({{@a}} < {{@b}}, max({{@a}}, {{@b}}))",
+          "replace": "print({{@a}} > {{@b}}, min({{@a}}, {{@b}}))",
+          "belief": "Capital letters count as bigger than small letters",
+          "refutation": "Every capital letter sorts before every small letter, so a capitalised word compares as smaller.",
+          "rule": "Capitals sort before lowercase letters."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-cmp-number-text",
+      "tag": "comparison-equality",
+      "family": "number-text",
+      "kind": "probe",
+      "code": "{{@stock}} = {{n}}\n{{@typed}} = '{{n}}'\nprint([{{@stock}} == {{@typed}}, {{@stock}} == int({{@typed}})])",
+      "slots": {
+        "n": { "gen": "int", "min": 2, "max": 99 }
+      },
+      "themes": {
+        "stock": { "stock": "stock", "typed": "typed" },
+        "pin": { "stock": "pin", "typed": "entered" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "number-equals-digit-text",
+          "find": "{{@stock}} == {{@typed}}",
+          "replace": "str({{@stock}}) == {{@typed}}",
+          "belief": "The number {{@stock}} equals the text '{{n}}'",
+          "refutation": "A number never equals a string in Python, even when the digits look the same; convert one side first.",
+          "rule": "A number never equals a string; convert before comparing."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-cmp-example",
+      "tag": "comparison-equality",
+      "family": "orderings",
+      "kind": "example",
+      "code": "{{@a}} = '{{w1}}'\n{{@b}} = '{{w2}}'\nprint({{@a}} < {{@b}})\nprint('{{n}}' < '{{f}}')\nprint({{@a}}.upper() == {{@a}})\nprint({{k}} == '{{k}}')",
+      "slots": {
+        "w1": { "gen": "word", "pool": "fruits" },
+        "w2": { "gen": "word", "pool": "animals" },
+        "n": { "gen": "word", "pool": "names" },
+        "f": { "gen": "word", "pool": "fruits" },
+        "k": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "words": { "a": "first", "b": "second" },
+        "shelf": { "a": "left", "b": "right" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 3, "label": "Letter by letter, like dictionaries" },
+        { "line": 4, "label": "Capitals sort before lowercase" },
+        { "line": 5, "label": "Case matters for ==" },
+        { "line": 6, "label": "Numbers never equal text" }
+      ]
+    },
+    {
+      "id": "py-cmp-earliest",
+      "tag": "comparison-equality",
+      "family": "earliest-word",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@words}}):\n    {{@best}} = {{@words}}[0]\n    for {{@w}} in {{@words}}:\n        if [[1]]:\n            {{@best}} = {{@w}}\n    return {{@best}}",
+      "slots": {
+        "f1": { "gen": "word", "pool": "fruits" },
+        "f2": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "first": { "fn": "first_word", "words": "words", "best": "best", "w": "w" },
+        "index": { "fn": "earliest", "words": "titles", "best": "top", "w": "title" }
+      },
+      "transforms": [],
+      "parSec": 30,
+      "solutions": ["{{@w}}.lower() < {{@best}}.lower()"],
+      "wrongFills": [
+        {
+          "blank": 1,
+          "fill": "len({{@w}}) < len({{@best}})",
+          "misconceptionId": "string-compare-by-length"
+        }
+      ],
+      "harness": "check({{@fn}}(['pear', 'Apple', 'fig']) == 'Apple', 'ignores capital letters')\ncheck({{@fn}}(['kiwi', 'banana', 'cherry']) == 'banana', 'alphabetical, not shortest')\ncheck({{@fn}}(['{{f1}}', 'Zebra', '{{f2}}']) == min('{{f1}}', '{{f2}}'), 'earliest of the two fruits')"
+    },
+    {
+      "id": "py-cmp-contrast",
+      "tag": "comparison-equality",
+      "family": "length-vs-alpha",
+      "kind": "contrast",
+      "code": "{{@a}} = '{{w1}}'\nprint(len({{@a}}) < len('{{w2}}'))",
+      "contrastCode": "{{@a}} = '{{w1}}'\nprint({{@a}} < '{{w2}}')",
+      "slots": {
+        "w1": { "gen": "pick", "options": ["plum", "pear", "lime", "kiwi", "yam"] },
+        "w2": { "gen": "pick", "options": ["apple", "banana", "cherry", "apricot", "avocado"] }
+      },
+      "themes": {
+        "shop": { "a": "item" },
+        "menu": { "a": "dish" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "string-compare-by-length",
+      "rule": "Text compares letter by letter, not by length."
+    },
+    {
+      "id": "py-cond-grade-chain",
+      "tag": "conditionals",
+      "family": "grade-chain",
+      "kind": "probe",
+      "code": "{{@score}} = {{x}}\nif {{@score}} >= {{a}}:\n    {{@grade}} = '{{@top}}'\nelif {{@score}} >= {{b}}:\n    {{@grade}} = '{{@mid}}'\nelse:\n    {{@grade}} = '{{@low}}'\nprint({{@score}}, {{@grade}})",
+      "slots": {
+        "a": { "gen": "int", "min": 70, "max": 90 },
+        "b": { "gen": "derive", "expr": "a - 20" },
+        "d": { "gen": "int", "min": 0, "max": 10 },
+        "x": { "gen": "derive", "expr": "a + d" }
+      },
+      "themes": {
+        "grades": { "score": "score", "grade": "grade", "top": "excellent", "mid": "good", "low": "retake" },
+        "medals": { "score": "points", "grade": "medal", "top": "gold", "mid": "silver", "low": "bronze" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "all-true-branches-run",
+          "find": "elif {{@score}} >= {{b}}:",
+          "replace": "if {{@score}} >= {{b}}:",
+          "belief": "Both true branches run, one after the other",
+          "refutation": "An if/elif chain stops at the first true condition; the later branches are skipped even if they are also true.",
+          "rule": "Only the first true branch of an if/elif chain runs."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-cond-separate-ifs",
+      "tag": "conditionals",
+      "family": "separate-ifs",
+      "kind": "probe",
+      "code": "{{@n}} = {{x}}\nif {{@n}} > {{a}}:\n    print('over {{a}}')\nif {{@n}} > {{b}}:\n    print('over {{b}}')\nprint('done')",
+      "slots": {
+        "a": { "gen": "int", "min": 10, "max": 20 },
+        "b": { "gen": "derive", "expr": "a - 5" },
+        "d": { "gen": "int", "min": 1, "max": 9 },
+        "x": { "gen": "derive", "expr": "a + d" }
+      },
+      "themes": {
+        "speed": { "n": "speed" },
+        "temp": { "n": "temp" },
+        "load": { "n": "weight" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "separate-ifs-exclusive",
+          "find": "if {{@n}} > {{b}}:",
+          "replace": "elif {{@n}} > {{b}}:",
+          "belief": "Only one of the two ifs can run",
+          "refutation": "These are two separate if statements, not an if/elif chain, so each condition is checked on its own.",
+          "rule": "Separate ifs are each checked; only elif chains are exclusive."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-cond-or-trap",
+      "tag": "conditionals",
+      "family": "or-trap",
+      "kind": "probe",
+      "code": "{{@pet}} = '{{w}}'\nif {{@pet}} == '{{a}}' or '{{b}}':\n    print({{@pet}}, 'is allowed')\nelse:\n    print({{@pet}}, 'is not allowed')",
+      "slots": {
+        "w": { "gen": "word", "pool": "animals" },
+        "a": { "gen": "pick", "options": ["hamster", "parrot", "rabbit", "gecko"] },
+        "b": { "gen": "pick", "options": ["turtle", "ferret", "pony", "mouse"] }
+      },
+      "themes": {
+        "pet": { "pet": "pet" },
+        "visitor": { "pet": "visitor" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "or-compares-both",
+          "find": "if {{@pet}} == '{{a}}' or '{{b}}':",
+          "replace": "if {{@pet}} == '{{a}}' or {{@pet}} == '{{b}}':",
+          "belief": "This checks {{@pet}} against both '{{a}}' and '{{b}}'",
+          "refutation": "or joins two separate tests; the second one is just a non-empty string, which always counts as true.",
+          "rule": "Repeat the variable: x == 'a' or x == 'b'."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-cond-example",
+      "tag": "conditionals",
+      "family": "weather",
+      "kind": "example",
+      "code": "{{@temp}} = {{t}}\nif {{@temp}} > 25:\n    {{@advice}} = 'shorts'\nelif {{@temp}} > 10:\n    {{@advice}} = 'jacket'\nelse:\n    {{@advice}} = 'coat'\nprint({{@temp}}, {{@advice}})",
+      "slots": {
+        "t": { "gen": "int", "min": -5, "max": 35 }
+      },
+      "themes": {
+        "weather": { "temp": "temp", "advice": "wear" },
+        "trip": { "temp": "forecast", "advice": "pack" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "First test: is it hot?" },
+        { "line": 4, "label": "Checked only if first failed" },
+        { "line": 6, "label": "Runs when nothing matched" },
+        { "line": 8, "label": "Exactly one branch ran" }
+      ]
+    },
+    {
+      "id": "py-cond-classify",
+      "tag": "conditionals",
+      "family": "classify",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@price}}):\n    {{@label}} = '{{@cheap}}'\n    if {{@price}} > {{hi}}:\n        {{@label}} = '{{@luxury}}'\n    [[1]]\n        {{@label}} = '{{@mid}}'\n    return {{@label}}",
+      "slots": {
+        "hi": { "gen": "int", "min": 50, "max": 90 },
+        "lo": { "gen": "derive", "expr": "hi - 30" },
+        "x_hi": { "gen": "derive", "expr": "hi + 5" },
+        "x_mid": { "gen": "derive", "expr": "lo + 5" },
+        "x_lo": { "gen": "derive", "expr": "lo - 5" }
+      },
+      "themes": {
+        "hotel": {
+          "fn": "room_class",
+          "price": "price",
+          "label": "label",
+          "cheap": "budget",
+          "luxury": "suite",
+          "mid": "standard"
+        },
+        "wind": {
+          "fn": "wind_level",
+          "price": "speed",
+          "label": "level",
+          "cheap": "calm",
+          "luxury": "storm",
+          "mid": "breezy"
+        }
+      },
+      "transforms": [],
+      "parSec": 30,
+      "solutions": ["elif {{@price}} > {{lo}}:"],
+      "wrongFills": [
+        { "blank": 1, "fill": "if {{@price}} > {{lo}}:", "misconceptionId": "separate-ifs-exclusive" }
+      ],
+      "harness": "check({{@fn}}({{x_hi}}) == '{{@luxury}}', 'above the top limit')\ncheck({{@fn}}({{x_mid}}) == '{{@mid}}', 'between the two limits')\ncheck({{@fn}}({{x_lo}}) == '{{@cheap}}', 'below both limits')"
+    },
+    {
+      "id": "py-cond-contrast",
+      "tag": "conditionals",
+      "family": "if-vs-elif",
+      "kind": "contrast",
+      "code": "{{@n}} = {{x}}\nif {{@n}} > {{a}}: print('big')\nif {{@n}} > {{b}}: print('medium')",
+      "contrastCode": "{{@n}} = {{x}}\nif {{@n}} > {{a}}: print('big')\nelif {{@n}} > {{b}}: print('medium')",
+      "slots": {
+        "a": { "gen": "int", "min": 10, "max": 20 },
+        "b": { "gen": "derive", "expr": "a - 5" },
+        "d": { "gen": "int", "min": 1, "max": 9 },
+        "x": { "gen": "derive", "expr": "a + d" }
+      },
+      "themes": {
+        "size": { "n": "size" },
+        "score": { "n": "score" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "all-true-branches-run",
+      "rule": "elif runs only when every test above it was false."
+    },
+    {
+      "id": "py-bool-table",
+      "tag": "booleans-truthiness",
+      "family": "truth-table",
+      "kind": "probe",
+      "code": "{{@a}} = []\n{{@b}} = '0'\n{{@c}} = {{n}}\nprint(bool({{@a}}), bool({{@b}}), bool({{@c}}))",
+      "slots": {
+        "n": { "gen": "int", "min": 1, "max": 99 }
+      },
+      "themes": {
+        "inbox": { "a": "inbox", "b": "code", "c": "count" },
+        "game": { "a": "lives", "b": "pin", "c": "score" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "empty-list-truthy",
+          "find": "bool({{@a}})",
+          "replace": "{{@a}} is not None",
+          "belief": "An empty list like {{@a}} counts as true",
+          "refutation": "Python treats every empty container as false; only a list with at least one item is true.",
+          "rule": "Empty lists, strings and zero are false."
+        },
+        {
+          "misconceptionId": "zero-string-falsy",
+          "find": "bool({{@b}})",
+          "replace": "bool(int({{@b}}))",
+          "belief": "The text '0' counts as false",
+          "refutation": "{{@b}} is a one-character string, and any non-empty string is true; only the number zero is false.",
+          "rule": "Any non-empty string is true, even '0'."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-bool-default-or",
+      "tag": "booleans-truthiness",
+      "family": "default-or",
+      "kind": "probe",
+      "code": "{{@given}} = ''\n{{@name}} = {{@given}} or '{{w}}'\n{{@size}} = {{n}} and {{m}}\nprint(repr({{@name}}), repr({{@size}}))",
+      "slots": {
+        "w": { "gen": "word", "pool": "names" },
+        "n": { "gen": "int", "min": 1, "max": 9 },
+        "m": { "gen": "int", "min": 10, "max": 30 }
+      },
+      "themes": {
+        "user": { "given": "typed", "name": "user", "size": "limit" },
+        "shop": { "given": "coupon", "name": "code", "size": "qty" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "and-or-return-bool",
+          "find": "{{@given}} or '{{w}}'",
+          "replace": "bool({{@given}} or '{{w}}')",
+          "belief": "{{@given}} or '{{w}}' gives True or False",
+          "refutation": "or returns one of its operands: the first true one, here the fallback text, not a boolean.",
+          "rule": "and/or return one of the values, not True or False."
+        },
+        {
+          "misconceptionId": "and-or-return-bool",
+          "find": "{{n}} and {{m}}",
+          "replace": "bool({{n}} and {{m}})",
+          "belief": "{{n}} and {{m}} gives True",
+          "refutation": "and returns the last value it looked at when all are true, so the result is a number, not a boolean.",
+          "rule": "and/or return one of the values, not True or False."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-bool-if-checks",
+      "tag": "booleans-truthiness",
+      "family": "if-checks",
+      "kind": "probe",
+      "code": "{{@cart}} = []\n{{@code}} = '0'\nif {{@cart}}:\n    print('{{@cart}}:', {{@cart}})\nif {{@code}}:\n    print('{{@code}}:', {{@code}})\nprint('total:', {{n}})",
+      "slots": {
+        "n": { "gen": "int", "min": 1, "max": 99 }
+      },
+      "themes": {
+        "shop": { "cart": "cart", "code": "coupon" },
+        "game": { "cart": "items", "code": "level" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "empty-list-truthy",
+          "find": "if {{@cart}}:",
+          "replace": "if {{@cart}} is not None:",
+          "belief": "The empty list {{@cart}} counts as true in the if",
+          "refutation": "Python treats every empty container as false; only a list with at least one item is true.",
+          "rule": "Empty lists, strings and zero are false."
+        },
+        {
+          "misconceptionId": "zero-string-falsy",
+          "find": "if {{@code}}:",
+          "replace": "if int({{@code}}):",
+          "belief": "The text '0' in {{@code}} counts as false",
+          "refutation": "{{@code}} holds a one-character string, and any non-empty string is true; only the number zero is false.",
+          "rule": "Any non-empty string is true, even '0'."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-bool-contrast",
+      "tag": "booleans-truthiness",
+      "family": "empty-vs-one",
+      "kind": "contrast",
+      "code": "{{@xs}} = [{{n}}]\nif {{@xs}}:\n    print('{{@yes}}')\nprint(len({{@xs}}))",
+      "contrastCode": "{{@xs}} = []\nif {{@xs}}:\n    print('{{@yes}}')\nprint(len({{@xs}}))",
+      "slots": {
+        "n": { "gen": "int", "min": 0, "max": 9 }
+      },
+      "themes": {
+        "queue": { "xs": "queue", "yes": "serve next" },
+        "inbox": { "xs": "inbox", "yes": "new mail" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "empty-list-truthy",
+      "rule": "An empty list is false; a list with items is true."
+    },
+    {
+      "id": "py-bool-example",
+      "tag": "booleans-truthiness",
+      "family": "fallbacks",
+      "kind": "example",
+      "code": "{{@results}} = []\n{{@name}} = ''\n{{@shown}} = {{@name}} or '{{w}}'\nif not {{@results}}:\n    print('no results for', {{@shown}})\nprint(bool('0'), bool(0))",
+      "slots": {
+        "w": { "gen": "word", "pool": "names" }
+      },
+      "themes": {
+        "search": { "results": "results", "name": "query_by", "shown": "shown" },
+        "inbox": { "results": "messages", "name": "sender", "shown": "who" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 3, "label": "Empty text falls back" },
+        { "line": 4, "label": "An empty list is false" },
+        { "line": 6, "label": "Text '0' true, number false" }
+      ]
+    },
+    {
+      "id": "py-bool-sizes",
+      "tag": "booleans-truthiness",
+      "family": "non-empty-groups",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@groups}}):\n    {{@sizes}} = []\n    for {{@g}} in {{@groups}}:\n        if [[1]]:\n            {{@sizes}}.append(len({{@g}}))\n    return {{@sizes}}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "teams": { "fn": "team_sizes", "groups": "teams", "sizes": "sizes", "g": "team" },
+        "shelves": { "fn": "shelf_counts", "groups": "shelves", "sizes": "counts", "g": "shelf" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@g}}"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@g}} is not None", "misconceptionId": "empty-list-truthy" }
+      ],
+      "harness": "check({{@fn}}([[1, 2], [], [3]]) == [2, 1], 'skips the empty group')\ncheck({{@fn}}([[], []]) == [], 'every group is empty')\ncheck({{@fn}}([[{{a}}], [{{a}}, {{b}}, {{c}}]]) == [1, 3], 'counts the items of each group')"
+    },
+    {
+      "id": "py-range-ab",
+      "tag": "for-range-bounds",
+      "family": "range-ab",
+      "kind": "probe",
+      "code": "for {{@i}} in range({{a}}, {{b}}):\n    print({{@i}}, end=' ')\nprint()\nprint('last', {{@i}})",
+      "slots": {
+        "b": { "gen": "pick", "options": [10, 20, 30] },
+        "n": { "gen": "int", "min": 2, "max": 4 },
+        "a": { "gen": "derive", "expr": "b - n" },
+        "b1": { "gen": "derive", "expr": "b + 1" }
+      },
+      "themes": {
+        "day": { "i": "day" },
+        "page": { "i": "page" },
+        "lap": { "i": "lap" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "range-includes-end",
+          "find": "range({{a}}, {{b}})",
+          "replace": "range({{a}}, {{b1}})",
+          "belief": "range({{a}}, {{b}}) also gives {{b}}",
+          "refutation": "range stops just before its end value, so {{b}} itself is never produced.",
+          "rule": "range(a, b) runs from a up to b - 1."
+        },
+        {
+          "misconceptionId": "loop-var-past-end",
+          "find": "print('last', {{@i}})",
+          "replace": "print('last', {{b}})",
+          "belief": "After the loop, {{@i}} equals {{b}}",
+          "refutation": "The loop variable keeps the last value range produced, and range never produces {{b}}.",
+          "rule": "After a for loop, the variable holds the last value used."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-range-n",
+      "tag": "for-range-bounds",
+      "family": "range-n",
+      "kind": "probe",
+      "code": "for {{@k}} in range({{n}}):\n    print({{@k}} * {{m}}, end=' ')\nprint()",
+      "slots": {
+        "n": { "gen": "int", "min": 3, "max": 5 },
+        "m": { "gen": "int", "min": 4, "max": 9 },
+        "n1": { "gen": "derive", "expr": "n + 1" }
+      },
+      "themes": {
+        "stairs": { "k": "step" },
+        "row": { "k": "seat" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "range-starts-at-one",
+          "find": "range({{n}})",
+          "replace": "range(1, {{n1}})",
+          "belief": "range({{n}}) counts from 1 up to {{n}}",
+          "refutation": "With one argument, range starts at zero and stops before {{n}}.",
+          "rule": "range(n) gives 0 up to n - 1."
+        },
+        {
+          "misconceptionId": "range-includes-end",
+          "find": "range({{n}})",
+          "replace": "range({{n1}})",
+          "belief": "range({{n}}) also includes {{n}}",
+          "refutation": "range stops before the number you give it, so it produces exactly {{n}} values starting at zero.",
+          "rule": "range(n) gives 0 up to n - 1."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-range-step",
+      "tag": "for-range-bounds",
+      "family": "range-step",
+      "kind": "probe",
+      "code": "for {{@t}} in range({{a}}, {{b}}, {{s}}):\n    print({{@t}}, end=' ')\nprint()\nprint('end', {{@t}})",
+      "slots": {
+        "b": { "gen": "pick", "options": [10, 20, 30] },
+        "s": { "gen": "pick", "options": [2, 3] },
+        "k": { "gen": "int", "min": 2, "max": 3 },
+        "a": { "gen": "derive", "expr": "b - s * k" },
+        "bs": { "gen": "derive", "expr": "b + 1" }
+      },
+      "themes": {
+        "clock": { "t": "minute" },
+        "path": { "t": "mile" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "step-reaches-end",
+          "find": "range({{a}}, {{b}}, {{s}})",
+          "replace": "range({{a}}, {{bs}}, {{s}})",
+          "belief": "Stepping by {{s}} lands on {{b}} at the end",
+          "refutation": "The stop value is never produced, even when the steps would land exactly on it.",
+          "rule": "range never yields its stop value, whatever the step."
+        },
+        {
+          "misconceptionId": "loop-var-past-end",
+          "find": "print('end', {{@t}})",
+          "replace": "print('end', {{b}})",
+          "belief": "After the loop, {{@t}} equals {{b}}",
+          "refutation": "The loop variable keeps the last value range produced, and range never produces {{b}}.",
+          "rule": "After a for loop, the variable holds the last value used."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-range-example",
+      "tag": "for-range-bounds",
+      "family": "up-and-down",
+      "kind": "example",
+      "code": "for {{@i}} in range(1, {{n}}):\n    print({{@i}}, end=' ')\nprint()\nfor {{@j}} in range({{n}}, 0, -1):\n    print({{@j}}, end=' ')\nprint()",
+      "slots": {
+        "n": { "gen": "int", "min": 4, "max": 6 }
+      },
+      "themes": {
+        "count": { "i": "i", "j": "j" },
+        "floors": { "i": "up", "j": "down" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 1, "label": "Starts at 1, stops before {{n}}" },
+        { "line": 4, "label": "Count down with step -1" },
+        { "line": 6, "label": "End the printed line" }
+      ]
+    },
+    {
+      "id": "py-range-sum-to",
+      "tag": "for-range-bounds",
+      "family": "sum-to-n",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@n}}):\n    # add 1 + 2 + ... + n\n    {{@total}} = 0\n    for {{@i}} in [[1]]:\n        {{@total}} = {{@total}} + {{@i}}\n    return {{@total}}",
+      "slots": {
+        "n": { "gen": "int", "min": 5, "max": 12 },
+        "s": { "gen": "derive", "expr": "n * (n + 1) // 2" }
+      },
+      "themes": {
+        "stairs": { "fn": "total_steps", "n": "floors", "total": "steps", "i": "floor" },
+        "gifts": { "fn": "gifts_by_day", "n": "days", "total": "gifts", "i": "day" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["range(1, {{@n}} + 1)"],
+      "wrongFills": [
+        { "blank": 1, "fill": "range(1, {{@n}})", "misconceptionId": "range-includes-end" },
+        { "blank": 1, "fill": "range({{@n}})", "misconceptionId": "range-starts-at-one" }
+      ],
+      "harness": "check({{@fn}}(3) == 6, '1 + 2 + 3')\ncheck({{@fn}}({{n}}) == {{s}}, 'every number from 1 up to n, n included')\ncheck({{@fn}}(1) == 1, 'just 1')"
+    },
+    {
+      "id": "py-range-contrast",
+      "tag": "for-range-bounds",
+      "family": "stop-excluded",
+      "kind": "contrast",
+      "code": "for {{@i}} in range({{a}}, {{b1}}):\n    print({{@i}}, end=' ')",
+      "contrastCode": "for {{@i}} in range({{a}}, {{b}}):\n    print({{@i}}, end=' ')",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 5 },
+        "n": { "gen": "int", "min": 2, "max": 4 },
+        "b": { "gen": "derive", "expr": "a + n" },
+        "b1": { "gen": "derive", "expr": "b + 1" }
+      },
+      "themes": {
+        "day": { "i": "day" },
+        "page": { "i": "page" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "range-includes-end",
+      "rule": "range stops just before its end value."
+    },
+    {
+      "id": "py-acc-reset-trap",
+      "tag": "loop-accumulator",
+      "family": "reset-trap",
+      "kind": "probe",
+      "code": "{{@total}} = 0\nfor {{@x}} in {{vals}}:\n    {{@total}} = 0\n    {{@total}} = {{@total}} + {{@x}}\n    print({{@total}}, end=' ')\nprint()",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 9, "distinct": true }
+      },
+      "themes": {
+        "cart": { "total": "total", "x": "price" },
+        "steps": { "total": "walked", "x": "steps" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "reset-inside-loop",
+          "find": "    {{@total}} = 0",
+          "replace": "    pass",
+          "belief": "{{@total}} keeps adding up across the passes",
+          "refutation": "{{@total}} = 0 runs on every pass, wiping the running sum just before each item is added.",
+          "rule": "Set the starting value once, before the loop."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-acc-assign-not-add",
+      "tag": "loop-accumulator",
+      "family": "assign-not-add",
+      "kind": "probe",
+      "code": "{{@total}} = 0\nfor {{@x}} in {{vals}}:\n    {{@total}} = {{@x}}\n    print({{@total}}, end=' ')\nprint()",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 9, "distinct": true }
+      },
+      "themes": {
+        "sales": { "total": "revenue", "x": "sale" },
+        "rain": { "total": "rainfall", "x": "mm" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "assign-instead-of-add",
+          "find": "{{@total}} = {{@x}}",
+          "replace": "{{@total}} = {{@total}} + {{@x}}",
+          "belief": "{{@total}} = {{@x}} adds {{@x}} to {{@total}}",
+          "refutation": "Plain = throws the old value away; to add, the right side must include {{@total}} itself.",
+          "rule": "= replaces the old value; += adds to it."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-acc-best-negative",
+      "tag": "loop-accumulator",
+      "family": "best-negative",
+      "kind": "probe",
+      "code": "{{@best}} = 0\nfor {{@t}} in {{negs}}:\n    if {{@t}} > {{@best}}:\n        {{@best}} = {{@t}}\nprint({{@best}}, {{@best}} in {{negs}})",
+      "slots": {
+        "negs": { "gen": "intList", "minLen": 3, "maxLen": 5, "min": -30, "max": -1, "distinct": true },
+        "first": { "gen": "derive", "expr": "negs[0]" }
+      },
+      "themes": {
+        "winter": { "best": "warmest", "t": "temp" },
+        "golf": { "best": "top", "t": "score" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "max-starts-at-zero",
+          "find": "{{@best}} = 0",
+          "replace": "{{@best}} = {{first}}",
+          "belief": "Starting {{@best}} at 0 still finds the highest value",
+          "refutation": "Every value here is negative, so none of them beats the starting value and {{@best}} never changes.",
+          "rule": "Start the best value at the first item, not 0."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-acc-example",
+      "tag": "loop-accumulator",
+      "family": "sum-and-count",
+      "kind": "example",
+      "code": "{{@prices}} = {{vals}}\n{{@total}} = 0\n{{@count}} = 0\nfor {{@p}} in {{@prices}}:\n    {{@total}} = {{@total}} + {{@p}}\n    {{@count}} = {{@count}} + 1\nprint({{@total}}, {{@count}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 5, "min": 1, "max": 20 }
+      },
+      "themes": {
+        "cart": { "prices": "prices", "total": "total", "count": "count", "p": "price" },
+        "runs": { "prices": "runs", "total": "distance", "count": "outings", "p": "km" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "Start the sum before the loop" },
+        { "line": 3, "label": "Start the count too" },
+        { "line": 5, "label": "Add each item" },
+        { "line": 6, "label": "Count each item" },
+        { "line": 7, "label": "Use the results after the loop" }
+      ]
+    },
+    {
+      "id": "py-accumulate-filtered",
+      "tag": "loop-accumulator",
+      "family": "accumulate-filtered",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@xs}}, limit):\n    total = 0\n    for {{@x}} in {{@xs}}:\n        if {{@x}} > limit:\n            [[1]]\n    return total",
+      "slots": {
+        "lim": { "gen": "int", "min": 4, "max": 6 },
+        "a": { "gen": "int", "min": 7, "max": 15 },
+        "b": { "gen": "int", "min": 1, "max": 3 },
+        "c": { "gen": "int", "min": 7, "max": 15 },
+        "e1": { "gen": "derive", "expr": "a + c" },
+        "e2": { "gen": "derive", "expr": "b + c + b" }
+      },
+      "themes": {
+        "prices": { "fn": "total_over", "xs": "prices", "x": "price" },
+        "steps": { "fn": "big_steps", "xs": "steps", "x": "step" },
+        "scores": { "fn": "high_total", "xs": "scores", "x": "score" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["total += {{@x}}"],
+      "wrongFills": [
+        { "blank": 1, "fill": "total = {{@x}}", "misconceptionId": "assign-instead-of-add" }
+      ],
+      "harness": "check({{@fn}}([{{a}}, {{b}}, {{c}}], {{lim}}) == {{e1}}, 'adds only the values above the limit')\ncheck({{@fn}}([{{b}}, {{c}}, {{b}}], 0) == {{e2}}, 'adds every value when all are above the limit')"
+    },
+    {
+      "id": "py-acc-best",
+      "tag": "loop-accumulator",
+      "family": "best-start",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@xs}}):\n    [[1]]\n    for {{@x}} in {{@xs}}:\n        if {{@x}} > {{@best}}:\n            {{@best}} = {{@x}}\n    return {{@best}}",
+      "slots": {
+        "a": { "gen": "int", "min": -40, "max": -21 },
+        "b": { "gen": "int", "min": -20, "max": -1 },
+        "mx": { "gen": "derive", "expr": "max(a, b)" }
+      },
+      "themes": {
+        "temps": { "fn": "warmest", "xs": "temps", "x": "t", "best": "best" },
+        "scores": { "fn": "top_score", "xs": "scores", "x": "s", "best": "top" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@best}} = {{@xs}}[0]"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@best}} = 0", "misconceptionId": "max-starts-at-zero" }
+      ],
+      "harness": "check({{@fn}}([3, 9, 4]) == 9, 'the biggest of 3, 9, 4')\ncheck({{@fn}}([-5, -2, -8]) == -2, 'works when every value is negative')\ncheck({{@fn}}([{{a}}, {{b}}]) == {{mx}}, 'two negative values')"
+    },
+    {
+      "id": "py-acc-contrast",
+      "tag": "loop-accumulator",
+      "family": "init-outside",
+      "kind": "contrast",
+      "code": "for {{@x}} in {{vals}}:\n    {{@total}} = 0\n    {{@total}} = {{@total}} + {{@x}}\nprint({{@total}})",
+      "contrastCode": "{{@total}} = 0\nfor {{@x}} in {{vals}}:\n    {{@total}} = {{@total}} + {{@x}}\nprint({{@total}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 9, "distinct": true }
+      },
+      "themes": {
+        "cart": { "total": "total", "x": "price" },
+        "steps": { "total": "walked", "x": "steps" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "reset-inside-loop",
+      "rule": "Start the total once, before the loop."
+    },
+    {
+      "id": "py-while-drain",
+      "tag": "while-loop-termination",
+      "family": "drain",
+      "kind": "probe",
+      "code": "{{@n}} = {{x}}\nwhile {{@n}} > 0:\n    {{@n}} = {{@n}} - {{c}}\n    print({{@n}})\nprint('end', {{@n}})",
+      "slots": {
+        "c": { "gen": "pick", "options": [3, 5] },
+        "d": { "gen": "int", "min": 1, "max": 2 },
+        "x": { "gen": "derive", "expr": "2 * c + d" }
+      },
+      "themes": {
+        "fuel": { "n": "fuel" },
+        "stock": { "n": "stock" },
+        "timer": { "n": "timer" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "stops-mid-body",
+          "find": "print({{@n}})",
+          "replace": "if {{@n}} > 0: print({{@n}})",
+          "belief": "The loop quits as soon as {{@n}} drops to 0 or below",
+          "refutation": "The condition is only checked at the top; once a pass starts, every line of it runs, including the print.",
+          "rule": "while checks its condition only before each pass."
+        },
+        {
+          "misconceptionId": "last-value-after-loop",
+          "find": "print('end', {{@n}})",
+          "replace": "print('end', {{@n}} + {{c}})",
+          "belief": "After the loop, {{@n}} holds the last value that passed the test",
+          "refutation": "The loop ends only after {{@n}} fails the test, so it keeps the value that failed.",
+          "rule": "After a while loop, the variable holds the failing value."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-while-never-runs",
+      "tag": "while-loop-termination",
+      "family": "never-runs",
+      "kind": "probe",
+      "code": "{{@n}} = {{x}}\n{{@passes}} = 0\nwhile {{@n}} < {{lim}}:\n    {{@n}} = {{@n}} * 2\n    {{@passes}} = {{@passes}} + 1\nprint({{@n}}, {{@passes}})",
+      "slots": {
+        "lim": { "gen": "int", "min": 10, "max": 30 },
+        "e": { "gen": "int", "min": 0, "max": 20 },
+        "x": { "gen": "derive", "expr": "lim + e" }
+      },
+      "themes": {
+        "savings": { "n": "savings", "passes": "years" },
+        "size": { "n": "size", "passes": "doublings" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "checks-after-body",
+          "find": "while {{@n}} < {{lim}}:",
+          "replace": "while {{@n}} < {{lim}} or {{@passes}} == 0:",
+          "belief": "The loop body runs once before the condition is checked",
+          "refutation": "while tests the condition first; {{@n}} already fails it, so the body never runs at all.",
+          "rule": "A while body can run zero times."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-while-forgot-counter",
+      "tag": "while-loop-termination",
+      "family": "forgot-counter",
+      "kind": "probe",
+      "code": "{{@count}} = 0\n{{@size}} = {{x}}\nwhile {{@size}} > {{lim}}:\n    {{@size}} = {{@size}} - {{d}}\n    print({{@count}}, {{@size}})",
+      "slots": {
+        "lim": { "gen": "int", "min": 0, "max": 5 },
+        "d": { "gen": "int", "min": 2, "max": 4 },
+        "k": { "gen": "int", "min": 2, "max": 3 },
+        "s": { "gen": "int", "min": 0, "max": 1 },
+        "x": { "gen": "derive", "expr": "lim + d * k - s" }
+      },
+      "themes": {
+        "battery": { "count": "charges", "size": "battery" },
+        "queue": { "count": "served", "size": "queue" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "counter-auto-updates",
+          "find": "{{@size}} = {{@size}} - {{d}}",
+          "replace": "{{@size}} = {{@size}} - {{d}}; {{@count}} = {{@count}} + 1",
+          "belief": "{{@count}} goes up by one on each pass by itself",
+          "refutation": "Nothing in the loop body changes {{@count}}; a variable only changes when a line assigns to it.",
+          "rule": "Only an assignment changes a variable; loops never do it."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-while-example",
+      "tag": "while-loop-termination",
+      "family": "pay-off",
+      "kind": "example",
+      "code": "{{@balance}} = {{x}}\n{{@months}} = 0\nwhile {{@balance}} > 0:\n    {{@balance}} = {{@balance}} - {{p}}\n    {{@months}} = {{@months}} + 1\nprint({{@months}}, {{@balance}})",
+      "slots": {
+        "x": { "gen": "int", "min": 50, "max": 200 },
+        "p": { "gen": "int", "min": 15, "max": 40 }
+      },
+      "themes": {
+        "loan": { "balance": "balance", "months": "months" },
+        "snow": { "balance": "snow", "months": "days" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 3, "label": "Test before every pass" },
+        { "line": 4, "label": "Move toward the stop" },
+        { "line": 5, "label": "Count the passes yourself" },
+        { "line": 6, "label": "Balance is the failing value" }
+      ]
+    },
+    {
+      "id": "py-while-years",
+      "tag": "while-loop-termination",
+      "family": "years-to-goal",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@start}}, {{@goal}}):\n    {{@years}} = 0\n    {{@amount}} = {{@start}}\n    while {{@amount}} < {{@goal}}:\n        {{@amount}} = {{@amount}} * 2\n        [[1]]\n    return {{@years}}",
+      "slots": {
+        "s": { "gen": "int", "min": 2, "max": 9 },
+        "g": { "gen": "derive", "expr": "s * 2 + 1" }
+      },
+      "themes": {
+        "savings": { "fn": "years_to_goal", "start": "savings", "goal": "goal", "years": "years", "amount": "amount" },
+        "cells": { "fn": "hours_to_fill", "start": "cells", "goal": "target", "years": "hours", "amount": "count" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@years}} = {{@years}} + 1"],
+      "wrongFills": [
+        { "blank": 1, "fill": "pass", "misconceptionId": "counter-auto-updates" }
+      ],
+      "harness": "check({{@fn}}(1, 8) == 3, '1 doubles to 8 in 3 steps')\ncheck({{@fn}}({{s}}, {{g}}) == 2, 'needs two doublings')\ncheck({{@fn}}({{s}}, {{s}}) == 0, 'already at the goal')"
+    },
+    {
+      "id": "py-while-contrast",
+      "tag": "while-loop-termination",
+      "family": "check-first",
+      "kind": "contrast",
+      "code": "{{@n}} = {{x}}\n{{@n}} = {{@n}} * 2\nprint({{@n}})",
+      "contrastCode": "{{@n}} = {{x}}\nwhile {{@n}} < {{lim}}:\n    {{@n}} = {{@n}} * 2\nprint({{@n}})",
+      "slots": {
+        "lim": { "gen": "int", "min": 10, "max": 30 },
+        "e": { "gen": "int", "min": 0, "max": 20 },
+        "x": { "gen": "derive", "expr": "lim + e" }
+      },
+      "themes": {
+        "savings": { "n": "savings" },
+        "size": { "n": "size" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "checks-after-body",
+      "rule": "while checks first; its body may run zero times."
+    },
+    {
+      "id": "py-brk-skip-negatives",
+      "tag": "break-continue",
+      "family": "skip-negatives",
+      "kind": "probe",
+      "code": "for {{@x}} in [{{a}}, -{{b}}, {{c}}, {{d}}]:\n    if {{@x}} < 0:\n        continue\n    print({{@x}}, end=' ')\nprint('end')",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 },
+        "d": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "readings": { "x": "reading" },
+        "scores": { "x": "score" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "continue-stops-loop",
+          "find": "continue",
+          "replace": "break",
+          "belief": "continue ends the whole loop, like break",
+          "refutation": "continue only skips the rest of this pass; the loop goes on with the next item.",
+          "rule": "continue skips one pass; break ends the loop."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-brk-stop-negative",
+      "tag": "break-continue",
+      "family": "stop-negative",
+      "kind": "probe",
+      "code": "for {{@x}} in [{{a}}, {{b}}, -{{c}}, {{d}}]:\n    if {{@x}} < 0:\n        break\n    print({{@x}}, end=' ')\nelse:\n    print('all ok', end=' ')\nprint('end')",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 },
+        "d": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "temps": { "x": "t" },
+        "orders": { "x": "qty" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "break-skips-one",
+          "find": "break",
+          "replace": "continue",
+          "belief": "break skips only the negative item, then the loop goes on",
+          "refutation": "break ends the whole loop at once; the items after it are never visited.",
+          "rule": "break ends the loop; continue skips one item."
+        },
+        {
+          "misconceptionId": "loop-else-on-break",
+          "find": "else:",
+          "replace": "if True:",
+          "belief": "The else part runs after break too",
+          "refutation": "A loop's else runs only when the loop finishes without break; here break fires, so the else is skipped.",
+          "rule": "A loop else runs only if no break happened."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-brk-nested-prefix",
+      "tag": "break-continue",
+      "family": "nested-prefix",
+      "kind": "probe",
+      "code": "for {{@word}} in ['{{w1}}', '{{w2}}']:\n    print('-', end='')\n    for {{@ch}} in {{@word}}:\n        if {{@ch}} in 'aeiou':\n            break\n        print({{@ch}}, end='')\nprint()",
+      "slots": {
+        "w1": {
+          "gen": "pick",
+          "options": [
+            "plum", "grape", "cherry", "banana", "kiwi", "lemon", "mango", "peach", "pear", "fig", "date",
+            "lime", "melon", "quince"
+          ]
+        },
+        "w2": {
+          "gen": "pick",
+          "options": [
+            "plum", "grape", "cherry", "banana", "kiwi", "lemon", "mango", "peach", "pear", "fig", "date",
+            "lime", "melon", "quince"
+          ]
+        }
+      },
+      "themes": {
+        "fruit": { "word": "fruit", "ch": "ch" },
+        "item": { "word": "item", "ch": "letter" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "break-exits-all-loops",
+          "find": "for {{@word}} in ['{{w1}}', '{{w2}}']:",
+          "replace": "for {{@word}} in ['{{w1}}']:",
+          "belief": "break also stops the outer loop over the words",
+          "refutation": "break leaves only the loop it is directly inside; the outer loop moves on to the next word.",
+          "rule": "break exits only the innermost loop."
+        },
+        {
+          "misconceptionId": "break-skips-one",
+          "find": "break",
+          "replace": "continue",
+          "belief": "break skips only the vowel, then the letters go on",
+          "refutation": "break ends the inner loop at the first vowel; the letters after it are never printed.",
+          "rule": "break ends the loop; continue skips one item."
+        }
+      ],
+      "parSec": 8
+    },
+    {
+      "id": "py-brk-example",
+      "tag": "break-continue",
+      "family": "skip-and-stop",
+      "kind": "example",
+      "code": "for {{@x}} in [{{a}}, 0, {{b}}, -{{c}}, {{d}}]:\n    if {{@x}} == 0:\n        continue\n    if {{@x}} < 0:\n        break\n    print({{@x}}, end=' ')\nprint('stopped')",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 },
+        "d": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "sensor": { "x": "reading" },
+        "bank": { "x": "amount" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "Zero: skip this item" },
+        { "line": 4, "label": "Negative: leave the loop" },
+        { "line": 6, "label": "Runs for kept items" },
+        { "line": 7, "label": "Code after the loop runs" }
+      ]
+    },
+    {
+      "id": "py-brk-read-log",
+      "tag": "break-continue",
+      "family": "read-log",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@lines}}):\n    {{@kept}} = []\n    for {{@line}} in {{@lines}}:\n        if {{@line}} == 'END':\n            [[1]]\n        if {{@line}}.startswith('#'):\n            [[2]]\n        {{@kept}}.append({{@line}})\n    return {{@kept}}",
+      "slots": {
+        "w1": { "gen": "word", "pool": "fruits" },
+        "w2": { "gen": "word", "pool": "colors" }
+      },
+      "themes": {
+        "log": { "fn": "read_log", "lines": "lines", "kept": "kept", "line": "line" },
+        "script": { "fn": "run_script", "lines": "commands", "kept": "todo", "line": "cmd" }
+      },
+      "transforms": [],
+      "parSec": 30,
+      "solutions": ["break", "continue"],
+      "wrongFills": [
+        { "blank": 1, "fill": "continue", "misconceptionId": "break-skips-one" },
+        { "blank": 2, "fill": "break", "misconceptionId": "continue-stops-loop" }
+      ],
+      "harness": "check({{@fn}}(['a', '# note', 'b', 'END', 'c']) == ['a', 'b'], 'skips comments and stops at END')\ncheck({{@fn}}(['{{w1}}', 'END', '{{w2}}']) == ['{{w1}}'], 'nothing after END')\ncheck({{@fn}}(['# x', '{{w2}}']) == ['{{w2}}'], 'a comment is skipped, not the rest')"
+    },
+    {
+      "id": "py-brk-contrast",
+      "tag": "break-continue",
+      "family": "break-vs-continue",
+      "kind": "contrast",
+      "code": "for {{@x}} in [{{a}}, -{{b}}, {{c}}]:\n    if {{@x}} < 0: continue\n    print({{@x}}, end=' ')",
+      "contrastCode": "for {{@x}} in [{{a}}, -{{b}}, {{c}}]:\n    if {{@x}} < 0: break\n    print({{@x}}, end=' ')",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "readings": { "x": "reading" },
+        "scores": { "x": "score" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "break-skips-one",
+      "rule": "break ends the loop; continue skips one item."
+    },
+    {
+      "id": "py-lidx-pick",
+      "tag": "list-indexing",
+      "family": "pick-items",
+      "kind": "probe",
+      "code": "{{@xs}} = {{vals}}\nprint([{{@xs}}[{{i}}], {{@xs}}[-1]])",
+      "slots": {
+        "vals": { "gen": "wordList", "pool": "fruits", "minLen": 5, "maxLen": 6, "distinct": true },
+        "i": { "gen": "int", "min": 1, "max": 3 },
+        "i0": { "gen": "derive", "expr": "i - 1" }
+      },
+      "themes": {
+        "basket": { "xs": "basket" },
+        "queue": { "xs": "queue" },
+        "menu": { "xs": "menu" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "{{@xs}}[{{i}}]",
+          "replace": "{{@xs}}[{{i0}}]",
+          "belief": "{{@xs}}[{{i}}] is item number {{i}}, counting from 1",
+          "refutation": "List positions count from zero, so [{{i}}] is one place further along than you would count by hand.",
+          "rule": "Index 0 is the first item."
+        },
+        {
+          "misconceptionId": "negative-index-error",
+          "find": "{{@xs}}[-1]",
+          "replace": "{{@xs}}[len({{@xs}})]",
+          "belief": "{{@xs}}[-1] raises an error",
+          "refutation": "Negative indexes count back from the end, so -1 picks the last item.",
+          "rule": "Index -1 is the last item."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-lidx-last",
+      "tag": "list-indexing",
+      "family": "last-item",
+      "kind": "probe",
+      "code": "{{@xs}} = {{words}}\n{{@n}} = len({{@xs}})\nprint({{@n}}, {{@xs}}[{{@n}} - 1])",
+      "slots": {
+        "words": { "gen": "wordList", "pool": "fruits", "minLen": 3, "maxLen": 5, "distinct": true }
+      },
+      "themes": {
+        "menu": { "xs": "menu", "n": "size" },
+        "basket": { "xs": "basket", "n": "count" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "last-index-is-length",
+          "find": "{{@xs}}[{{@n}} - 1]",
+          "replace": "{{@xs}}[{{@n}} - 2]",
+          "belief": "{{@xs}}[{{@n}} - 1] is the second-to-last item",
+          "refutation": "With {{@n}} items the positions run from zero to {{@n}} minus one, so that index is the last one.",
+          "rule": "The last index is len - 1."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-lidx-overwrite",
+      "tag": "list-indexing",
+      "family": "overwrite",
+      "kind": "probe",
+      "code": "{{@xs}} = {{vals}}\n{{@xs}}[{{i}}] = {{@xs}}[-{{k}}]\nprint({{@xs}})",
+      "slots": {
+        "vals": { "gen": "wordList", "pool": "colors", "minLen": 4, "maxLen": 5, "distinct": true },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "k": { "gen": "int", "min": 1, "max": 2 },
+        "i0": { "gen": "derive", "expr": "i - 1" }
+      },
+      "themes": {
+        "paint": { "xs": "paints" },
+        "flags": { "xs": "flags" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "{{@xs}}[{{i}}] =",
+          "replace": "{{@xs}}[{{i0}}] =",
+          "belief": "{{@xs}}[{{i}}] is item number {{i}}, counting from 1",
+          "refutation": "List positions count from zero, so [{{i}}] is one place further along than you would count by hand.",
+          "rule": "Index 0 is the first item."
+        },
+        {
+          "misconceptionId": "negative-index-error",
+          "find": "{{@xs}}[-{{k}}]",
+          "replace": "{{@xs}}[len({{@xs}})]",
+          "belief": "{{@xs}}[-{{k}}] raises an error",
+          "refutation": "Negative indexes count back from the end of the list, so -{{k}} is a valid position, not an error.",
+          "rule": "Negative indexes count from the end."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-lidx-len-index",
+      "tag": "list-indexing",
+      "family": "len-index",
+      "kind": "probe",
+      "code": "{{@xs}} = {{words}}\n{{@last}} = {{@xs}}[len({{@xs}})]\nprint({{@last}})",
+      "slots": {
+        "words": { "gen": "wordList", "pool": "animals", "minLen": 3, "maxLen": 4, "distinct": true }
+      },
+      "themes": {
+        "pets": { "xs": "pets", "last": "last" },
+        "zoo": { "xs": "zoo", "last": "final" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "last-index-is-length",
+          "find": "[len({{@xs}})]",
+          "replace": "[len({{@xs}}) - 1]",
+          "belief": "{{@xs}}[len({{@xs}})] is the last item",
+          "refutation": "Positions run from zero to len minus one, so len itself is one step past the end.",
+          "rule": "The last index is len - 1."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-lidx-example",
+      "tag": "list-indexing",
+      "family": "read-write",
+      "kind": "example",
+      "code": "{{@xs}} = {{words}}\nprint({{@xs}}[0])\nprint({{@xs}}[-1])\n{{@xs}}[1] = '{{w}}'\nprint({{@xs}})",
+      "slots": {
+        "words": { "gen": "wordList", "pool": "animals", "minLen": 3, "maxLen": 4, "distinct": true },
+        "w": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "pets": { "xs": "pets" },
+        "zoo": { "xs": "pens" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "Index 0 is the first" },
+        { "line": 3, "label": "Index -1 is the last" },
+        { "line": 4, "label": "Replace the second item" },
+        { "line": 5, "label": "The list changed in place" }
+      ]
+    },
+    {
+      "id": "py-lidx-swap-ends",
+      "tag": "list-indexing",
+      "family": "swap-ends",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@xs}}):\n    if len({{@xs}}) < 2:\n        return {{@xs}}\n    {{@first}} = {{@xs}}[0]\n    {{@xs}}[0] = [[1]]\n    {{@xs}}[-1] = {{@first}}\n    return {{@xs}}",
+      "slots": {
+        "a": { "gen": "int", "min": 10, "max": 19 },
+        "b": { "gen": "int", "min": 20, "max": 29 }
+      },
+      "themes": {
+        "deck": { "fn": "swap_ends", "xs": "cards", "first": "top" },
+        "line": { "fn": "swap_first_last", "xs": "queue", "first": "front" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@xs}}[-1]"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@xs}}[len({{@xs}})]", "misconceptionId": "last-index-is-length" }
+      ],
+      "harness": "check({{@fn}}([1, 2, 3]) == [3, 2, 1], 'swaps the two ends')\ncheck({{@fn}}([{{a}}, {{b}}]) == [{{b}}, {{a}}], 'two items trade places')\ncheck({{@fn}}([{{a}}]) == [{{a}}], 'one item stays')"
+    },
+    {
+      "id": "py-lidx-contrast",
+      "tag": "list-indexing",
+      "family": "zero-based",
+      "kind": "contrast",
+      "code": "{{@xs}} = {{vals}}\nprint({{@xs}}[{{i0}}])",
+      "contrastCode": "{{@xs}} = {{vals}}\nprint({{@xs}}[{{i}}])",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 4, "maxLen": 5, "min": 10, "max": 99, "distinct": true },
+        "i": { "gen": "int", "min": 1, "max": 3 },
+        "i0": { "gen": "derive", "expr": "i - 1" }
+      },
+      "themes": {
+        "scores": { "xs": "scores" },
+        "queue": { "xs": "queue" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "index-starts-at-one",
+      "rule": "Index 0 is the first item."
+    },
+    {
+      "id": "py-slice-window",
+      "tag": "list-slicing",
+      "family": "slice-window",
+      "kind": "probe",
+      "code": "{{@xs}} = {{vals}}\n{{@part}} = {{@xs}}[{{i}}:{{j}}]\nprint({{@part}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 5, "maxLen": 7, "min": 10, "max": 99, "distinct": true },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "j": { "gen": "derive", "expr": "i + 2" },
+        "j1": { "gen": "derive", "expr": "j + 1" },
+        "i0": { "gen": "derive", "expr": "i - 1" },
+        "j0": { "gen": "derive", "expr": "j - 1" }
+      },
+      "themes": {
+        "scores": { "xs": "scores", "part": "middle" },
+        "temps": { "xs": "temps", "part": "midweek" },
+        "ages": { "xs": "ages", "part": "group" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "slice-end-included",
+          "find": "[{{i}}:{{j}}]",
+          "replace": "[{{i}}:{{j1}}]",
+          "belief": "The slice includes the item at the stop index",
+          "refutation": "The stop index is left out: [{{i}}:{{j}}] takes the items at indexes {{i}} up to, but not including, {{j}}.",
+          "rule": "A slice includes the start index and excludes the stop."
+        },
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "[{{i}}:{{j}}]",
+          "replace": "[{{i0}}:{{j0}}]",
+          "belief": "The first item is at position 1, not 0",
+          "refutation": "Indexes count from zero: the first item is index zero, so index {{i}} is one item further along.",
+          "rule": "Index 0 is the first item."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-slice-copy",
+      "tag": "list-slicing",
+      "family": "slice-copy",
+      "kind": "probe",
+      "code": "{{@xs}} = {{vals}}\n{{@part}} = {{@xs}}[:{{k}}]\n{{@part}}[0] = {{n}}\nprint({{@xs}})\nprint({{@part}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 4, "maxLen": 6, "min": 1, "max": 9, "distinct": true },
+        "k": { "gen": "int", "min": 2, "max": 3 },
+        "k1": { "gen": "derive", "expr": "k + 1" },
+        "j": { "gen": "int", "min": 1, "max": 9 },
+        "n": { "gen": "derive", "expr": "100 * j" }
+      },
+      "themes": {
+        "top": { "xs": "ranking", "part": "top" },
+        "week": { "xs": "week", "part": "start" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "slice-aliases-original",
+          "find": "print({{@xs}})",
+          "replace": "print([{{n}}] + {{@xs}}[1:])",
+          "belief": "Changing {{@part}} also changes {{@xs}}",
+          "refutation": "A slice builds a brand-new list, so assigning into {{@part}} leaves {{@xs}} untouched.",
+          "rule": "A slice is a copy; changing it never touches the original."
+        },
+        {
+          "misconceptionId": "slice-end-included",
+          "find": "{{@xs}}[:{{k}}]",
+          "replace": "{{@xs}}[:{{k1}}]",
+          "belief": "{{@xs}}[:{{k}}] includes the item at index {{k}}",
+          "refutation": "The stop index is left out, so [:{{k}}] takes exactly {{k}} items.",
+          "rule": "A slice includes the start index and excludes the stop."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-slice-past-end",
+      "tag": "list-slicing",
+      "family": "past-end",
+      "kind": "probe",
+      "code": "{{@xs}} = {{words}}\nprint({{@xs}}[{{i}}:{{big}}])",
+      "slots": {
+        "words": { "gen": "wordList", "pool": "fruits", "minLen": 3, "maxLen": 4, "distinct": true },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "big": { "gen": "int", "min": 7, "max": 10 },
+        "i0": { "gen": "derive", "expr": "i - 1" }
+      },
+      "themes": {
+        "basket": { "xs": "basket" },
+        "menu": { "xs": "menu" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "slice-past-end-errors",
+          "find": "{{@xs}}[{{i}}:{{big}}]",
+          "replace": "{{@xs}}[{{big}}]",
+          "belief": "Slicing up to {{big}}, past the end, raises an error",
+          "refutation": "A slice quietly stops at the end of the list; only indexing a single missing position raises an error.",
+          "rule": "Slices clip to the list's end; they never raise."
+        },
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "[{{i}}:",
+          "replace": "[{{i0}}:",
+          "belief": "The slice starts at item number {{i}}, counting from 1",
+          "refutation": "Positions count from zero, so index {{i}} is one item further along than counting from one suggests.",
+          "rule": "Index 0 is the first item."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-slice-string",
+      "tag": "list-slicing",
+      "family": "string-slice",
+      "kind": "probe",
+      "code": "{{@word}} = '{{w}}'\nprint({{@word}}[:{{h}}], {{@word}}[{{i}}:{{j}}])",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "planet", "garden", "window", "pocket", "basket", "turnip", "violin", "marble", "rocket", "castle",
+            "jungle", "candle", "pencil", "silver", "forest", "helmet", "lizard", "magnet", "parcel"
+          ]
+        },
+        "h": { "gen": "int", "min": 2, "max": 3 },
+        "h1": { "gen": "derive", "expr": "h + 1" },
+        "i": { "gen": "int", "min": 2, "max": 3 },
+        "j": { "gen": "derive", "expr": "i + 2" },
+        "j1": { "gen": "derive", "expr": "j + 1" },
+        "i0": { "gen": "derive", "expr": "i - 1" },
+        "j0": { "gen": "derive", "expr": "j - 1" }
+      },
+      "themes": {
+        "word": { "word": "word" },
+        "code": { "word": "code" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "slice-end-included",
+          "find": "[:{{h}}], {{@word}}[{{i}}:{{j}}]",
+          "replace": "[:{{h1}}], {{@word}}[{{i}}:{{j1}}]",
+          "belief": "Each slice includes the letter at its stop index",
+          "refutation": "The stop index is left out: each slice ends just before the position written after the colon.",
+          "rule": "A slice includes the start index and excludes the stop."
+        },
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "[{{i}}:{{j}}]",
+          "replace": "[{{i0}}:{{j0}}]",
+          "belief": "Position {{i}} is letter number {{i}}, counting from 1",
+          "refutation": "Positions count from zero, so index {{i}} is one letter further along than counting from one suggests.",
+          "rule": "Index 0 is the first character."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-slice-example",
+      "tag": "list-slicing",
+      "family": "pieces",
+      "kind": "example",
+      "code": "{{@xs}} = {{vals}}\nprint({{@xs}}[:{{k}}])\nprint({{@xs}}[{{k}}:])\nprint({{@xs}}[-{{m}}:])\n{{@rev}} = {{@xs}}[::-1]\nprint({{@rev}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 5, "maxLen": 6, "min": 1, "max": 30, "distinct": true },
+        "k": { "gen": "int", "min": 2, "max": 3 },
+        "m": { "gen": "int", "min": 2, "max": 3 }
+      },
+      "themes": {
+        "scores": { "xs": "scores", "rev": "backwards" },
+        "days": { "xs": "days", "rev": "reversed_days" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "First {{k}} items, stop excluded" },
+        { "line": 3, "label": "From index {{k}} to the end" },
+        { "line": 4, "label": "The last {{m}} items" },
+        { "line": 5, "label": "Step -1 reverses a copy" }
+      ]
+    },
+    {
+      "id": "py-slice-contrast",
+      "tag": "list-slicing",
+      "family": "stop-excluded",
+      "kind": "contrast",
+      "code": "{{@xs}} = {{vals}}\nprint({{@xs}}[{{i}}:{{j1}}])",
+      "contrastCode": "{{@xs}} = {{vals}}\nprint({{@xs}}[{{i}}:{{j}}])",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 5, "maxLen": 6, "min": 10, "max": 99, "distinct": true },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "j": { "gen": "derive", "expr": "i + 2" },
+        "j1": { "gen": "derive", "expr": "j + 1" }
+      },
+      "themes": {
+        "scores": { "xs": "scores" },
+        "temps": { "xs": "temps" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "slice-end-included",
+      "rule": "A slice stops just before its stop index."
+    },
+    {
+      "id": "py-slice-split",
+      "tag": "list-slicing",
+      "family": "head-tail",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@xs}}, {{@n}}):\n    {{@head}} = [[1]]\n    {{@tail}} = [[2]]\n    if not {{@tail}}:\n        return [{{@head}}, None]\n    return [{{@head}}, {{@tail}}]",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 10, "max": 19 },
+        "c": { "gen": "int", "min": 20, "max": 29 }
+      },
+      "themes": {
+        "deal": { "fn": "deal", "xs": "cards", "n": "n", "head": "hand", "tail": "deck" },
+        "queue": { "fn": "split_queue", "xs": "queue", "n": "k", "head": "now", "tail": "later" }
+      },
+      "transforms": [],
+      "parSec": 30,
+      "solutions": ["{{@xs}}[:{{@n}}]", "{{@xs}}[{{@n}}:]"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@xs}}[:{{@n}} + 1]", "misconceptionId": "slice-end-included" },
+        { "blank": 2, "fill": "{{@xs}}[{{@n}} + 1:]", "misconceptionId": "slice-end-included" }
+      ],
+      "harness": "check({{@fn}}([1, 2, 3, 4], 1) == [[1], [2, 3, 4]], 'one item in front')\ncheck({{@fn}}([{{a}}, {{b}}, {{c}}], 2) == [[{{a}}, {{b}}], [{{c}}]], 'two items in front')\ncheck({{@fn}}([{{a}}], 3) == [[{{a}}], None], 'n past the end')"
+    },
+    {
+      "id": "py-lmut-append-result",
+      "tag": "list-mutation-methods",
+      "family": "append-result",
+      "kind": "probe",
+      "code": "{{@xs}} = {{vals}}\n{{@ys}} = {{@xs}}.append({{n}})\nprint({{@xs}})\nprint({{@ys}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9, "distinct": true },
+        "n": { "gen": "int", "min": 10, "max": 30 }
+      },
+      "themes": {
+        "cart": { "xs": "cart", "ys": "result" },
+        "log": { "xs": "log", "ys": "updated" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "append-returns-list",
+          "find": "print({{@ys}})",
+          "replace": "print({{@xs}})",
+          "belief": "{{@xs}}.append({{n}}) gives back the updated list",
+          "refutation": "append changes {{@xs}} in place and hands back nothing, so {{@ys}} is not a list.",
+          "rule": "append changes the list and returns None."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-lmut-append-list",
+      "tag": "list-mutation-methods",
+      "family": "append-list",
+      "kind": "probe",
+      "code": "{{@xs}} = {{vals}}\n{{@xs}}.append([{{a}}, {{b}}])\nprint(len({{@xs}}), {{@xs}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 3, "min": 1, "max": 9, "distinct": true },
+        "a": { "gen": "int", "min": 10, "max": 19 },
+        "b": { "gen": "int", "min": 20, "max": 29 }
+      },
+      "themes": {
+        "team": { "xs": "team" },
+        "route": { "xs": "route" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "append-list-flattens",
+          "find": ".append([{{a}}, {{b}}])",
+          "replace": ".extend([{{a}}, {{b}}])",
+          "belief": "Appending [{{a}}, {{b}}] adds {{a}} and {{b}} as separate items",
+          "refutation": "append always adds exactly one item; here that item is a whole list, nested inside.",
+          "rule": "append adds one item; extend adds each item."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-lmut-pop-sort",
+      "tag": "list-mutation-methods",
+      "family": "pop-sort",
+      "kind": "probe",
+      "code": "{{@stack}} = {{vals}}\n{{@top}} = {{@stack}}.pop()\n{{@result}} = {{@stack}}.sort()\nprint({{@top}}, {{@result}}, {{@stack}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 4, "maxLen": 5, "min": 1, "max": 30, "distinct": true }
+      },
+      "themes": {
+        "plates": { "stack": "plates", "top": "top", "result": "done" },
+        "tasks": { "stack": "tasks", "top": "latest", "result": "ordered" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "pop-removes-first",
+          "find": ".pop()",
+          "replace": ".pop(0)",
+          "belief": "pop() removes the first item",
+          "refutation": "With no argument, pop takes the item at the end of the list, like the top of a stack.",
+          "rule": "pop() removes the last item; pop(0) the first."
+        },
+        {
+          "misconceptionId": "sort-returns-list",
+          "find": "print({{@top}}, {{@result}}, {{@stack}})",
+          "replace": "print({{@top}}, {{@stack}}, {{@stack}})",
+          "belief": "{{@stack}}.sort() gives back the sorted list",
+          "refutation": "sort reorders the list in place and returns nothing, so {{@result}} is not a list.",
+          "rule": "sort() sorts in place and returns None; sorted() returns a list."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-lmut-example",
+      "tag": "list-mutation-methods",
+      "family": "edit-in-place",
+      "kind": "example",
+      "code": "{{@xs}} = {{vals}}\n{{@xs}}.append({{n}})\n{{@xs}}.sort()\n{{@last}} = {{@xs}}.pop()\n{{@xs}}.insert(0, {{m}})\nprint({{@last}}, {{@xs}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 20, "distinct": true },
+        "n": { "gen": "int", "min": 21, "max": 40 },
+        "m": { "gen": "int", "min": 41, "max": 60 }
+      },
+      "themes": {
+        "scores": { "xs": "scores", "last": "best" },
+        "queue": { "xs": "queue", "last": "served" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "Add to the end" },
+        { "line": 3, "label": "Sort in place" },
+        { "line": 4, "label": "Remove and return the last" },
+        { "line": 5, "label": "Insert at the front" }
+      ]
+    },
+    {
+      "id": "py-lmut-add-sorted",
+      "tag": "list-mutation-methods",
+      "family": "add-sorted",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@xs}}, {{@x}}):\n    {{@out}} = {{@xs}}.copy()\n    if {{@x}} in {{@out}}:\n        return {{@out}}\n    [[1]]\n    [[2]]\n    return {{@out}}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 10, "max": 19 },
+        "c": { "gen": "int", "min": 20, "max": 29 }
+      },
+      "themes": {
+        "scores": { "fn": "add_score", "xs": "scores", "x": "new", "out": "board" },
+        "tags": { "fn": "add_tag", "xs": "tags", "x": "tag", "out": "result" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@out}}.append({{@x}})", "{{@out}}.sort()"],
+      "wrongFills": [
+        {
+          "blank": 1,
+          "fill": "{{@out}} = {{@out}}.append({{@x}})",
+          "misconceptionId": "append-returns-list"
+        },
+        { "blank": 2, "fill": "{{@out}} = {{@out}}.sort()", "misconceptionId": "sort-returns-list" }
+      ],
+      "harness": "check({{@fn}}([3, 1], 2) == [1, 2, 3], 'adds the item and sorts')\ncheck({{@fn}}([{{b}}, {{a}}], {{c}}) == [{{a}}, {{b}}, {{c}}], 'keeps the list in order')\ncheck({{@fn}}([{{a}}], {{a}}) == [{{a}}], 'no duplicate')"
+    },
+    {
+      "id": "py-lmut-contrast",
+      "tag": "list-mutation-methods",
+      "family": "sort-vs-sorted",
+      "kind": "contrast",
+      "code": "{{@xs}} = {{vals}}\n{{@ys}} = sorted({{@xs}})\nprint({{@ys}})",
+      "contrastCode": "{{@xs}} = {{vals}}\n{{@ys}} = {{@xs}}.sort()\nprint({{@ys}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 30, "distinct": true }
+      },
+      "themes": {
+        "scores": { "xs": "scores", "ys": "ranked" },
+        "ages": { "xs": "ages", "ys": "ordered" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "sort-returns-list",
+      "rule": "sort() returns None; sorted() returns a new list."
+    },
+    {
+      "id": "py-alias-append-probe",
+      "tag": "alias-copy",
+      "family": "alias-append",
+      "kind": "probe",
+      "code": "{{@a}} = {{vals}}\n{{@b}} = {{@a}}\n{{@b}}.append({{n}})\nprint({{@a}})\nprint({{@b}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9, "distinct": true },
+        "n": { "gen": "int", "min": 10, "max": 30 }
+      },
+      "themes": {
+        "cart": { "a": "cart", "b": "order" },
+        "team": { "a": "team", "b": "squad" },
+        "notes": { "a": "notes", "b": "backup" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "assignment-copies",
+          "find": "{{@b}} = {{@a}}",
+          "replace": "{{@b}} = {{@a}}.copy()",
+          "belief": "{{@b}} = {{@a}} makes {{@b}} a separate copy",
+          "refutation": "Assignment never copies a list: {{@b}} and {{@a}} are two names for one list, so the append shows through both.",
+          "rule": "b = a shares one list; use a.copy() for a new one."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-alias-rebind",
+      "tag": "alias-copy",
+      "family": "rebind",
+      "kind": "probe",
+      "code": "{{@a}} = {{vals}}\n{{@b}} = {{@a}}\n{{@a}} = [{{n}}]\nprint({{@a}}, {{@b}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9, "distinct": true },
+        "j": { "gen": "int", "min": 1, "max": 9 },
+        "n": { "gen": "derive", "expr": "100 * j" }
+      },
+      "themes": {
+        "plan": { "a": "plan", "b": "saved" },
+        "menu": { "a": "menu", "b": "old_menu" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "rebind-changes-alias",
+          "find": "{{@a}} = [{{n}}]",
+          "replace": "{{@a}}[:] = [{{n}}]",
+          "belief": "Pointing {{@a}} at a new list also changes {{@b}}",
+          "refutation": "This line makes {{@a}} name a brand-new list; {{@b}} still names the old one, which nobody changed.",
+          "rule": "Rebinding a name never changes other names; mutating does."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-alias-param",
+      "tag": "alias-copy",
+      "family": "param-shared",
+      "kind": "probe",
+      "code": "def {{@fn}}({{@items}}):\n    {{@items}}.append({{n}})\n    return len({{@items}})\n{{@xs}} = {{vals}}\n{{@size}} = {{@fn}}({{@xs}})\nprint({{@size}}, {{@xs}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9, "distinct": true },
+        "n": { "gen": "int", "min": 10, "max": 30 }
+      },
+      "themes": {
+        "cart": { "fn": "add_fee", "items": "items", "xs": "cart", "size": "n" },
+        "log": { "fn": "record", "items": "entries", "xs": "log", "size": "count" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "param-gets-copy",
+          "find": "{{@fn}}({{@xs}})",
+          "replace": "{{@fn}}({{@xs}}.copy())",
+          "belief": "{{@fn}} works on its own copy of {{@xs}}",
+          "refutation": "The parameter {{@items}} is just another name for the caller's list, so the append changes {{@xs}} too.",
+          "rule": "Functions receive the same list, not a copy."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-alias-shallow",
+      "tag": "alias-copy",
+      "family": "shallow",
+      "kind": "probe",
+      "code": "{{@grid}} = [[{{a}}, {{b}}], [{{c}}, {{d}}]]\n{{@backup}} = {{@grid}}.copy()\n{{@grid}}[0].append({{n}})\n{{@grid}}.append([{{m}}])\nprint({{@backup}})",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 },
+        "d": { "gen": "int", "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 30 },
+        "m": { "gen": "int", "min": 31, "max": 50 }
+      },
+      "themes": {
+        "board": { "grid": "board", "backup": "saved" },
+        "seats": { "grid": "rows", "backup": "plan" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "shallow-copy-deep",
+          "find": "{{@grid}}.copy()",
+          "replace": "[row.copy() for row in {{@grid}}]",
+          "belief": "{{@grid}}.copy() also copies the inner lists",
+          "refutation": "copy() makes a new outer list, but its rows are the same inner lists, so changing a row shows in both.",
+          "rule": ".copy() is shallow: inner lists are still shared."
+        }
+      ],
+      "parSec": 8
+    },
+    {
+      "id": "py-alias-append",
+      "tag": "alias-copy",
+      "family": "alias-append",
+      "kind": "contrast",
+      "code": "{{@a}} = {{vals}}\n{{@b}} = {{@a}}.copy()\n{{@b}}.append({{n}})\nprint({{@a}})",
+      "contrastCode": "{{@a}} = {{vals}}\n{{@b}} = {{@a}}\n{{@b}}.append({{n}})\nprint({{@a}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 20 }
+      },
+      "themes": {
+        "cart": { "a": "cart", "b": "order" },
+        "team": { "a": "team", "b": "squad" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "assignment-copies",
+      "rule": "b = a shares one list; a.copy() makes a new one."
+    },
+    {
+      "id": "py-alias-example",
+      "tag": "alias-copy",
+      "family": "share-vs-copy",
+      "kind": "example",
+      "code": "{{@a}} = {{vals}}\n{{@b}} = {{@a}}\n{{@c}} = {{@a}}.copy()\n{{@b}}.append({{n}})\nprint({{@a}})\nprint({{@c}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9, "distinct": true },
+        "n": { "gen": "int", "min": 10, "max": 30 }
+      },
+      "themes": {
+        "cart": { "a": "cart", "b": "same_cart", "c": "saved" },
+        "team": { "a": "team", "b": "alias", "c": "snapshot" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "Second name, same list" },
+        { "line": 3, "label": "A real, separate copy" },
+        { "line": 4, "label": "Change through one name" },
+        { "line": 5, "label": "The shared list changed" },
+        { "line": 6, "label": "The copy did not" }
+      ]
+    },
+    {
+      "id": "py-alias-with-item",
+      "tag": "alias-copy",
+      "family": "pure-add",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@xs}}, {{@x}}):\n    # return a new list; leave the argument unchanged\n    {{@out}} = [[1]]\n    {{@out}}.append({{@x}})\n    {{@out}}.sort()\n    return {{@out}}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 10, "max": 19 }
+      },
+      "themes": {
+        "scores": { "fn": "with_score", "xs": "scores", "x": "new", "out": "result" },
+        "cart": { "fn": "with_item", "xs": "cart", "x": "item", "out": "fresh" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@xs}}.copy()"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@xs}}", "misconceptionId": "assignment-copies" }
+      ],
+      "harness": "given = [3, 1]\ncheck({{@fn}}(given, 2) == [1, 2, 3], 'adds the item and sorts')\ncheck(given == [3, 1], 'the argument is unchanged')\ncheck({{@fn}}([{{b}}], {{a}}) == [{{a}}, {{b}}], 'a one-item list')"
+    },
+    {
+      "id": "py-split-dash",
+      "tag": "string-split-join",
+      "family": "split-dash",
+      "kind": "probe",
+      "code": "{{@code}} = '{{w1}}-{{w2}}-{{w3}}'\n{{@parts}} = {{@code}}.split('-')\nprint({{@parts}}, len({{@parts}}))",
+      "slots": {
+        "w1": { "gen": "word", "pool": "colors" },
+        "w2": { "gen": "word", "pool": "animals" },
+        "w3": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "sku": { "code": "sku", "parts": "parts" },
+        "route": { "code": "route", "parts": "stops" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "split-keeps-separator",
+          "find": "{{@code}}.split('-')",
+          "replace": "{{@code}}.replace('-', '- ').split(' ')",
+          "belief": "Each piece keeps its dash after splitting",
+          "refutation": "split cuts at each separator and throws the separators away, so no piece contains one.",
+          "rule": "split removes the separator from every piece."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-split-empty",
+      "tag": "string-split-join",
+      "family": "split-empty",
+      "kind": "probe",
+      "code": "{{@row}} = '{{w1}},,{{w2}},'\n{{@cells}} = {{@row}}.split(',')\nprint({{@cells}})\nprint(len({{@cells}}))",
+      "slots": {
+        "w1": { "gen": "word", "pool": "names" },
+        "w2": { "gen": "word", "pool": "cities" }
+      },
+      "themes": {
+        "csv": { "row": "line", "cells": "cells" },
+        "form": { "row": "answers", "cells": "fields" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "split-skips-empty",
+          "find": "{{@row}}.split(',')",
+          "replace": "[c for c in {{@row}}.split(',') if c]",
+          "belief": "Splitting skips the empty pieces between commas",
+          "refutation": "Every comma marks a cut, so two commas in a row, or one at the end, leave empty strings.",
+          "rule": "split with a separator keeps the empty pieces."
+        },
+        {
+          "misconceptionId": "split-keeps-separator",
+          "find": "{{@row}}.split(',')",
+          "replace": "{{@row}}.replace(',', ', ').split(' ')",
+          "belief": "Each piece keeps its comma after splitting",
+          "refutation": "split cuts at each separator and throws the separators away, so no piece contains one.",
+          "rule": "split removes the separator from every piece."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-join-words",
+      "tag": "string-split-join",
+      "family": "join-words",
+      "kind": "probe",
+      "code": "{{@words}} = {{wl}}\n{{@line}} = '{{sep}}'.join({{@words}})\nprint({{@line}})\nprint(len({{@words}}), len({{@line}}))",
+      "slots": {
+        "wl": { "gen": "wordList", "pool": "fruits", "minLen": 3, "maxLen": 4, "distinct": true },
+        "sep": { "gen": "pick", "options": ["-", "+", "/", ", "] }
+      },
+      "themes": {
+        "menu": { "words": "dishes", "line": "menu" },
+        "tags": { "words": "tags", "line": "label" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "join-trailing-separator",
+          "find": "'{{sep}}'.join({{@words}})",
+          "replace": "'{{sep}}'.join({{@words}}) + '{{sep}}'",
+          "belief": "join also puts '{{sep}}' after the last word",
+          "refutation": "join puts the separator only between items, so there is one fewer separator than items.",
+          "rule": "join puts the separator between items, never at the end."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-join-numbers",
+      "tag": "string-split-join",
+      "family": "join-numbers",
+      "kind": "probe",
+      "code": "{{@ids}} = {{vals}}\n{{@text}} = '{{sep}}'.join({{@ids}})\nprint({{@text}})",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 99, "distinct": true },
+        "sep": { "gen": "pick", "options": ["-", ", ", ":"] }
+      },
+      "themes": {
+        "ids": { "ids": "ids", "text": "line" },
+        "pins": { "ids": "digits", "text": "code" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "join-accepts-numbers",
+          "find": "'{{sep}}'.join({{@ids}})",
+          "replace": "'{{sep}}'.join(str(i) for i in {{@ids}})",
+          "belief": "join can glue a list of numbers together",
+          "refutation": "join only accepts strings; each number must be turned into text first, for example with str().",
+          "rule": "join needs strings: convert numbers with str() first."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-split-example",
+      "tag": "string-split-join",
+      "family": "split-modes",
+      "kind": "example",
+      "code": "{{@line}} = '{{a}} {{b}}  {{c}}'\n{{@words}} = {{@line}}.split()\n{{@cells}} = {{@line}}.split(' ')\nprint({{@words}})\nprint({{@cells}})\nprint('-'.join({{@words}}))",
+      "slots": {
+        "a": { "gen": "word", "pool": "names" },
+        "b": { "gen": "word", "pool": "fruits" },
+        "c": { "gen": "word", "pool": "colors" }
+      },
+      "themes": {
+        "text": { "line": "line", "words": "words", "cells": "pieces" },
+        "title": { "line": "title", "words": "parts", "cells": "raw" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "No argument: split on whitespace" },
+        { "line": 3, "label": "One space: empty pieces kept" },
+        { "line": 6, "label": "Join puts dashes between" }
+      ]
+    },
+    {
+      "id": "py-split-cells",
+      "tag": "string-split-join",
+      "family": "tidy-cells",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@text}}):\n    {{@parts}} = [[1]]\n    {{@clean}} = []\n    for {{@p}} in {{@parts}}:\n        {{@clean}}.append({{@p}}.strip())\n    return [[2]]",
+      "slots": {
+        "w1": { "gen": "word", "pool": "fruits" },
+        "w2": { "gen": "word", "pool": "animals" }
+      },
+      "themes": {
+        "csv": { "fn": "to_cells", "text": "line", "parts": "parts", "clean": "cells", "p": "part" },
+        "tags": { "fn": "tidy_tags", "text": "raw", "parts": "pieces", "clean": "tags", "p": "tag" }
+      },
+      "transforms": [],
+      "parSec": 30,
+      "solutions": ["{{@text}}.split(',')", "' | '.join({{@clean}})"],
+      "wrongFills": [
+        {
+          "blank": 2,
+          "fill": "' | '.join({{@clean}}) + ' | '",
+          "misconceptionId": "join-trailing-separator"
+        }
+      ],
+      "harness": "check({{@fn}}('a, b,c') == 'a | b | c', 'three fields')\ncheck({{@fn}}('{{w1}} ,{{w2}}') == '{{w1}} | {{w2}}', 'two fields')"
+    },
+    {
+      "id": "py-split-contrast",
+      "tag": "string-split-join",
+      "family": "join-between",
+      "kind": "contrast",
+      "code": "{{@words}} = {{wl}}\nprint('-'.join({{@words}}) + '-')",
+      "contrastCode": "{{@words}} = {{wl}}\nprint('-'.join({{@words}}))",
+      "slots": {
+        "wl": { "gen": "wordList", "pool": "fruits", "minLen": 2, "maxLen": 3, "distinct": true }
+      },
+      "themes": {
+        "menu": { "words": "dishes" },
+        "tags": { "words": "tags" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "join-trailing-separator",
+      "rule": "join puts the separator only between items."
+    },
+    {
+      "id": "py-dict-bracket-missing",
+      "tag": "dict-access-missing-key",
+      "family": "bracket-missing",
+      "kind": "probe",
+      "code": "{{@d}} = {'{{@k1}}': {{a}}, '{{@k2}}': {{b}}}\n{{@x}} = {{@d}}['{{@k3}}']\nprint({{@x}})",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 60 },
+        "b": { "gen": "int", "min": 1, "max": 60 }
+      },
+      "themes": {
+        "ages": { "d": "ages", "x": "age", "k1": "Ada", "k2": "Ben", "k3": "Cleo" },
+        "prices": { "d": "prices", "x": "price", "k1": "tea", "k2": "cake", "k3": "soup" },
+        "zones": { "d": "zones", "x": "zone", "k1": "Oslo", "k2": "Lima", "k3": "Rome" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "missing-key-none",
+          "find": "{{@d}}['{{@k3}}']",
+          "replace": "{{@d}}.get('{{@k3}}')",
+          "belief": "{{@d}}['{{@k3}}'] gives None when the key is missing",
+          "refutation": "Square brackets demand the key; when it is missing Python raises an error. Only get hands back a fallback.",
+          "rule": "d[key] raises KeyError if missing; d.get(key) does not."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-dict-get-default",
+      "tag": "dict-access-missing-key",
+      "family": "get-default",
+      "kind": "probe",
+      "code": "{{@d}} = {'{{@k1}}': {{a}}, '{{@k2}}': {{b}}}\nprint({{@d}}.get('{{@k3}}'))\nprint({{@d}}.get('{{@k3}}', {{dflt}}))\nprint({{@d}})",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 60 },
+        "b": { "gen": "int", "min": 1, "max": 60 },
+        "dflt": { "gen": "int", "min": 0, "max": 9 }
+      },
+      "themes": {
+        "stock": { "d": "stock", "k1": "pens", "k2": "ink", "k3": "tape" },
+        "scores": { "d": "scores", "k1": "Ada", "k2": "Ben", "k3": "Zoe" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "get-default-stored",
+          "find": "{{@d}}.get('{{@k3}}', {{dflt}})",
+          "replace": "{{@d}}.setdefault('{{@k3}}', {{dflt}})",
+          "belief": "get with a default also stores '{{@k3}}' in {{@d}}",
+          "refutation": "get only reads: it hands back the default for a missing key without adding anything to the dictionary.",
+          "rule": "get(key, default) reads only; it never adds the key."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-dict-in-keys",
+      "tag": "dict-access-missing-key",
+      "family": "in-keys",
+      "kind": "probe",
+      "code": "{{@d}} = {'{{@k1}}': {{a}}, '{{@k2}}': {{b}}}\nfor {{@w}} in [{{a}}, '{{@k2}}', '{{@k3}}']:\n    print({{@w}}, {{@w}} in {{@d}})",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 60 },
+        "b": { "gen": "int", "min": 1, "max": 60 }
+      },
+      "themes": {
+        "menu": { "d": "menu", "w": "item", "k1": "tea", "k2": "pie", "k3": "jam" },
+        "phones": { "d": "phones", "w": "q", "k1": "Ada", "k2": "Ben", "k3": "Kai" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "in-checks-values",
+          "find": "{{@w}} in {{@d}})",
+          "replace": "{{@w}} in {{@d}}.values())",
+          "belief": "in checks the values of {{@d}}, not its keys",
+          "refutation": "in on a dictionary looks only at its keys; use values() to search the values.",
+          "rule": "key in d checks the keys only."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-dict-example",
+      "tag": "dict-access-missing-key",
+      "family": "safe-lookup",
+      "kind": "example",
+      "code": "{{@stock}} = {'{{@k1}}': {{a}}, '{{@k2}}': {{b}}}\nprint({{@stock}}.get('{{@k1}}', 0))\nprint({{@stock}}.get('{{@k3}}', 0))\nif '{{@k3}}' in {{@stock}}:\n    print({{@stock}}['{{@k3}}'])\nprint(len({{@stock}}))",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 60 },
+        "b": { "gen": "int", "min": 1, "max": 60 }
+      },
+      "themes": {
+        "shop": { "stock": "stock", "k1": "pens", "k2": "ink", "k3": "tape" },
+        "zoo": { "stock": "animals", "k1": "owl", "k2": "yak", "k3": "emu" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "Present key: its value" },
+        { "line": 3, "label": "Missing key: the default" },
+        { "line": 4, "label": "Check keys before indexing" },
+        { "line": 6, "label": "get never added keys" }
+      ]
+    },
+    {
+      "id": "py-dict-bill",
+      "tag": "dict-access-missing-key",
+      "family": "bill",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@prices}}, {{@items}}):\n    {{@total}} = 0\n    for {{@item}} in {{@items}}:\n        {{@price}} = [[1]]\n        {{@total}} = {{@total}} + {{@price}}\n    return {{@total}}",
+      "slots": {
+        "f": { "gen": "word", "pool": "fruits" },
+        "a": { "gen": "int", "min": 2, "max": 20 },
+        "a2": { "gen": "derive", "expr": "2 * a" }
+      },
+      "themes": {
+        "shop": {
+          "fn": "bill",
+          "prices": "prices",
+          "items": "cart",
+          "total": "total",
+          "item": "item",
+          "price": "cost"
+        },
+        "cafe": {
+          "fn": "order_total",
+          "prices": "menu",
+          "items": "order",
+          "total": "due",
+          "item": "dish",
+          "price": "each"
+        }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@prices}}.get({{@item}}, 0)"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@prices}}[{{@item}}]", "misconceptionId": "missing-key-none" }
+      ],
+      "harness": "check({{@fn}}({'tea': 2, 'pie': 5}, ['tea', 'pie', 'tea']) == 9, 'adds the listed prices')\ncheck({{@fn}}({'tea': 2}, ['tea', 'cake']) == 2, 'unknown items cost 0')\ncheck({{@fn}}({'{{f}}': {{a}}}, ['{{f}}', '{{f}}']) == {{a2}}, 'the same item twice')"
+    },
+    {
+      "id": "py-dict-contrast",
+      "tag": "dict-access-missing-key",
+      "family": "get-vs-bracket",
+      "kind": "contrast",
+      "code": "{{@d}} = {'{{@k1}}': {{a}}}\nprint({{@d}}.get('{{@k3}}'))",
+      "contrastCode": "{{@d}} = {'{{@k1}}': {{a}}}\nprint({{@d}}['{{@k3}}'])",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 60 }
+      },
+      "themes": {
+        "ages": { "d": "ages", "k1": "Ada", "k3": "Cleo" },
+        "prices": { "d": "prices", "k1": "tea", "k3": "soup" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "missing-key-none",
+      "rule": "d[key] raises KeyError for a missing key; get does not."
+    },
+    {
+      "id": "py-count-assign-one",
+      "tag": "counting-with-dict",
+      "family": "assign-one",
+      "kind": "probe",
+      "code": "{{@seen}} = {}\nfor {{@w}} in ['{{a}}', '{{b}}', '{{a}}', '{{b}}', '{{a}}']:\n    {{@seen}}[{{@w}}] = 1\nprint({{@seen}})",
+      "slots": {
+        "a": { "gen": "word", "pool": "animals" },
+        "b": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "votes": { "seen": "votes", "w": "vote" },
+        "words": { "seen": "counts", "w": "word" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "assign-one-each-time",
+          "find": "{{@seen}}[{{@w}}] = 1",
+          "replace": "{{@seen}}[{{@w}}] = {{@seen}}.get({{@w}}, 0) + 1",
+          "belief": "{{@seen}}[{{@w}}] = 1 adds one each time {{@w}} appears",
+          "refutation": "Assigning a fixed value overwrites whatever was there, so a repeated word never counts any higher.",
+          "rule": "Add to the old count: counts.get(w, 0) + 1."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-count-increment-missing",
+      "tag": "counting-with-dict",
+      "family": "increment-missing",
+      "kind": "probe",
+      "code": "{{@counts}} = {}\nfor {{@w}} in ['{{a}}', '{{b}}', '{{a}}']:\n    {{@counts}}[{{@w}}] += 1\nprint({{@counts}})",
+      "slots": {
+        "a": { "gen": "word", "pool": "colors" },
+        "b": { "gen": "word", "pool": "animals" }
+      },
+      "themes": {
+        "colors": { "counts": "tally", "w": "color" },
+        "pets": { "counts": "pets", "w": "pet" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "increment-missing-key",
+          "find": "{{@counts}}[{{@w}}] += 1",
+          "replace": "{{@counts}}[{{@w}}] = {{@counts}}.get({{@w}}, 0) + 1",
+          "belief": "+= 1 works before {{@w}} is a key",
+          "refutation": "+= first reads the current count, and reading a key that is not there yet raises an error.",
+          "rule": "Give a new key a start value, for example with get."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-count-reset-inside",
+      "tag": "counting-with-dict",
+      "family": "reset-inside",
+      "kind": "probe",
+      "code": "{{@counts}} = {}\nfor {{@w}} in ['{{a}}', '{{b}}', '{{a}}', '{{c}}']:\n    {{@counts}} = {}\n    {{@counts}}[{{@w}}] = {{@counts}}.get({{@w}}, 0) + 1\nprint({{@counts}})\nprint(len({{@counts}}))",
+      "slots": {
+        "a": { "gen": "word", "pool": "animals" },
+        "b": { "gen": "word", "pool": "fruits" },
+        "c": { "gen": "word", "pool": "colors" }
+      },
+      "themes": {
+        "survey": { "counts": "answers", "w": "answer" },
+        "stock": { "counts": "stock", "w": "item" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "counts-dict-inside-loop",
+          "find": "    {{@counts}} = {}",
+          "replace": "    pass",
+          "belief": "{{@counts}} keeps the earlier counts across passes",
+          "refutation": "{{@counts}} = {} inside the loop throws the dictionary away on every pass, so only the last word survives.",
+          "rule": "Create the counting dict once, before the loop."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-count-example",
+      "tag": "counting-with-dict",
+      "family": "letters",
+      "kind": "example",
+      "code": "{{@counts}} = {}\nfor {{@ch}} in '{{word}}':\n    {{@counts}}[{{@ch}}] = {{@counts}}.get({{@ch}}, 0) + 1\nprint({{@counts}})\nprint(max({{@counts}}, key={{@counts}}.get))",
+      "slots": {
+        "word": { "gen": "pick", "options": ["banana", "letter", "coffee", "pepper", "mississippi", "committee"] }
+      },
+      "themes": {
+        "letters": { "counts": "counts", "ch": "ch" },
+        "tally": { "counts": "tally", "ch": "letter" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 1, "label": "Empty dict, once, before loop" },
+        { "line": 3, "label": "Old count or 0, plus 1" },
+        { "line": 5, "label": "Key with the biggest count" }
+      ]
+    },
+    {
+      "id": "py-count-words",
+      "tag": "counting-with-dict",
+      "family": "word-counts",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@words}}):\n    {{@counts}} = {}\n    for {{@w}} in {{@words}}:\n        {{@w}} = {{@w}}.lower()\n        {{@counts}}[{{@w}}] = [[1]]\n    return {{@counts}}",
+      "slots": {
+        "x": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "words": { "fn": "word_counts", "words": "words", "counts": "counts", "w": "word" },
+        "votes": { "fn": "tally", "words": "ballots", "counts": "totals", "w": "name" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@counts}}.get({{@w}}, 0) + 1"],
+      "wrongFills": [
+        { "blank": 1, "fill": "1", "misconceptionId": "assign-one-each-time" },
+        { "blank": 1, "fill": "{{@counts}}[{{@w}}] + 1", "misconceptionId": "increment-missing-key" }
+      ],
+      "harness": "check({{@fn}}(['a', 'B', 'b']) == {'a': 1, 'b': 2}, 'counts, ignoring case')\ncheck({{@fn}}([]) == {}, 'nothing to count')\ncheck({{@fn}}(['{{x}}', '{{x}}', '{{x}}']) == {'{{x}}': 3}, 'one word three times')"
+    },
+    {
+      "id": "py-count-contrast",
+      "tag": "counting-with-dict",
+      "family": "add-vs-set",
+      "kind": "contrast",
+      "code": "{{@c}} = {}\nfor {{@w}} in ['{{a}}', '{{b}}', '{{a}}']:\n    {{@c}}[{{@w}}] = {{@c}}.get({{@w}}, 0) + 1\nprint({{@c}})",
+      "contrastCode": "{{@c}} = {}\nfor {{@w}} in ['{{a}}', '{{b}}', '{{a}}']:\n    {{@c}}[{{@w}}] = 1\nprint({{@c}})",
+      "slots": {
+        "a": { "gen": "word", "pool": "animals" },
+        "b": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "votes": { "c": "votes", "w": "vote" },
+        "words": { "c": "counts", "w": "word" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "assign-one-each-time",
+      "rule": "Add one to the old count; = 1 just resets it."
+    },
+    {
+      "id": "py-func-def-order",
+      "tag": "function-def-call",
+      "family": "def-order",
+      "kind": "probe",
+      "code": "print('{{w1}}')\ndef {{@fn}}():\n    print('{{w2}}')\nprint('{{w3}}')\n{{@fn}}()",
+      "slots": {
+        "w1": { "gen": "word", "pool": "colors" },
+        "w2": { "gen": "word", "pool": "animals" },
+        "w3": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "greet": { "fn": "greet" },
+        "alarm": { "fn": "ring" },
+        "menu": { "fn": "show_menu" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "def-runs-body",
+          "find": "print('{{w3}}')",
+          "replace": "{{@fn}}(); print('{{w3}}')",
+          "belief": "Defining {{@fn}} already runs its body",
+          "refutation": "def only stores the function; its body runs each time {{@fn}}() is called, which happens on the last line.",
+          "rule": "A function body runs only when the function is called."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-func-no-parens",
+      "tag": "function-def-call",
+      "family": "no-parens",
+      "kind": "probe",
+      "code": "def {{@fn}}():\n    print('{{w}}')\n    return {{n}}\n{{@x}} = {{@fn}}\nprint(type({{@x}}).__name__)",
+      "slots": {
+        "w": { "gen": "word", "pool": "animals" },
+        "n": { "gen": "int", "min": 2, "max": 99 }
+      },
+      "themes": {
+        "roll": { "fn": "roll", "x": "result" },
+        "fetch": { "fn": "get_score", "x": "score" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "name-without-parens-calls",
+          "find": "{{@x}} = {{@fn}}",
+          "replace": "{{@x}} = {{@fn}}()",
+          "belief": "{{@x}} = {{@fn}} calls {{@fn}} and stores its result",
+          "refutation": "Without parentheses nothing is called: {{@x}} just becomes another name for the function itself.",
+          "rule": "Only name() calls a function; the bare name is the function."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-func-by-position",
+      "tag": "function-def-call",
+      "family": "by-position",
+      "kind": "probe",
+      "code": "def {{@fn}}({{@first}}, {{@last}}):\n    return {{@first}} + ' ' + {{@last}}\n{{@first}} = '{{w1}}'\n{{@last}} = '{{w2}}'\nprint({{@fn}}({{@last}}, {{@first}}))",
+      "slots": {
+        "w1": { "gen": "word", "pool": "names" },
+        "w2": { "gen": "word", "pool": "cities" }
+      },
+      "themes": {
+        "person": { "fn": "label", "first": "first", "last": "last" },
+        "trip": { "fn": "route", "first": "start", "last": "end" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "args-match-by-name",
+          "find": "{{@fn}}({{@last}}, {{@first}})",
+          "replace": "{{@fn}}({{@first}}, {{@last}})",
+          "belief": "Arguments match parameters with the same names, whatever the order",
+          "refutation": "Arguments are matched by position: the first value goes to the first parameter, whatever the caller's variable is called.",
+          "rule": "Positional arguments fill parameters in order, ignoring names."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-func-example",
+      "tag": "function-def-call",
+      "family": "area",
+      "kind": "example",
+      "code": "def {{@fn}}({{@w}}, {{@h}}):\n    {{@area}} = {{@w}} * {{@h}}\n    return {{@area}}\nprint({{@fn}}({{a}}, {{b}}))\nprint({{@fn}}({{c}}, {{d}}))",
+      "slots": {
+        "a": { "gen": "int", "min": 2, "max": 9 },
+        "b": { "gen": "int", "min": 2, "max": 9 },
+        "c": { "gen": "int", "min": 10, "max": 20 },
+        "d": { "gen": "int", "min": 2, "max": 9 }
+      },
+      "themes": {
+        "room": { "fn": "room_area", "w": "width", "h": "length", "area": "area" },
+        "tile": { "fn": "tiles", "w": "cols", "h": "rows", "area": "count" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 1, "label": "Define: name and parameters" },
+        { "line": 2, "label": "Body runs only when called" },
+        { "line": 3, "label": "Send the result back" },
+        { "line": 4, "label": "Call with arguments in order" },
+        { "line": 5, "label": "Same steps, new values" }
+      ]
+    },
+    {
+      "id": "py-func-helper-call",
+      "tag": "function-def-call",
+      "family": "helper-call",
+      "kind": "completion",
+      "code": "def {{@sq}}({{@x}}):\n    return {{@x}} * {{@x}}\n\ndef {{@fn}}({{@a}}, {{@b}}):\n    {{@total}} = [[1]] + {{@sq}}({{@b}})\n    return {{@total}}",
+      "slots": {
+        "p": { "gen": "int", "min": 2, "max": 9 },
+        "q": { "gen": "int", "min": 2, "max": 9 },
+        "r": { "gen": "derive", "expr": "p * p + q * q" }
+      },
+      "themes": {
+        "squares": { "sq": "square", "x": "n", "fn": "sum_squares", "a": "a", "b": "b", "total": "total" },
+        "rooms": { "sq": "area", "x": "side", "fn": "two_rooms", "a": "room1", "b": "room2", "total": "floor" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@sq}}({{@a}})"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@sq}}", "misconceptionId": "name-without-parens-calls" }
+      ],
+      "harness": "check({{@fn}}(3, 4) == 25, '3*3 + 4*4')\ncheck({{@fn}}({{p}}, {{q}}) == {{r}}, 'squares both values, then adds')"
+    },
+    {
+      "id": "py-func-contrast",
+      "tag": "function-def-call",
+      "family": "call-vs-name",
+      "kind": "contrast",
+      "code": "def {{@fn}}():\n    return '{{w}}'\nprint({{@fn}}() == '{{w}}')",
+      "contrastCode": "def {{@fn}}():\n    return '{{w}}'\nprint({{@fn}} == '{{w}}')",
+      "slots": {
+        "w": { "gen": "word", "pool": "animals" }
+      },
+      "themes": {
+        "roll": { "fn": "pick" },
+        "fetch": { "fn": "get_name" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "name-without-parens-calls",
+      "rule": "Only name() runs the function."
+    },
+    {
+      "id": "py-ret-print-not-return",
+      "tag": "function-return-vs-print",
+      "family": "print-not-return",
+      "kind": "probe",
+      "code": "def {{@fn}}({{@x}}):\n    print({{@x}} * {{k}})\n{{@r}} = {{@fn}}({{n}})\nprint({{@r}})",
+      "slots": {
+        "k": { "gen": "int", "min": 2, "max": 5 },
+        "n": { "gen": "int", "min": 3, "max": 20 }
+      },
+      "themes": {
+        "double": { "fn": "scale", "x": "n", "r": "result" },
+        "price": { "fn": "with_tax", "x": "cost", "r": "total" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "print-is-return",
+          "find": "print({{@x}} * {{k}})",
+          "replace": "print({{@x}} * {{k}}); return {{@x}} * {{k}}",
+          "belief": "Printing {{@x}} * {{k}} also hands the value back to {{@r}}",
+          "refutation": "print only shows text on screen; a function without return gives back nothing, so {{@r}} receives no value.",
+          "rule": "Only return sends a value back to the caller."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-ret-greeting",
+      "tag": "function-return-vs-print",
+      "family": "greeting",
+      "kind": "probe",
+      "code": "def {{@fn}}({{@name}}):\n    print('Hi ' + {{@name}})\n{{@msg}} = {{@fn}}('{{w}}')\nprint({{@msg}})",
+      "slots": {
+        "w": { "gen": "word", "pool": "names" }
+      },
+      "themes": {
+        "greet": { "fn": "greet", "name": "name", "msg": "msg" },
+        "hello": { "fn": "hello", "name": "who", "msg": "text" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "print-is-return",
+          "find": "print('Hi ' + {{@name}})",
+          "replace": "print('Hi ' + {{@name}}); return 'Hi ' + {{@name}}",
+          "belief": "The greeting printed inside {{@fn}} is also returned",
+          "refutation": "print only shows text on screen; {{@fn}} has no return line, so {{@msg}} receives no value.",
+          "rule": "Only return sends a value back to the caller."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-ret-silent",
+      "tag": "function-return-vs-print",
+      "family": "return-silent",
+      "kind": "probe",
+      "code": "def {{@fn}}({{@a}}):\n    return {{@a}} * 2\n{{@fn}}({{x}})\n{{@r}} = {{@fn}}({{y}})\nprint('{{@r}}:', {{@r}})",
+      "slots": {
+        "x": { "gen": "int", "min": 5, "max": 9 },
+        "y": { "gen": "int", "min": 10, "max": 20 }
+      },
+      "themes": {
+        "doubler": { "fn": "twice", "a": "n", "r": "out" },
+        "score": { "fn": "bonus", "a": "pts", "r": "final" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "return-prints",
+          "find": "{{@fn}}({{x}})",
+          "replace": "print({{@fn}}({{x}}))",
+          "belief": "return shows the value on the screen",
+          "refutation": "return hands the value back silently; the bare call on the third line throws it away without showing it.",
+          "rule": "Returned values appear only if you print them."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "py-ret-after-return",
+      "tag": "function-return-vs-print",
+      "family": "after-return",
+      "kind": "probe",
+      "code": "def {{@fn}}({{@x}}):\n    return {{@x}} + {{k}}\n    print('{{w}}')\nprint([{{@fn}}({{n}}), {{@fn}}({{m}})])",
+      "slots": {
+        "k": { "gen": "int", "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 40 },
+        "m": { "gen": "int", "min": 41, "max": 60 },
+        "w": { "gen": "word", "pool": "animals" }
+      },
+      "themes": {
+        "age": { "fn": "next_age", "x": "age" },
+        "level": { "fn": "level_up", "x": "level" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "code-after-return-runs",
+          "find": "return {{@x}} + {{k}}",
+          "replace": "print('{{w}}'); return {{@x}} + {{k}}",
+          "belief": "The print after return still runs",
+          "refutation": "return ends the function immediately; any line after it in the same block is never reached.",
+          "rule": "Nothing after return runs."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "py-ret-in-loop",
+      "tag": "function-return-vs-print",
+      "family": "return-in-loop",
+      "kind": "probe",
+      "code": "def {{@fn}}({{@words}}):\n    {{@out}} = []\n    for {{@w}} in {{@words}}:\n        {{@out}} = {{@out}} + [len({{@w}})]\n        return {{@out}}\nprint({{@fn}}({{wl}}))",
+      "slots": {
+        "wl": { "gen": "wordList", "pool": "fruits", "minLen": 3, "maxLen": 4, "distinct": true }
+      },
+      "themes": {
+        "lengths": { "fn": "lengths", "words": "words", "out": "sizes", "w": "w" },
+        "names": { "fn": "name_sizes", "words": "names", "out": "result", "w": "name" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "return-in-loop-continues",
+          "find": "        return {{@out}}",
+          "replace": "    return {{@out}}",
+          "belief": "return inside the loop only ends that pass",
+          "refutation": "return leaves the whole function at once, in the middle of the first pass; the loop never gets a second turn.",
+          "rule": "return exits the function, ending any loop inside it."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "py-ret-example",
+      "tag": "function-return-vs-print",
+      "family": "reuse-result",
+      "kind": "example",
+      "code": "def {{@fn}}({{@price}}):\n    {{@total}} = {{@price}} + {{@price}} * {{p}} // 100\n    return {{@total}}\n{{@cost}} = {{@fn}}({{x}})\nprint({{@cost}})\nprint({{@fn}}({{y}}) + 1)",
+      "slots": {
+        "p": { "gen": "pick", "options": [10, 20, 25] },
+        "x": { "gen": "int", "min": 20, "max": 99 },
+        "y": { "gen": "int", "min": 100, "max": 200 }
+      },
+      "themes": {
+        "tax": { "fn": "with_tax", "price": "price", "total": "total", "cost": "cost" },
+        "tip": { "fn": "with_tip", "price": "bill", "total": "due", "cost": "paid" }
+      },
+      "transforms": [],
+      "parSec": 15,
+      "subgoals": [
+        { "line": 2, "label": "Compute inside the function" },
+        { "line": 3, "label": "Hand the value back" },
+        { "line": 4, "label": "Catch the returned value" },
+        { "line": 5, "label": "Print it where needed" },
+        { "line": 6, "label": "Returned values can be reused" }
+      ]
+    },
+    {
+      "id": "py-ret-first-above",
+      "tag": "function-return-vs-print",
+      "family": "first-above",
+      "kind": "completion",
+      "code": "def {{@fn}}({{@xs}}, {{@limit}}):\n    # the first value above the limit, or None\n    for {{@x}} in {{@xs}}:\n        if {{@x}} > {{@limit}}:\n            [[1]]\n    return None",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "lim": { "gen": "int", "min": 10, "max": 19 },
+        "b": { "gen": "int", "min": 20, "max": 29 }
+      },
+      "themes": {
+        "temps": { "fn": "first_hot", "xs": "temps", "limit": "limit", "x": "t" },
+        "bids": { "fn": "first_big_bid", "xs": "bids", "limit": "floor", "x": "bid" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["return {{@x}}"],
+      "wrongFills": [
+        { "blank": 1, "fill": "print({{@x}})", "misconceptionId": "print-is-return" }
+      ],
+      "harness": "check({{@fn}}([1, 7, 9], 5) == 7, 'the first value above 5')\ncheck({{@fn}}([{{a}}, {{b}}], {{lim}}) == {{b}}, 'skips values at or below the limit')\ncheck({{@fn}}([1, 2], 5) is None, 'nothing above the limit')"
+    },
+    {
+      "id": "py-ret-contrast",
+      "tag": "function-return-vs-print",
+      "family": "print-vs-return",
+      "kind": "contrast",
+      "code": "def {{@fn}}({{@x}}):\n    return {{@x}} * 2\nprint({{@fn}}({{n}}) + 1)",
+      "contrastCode": "def {{@fn}}({{@x}}):\n    print({{@x}} * 2)\nprint({{@fn}}({{n}}) + 1)",
+      "slots": {
+        "n": { "gen": "int", "min": 3, "max": 20 }
+      },
+      "themes": {
+        "double": { "fn": "double", "x": "n" },
+        "score": { "fn": "bonus", "x": "pts" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "misconceptionId": "print-is-return",
+      "rule": "print shows a value; only return hands it back."
+    },
+    {
+      "id": "py-tb-index",
+      "tag": "reading-tracebacks",
+      "family": "tb-index",
+      "kind": "traceback",
+      "code": "def {{@fn}}({{@xs}}, {{@i}}):\n    return {{@xs}}[{{@i}}]\n{{@data}} = {{vals}}\nprint({{@fn}}({{@data}}, 0))\nprint({{@fn}}({{@data}}, {{n}}))",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 99, "distinct": true },
+        "n": { "gen": "derive", "expr": "len(vals)" }
+      },
+      "themes": {
+        "scores": { "fn": "nth_score", "xs": "scores", "i": "i", "data": "results" },
+        "queue": { "fn": "pick", "xs": "items", "i": "pos", "data": "line" }
+      },
+      "transforms": [],
+      "parSec": 10
+    },
+    {
+      "id": "py-tb-key",
+      "tag": "reading-tracebacks",
+      "family": "tb-key",
+      "kind": "traceback",
+      "code": "def {{@fn}}({{@table}}, {{@key}}):\n    return {{@table}}[{{@key}}]\n{{@d}} = {'{{@k1}}': {{a}}, '{{@k2}}': {{b}}}\nprint({{@fn}}({{@d}}, '{{@k1}}'))\nprint({{@fn}}({{@d}}, '{{@k3}}'))",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 60 },
+        "b": { "gen": "int", "min": 1, "max": 60 }
+      },
+      "themes": {
+        "prices": {
+          "fn": "price_of",
+          "table": "table",
+          "key": "name",
+          "d": "prices",
+          "k1": "tea",
+          "k2": "cake",
+          "k3": "teas"
+        },
+        "ages": {
+          "fn": "age_of",
+          "table": "people",
+          "key": "who",
+          "d": "ages",
+          "k1": "Ada",
+          "k2": "Ben",
+          "k3": "ada"
+        }
+      },
+      "transforms": [],
+      "parSec": 10
+    },
+    {
+      "id": "py-tb-type",
+      "tag": "reading-tracebacks",
+      "family": "tb-type",
+      "kind": "traceback",
+      "code": "def {{@fn}}({{@a}}, {{@b}}):\n    return {{@a}} + {{@b}}\n{{@x}} = {{n}}\n{{@y}} = '{{m}}'\nprint({{@fn}}({{@x}}, {{@x}}))\nprint({{@fn}}({{@x}}, {{@y}}))",
+      "slots": {
+        "n": { "gen": "int", "min": 2, "max": 50 },
+        "m": { "gen": "int", "min": 2, "max": 50 }
+      },
+      "themes": {
+        "total": { "fn": "add", "a": "a", "b": "b", "x": "count", "y": "typed" },
+        "stock": { "fn": "restock", "a": "have", "b": "extra", "x": "shelf", "y": "delivery" }
+      },
+      "transforms": [],
+      "parSec": 10
+    },
+    {
+      "id": "py-tb-name",
+      "tag": "reading-tracebacks",
+      "family": "tb-name",
+      "kind": "traceback",
+      "code": "def {{@fn}}({{@w}}, {{@h}}):\n    {{@area}} = {{@w}} * {{@h}}\n    return {{@typo}}\nprint({{@fn}}({{a}}, {{b}}))",
+      "slots": {
+        "a": { "gen": "int", "min": 2, "max": 20 },
+        "b": { "gen": "int", "min": 2, "max": 20 }
+      },
+      "themes": {
+        "room": { "fn": "room_area", "w": "width", "h": "height", "area": "area", "typo": "aera" },
+        "box": { "fn": "box_size", "w": "side", "h": "depth", "area": "size", "typo": "sise" }
+      },
+      "transforms": [],
+      "parSec": 10
+    },
+    {
+      "id": "py-tb-attribute",
+      "tag": "reading-tracebacks",
+      "family": "tb-attribute",
+      "kind": "traceback",
+      "code": "def {{@fn}}({{@items}}, {{@x}}):\n    {{@items}}.append({{@x}})\n    return {{@items}}\nprint({{@fn}}([{{a}}], {{b}}))\nprint({{@fn}}('{{w}}', {{b}}))",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 10, "max": 99 },
+        "w": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "cart": { "fn": "add_item", "items": "items", "x": "item" },
+        "log": { "fn": "record", "items": "log", "x": "entry" }
+      },
+      "transforms": [],
+      "parSec": 10
+    },
+    {
+      "id": "py-tb-value",
+      "tag": "reading-tracebacks",
+      "family": "tb-value",
+      "kind": "traceback",
+      "code": "def {{@fn}}({{@text}}):\n    return int({{@text}}) * 2\nprint({{@fn}}('{{n}}'))\nprint({{@fn}}('{{w}}'))",
+      "slots": {
+        "n": { "gen": "int", "min": 2, "max": 99 },
+        "w": { "gen": "word", "pool": "colors" }
+      },
+      "themes": {
+        "form": { "fn": "double_input", "text": "text" },
+        "qty": { "fn": "parse_qty", "text": "raw" }
+      },
+      "transforms": [],
+      "parSec": 10
+    },
+    {
+      "id": "py-tb-zero",
+      "tag": "reading-tracebacks",
+      "family": "tb-zero",
+      "kind": "traceback",
+      "code": "def {{@fn}}({{@xs}}):\n    return sum({{@xs}}) / len({{@xs}})\nprint({{@fn}}({{vals}}))\nprint({{@fn}}([]))",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 20, "distinct": true }
+      },
+      "themes": {
+        "scores": { "fn": "average", "xs": "scores" },
+        "temps": { "fn": "mean_temp", "xs": "temps" }
+      },
+      "transforms": [],
+      "parSec": 10
+    }
+  ]
+}

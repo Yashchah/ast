@@ -1,0 +1,41 @@
+{
+  "commands": [
+    {
+      "command": "deliberate.predictOwn",
+      "title": "Predict My Function",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.jitAtom",
+      "title": "Practice the Pattern This Spec Needs (60 s drill)",
+      "category": "Deliberate"
+    }
+  ],
+  "keybindings": [
+    {
+      "command": "deliberate.predictOwn",
+      "key": "ctrl+alt+p",
+      "mac": "ctrl+alt+p",
+      "when": "deliberate.building && editorTextFocus"
+    }
+  ],
+  "menus": {
+    "commandPalette": [
+      {
+        "command": "deliberate.predictOwn",
+        "when": "deliberate.building"
+      },
+      {
+        "command": "deliberate.jitAtom",
+        "when": "false"
+      }
+    ]
+  },
+  "settings": {
+    "deliberate.polishReview": {
+      "type": "boolean",
+      "default": false,
+      "description": "After all behaviour specs pass (hidden ones included), also run a short background review of design, naming and robustness. Off by default: the coach checks understanding with what-if questions on your own code instead."
+    }
+  }
+}

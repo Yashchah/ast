@@ -1,0 +1,6 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Deliberate practice pad (JavaScript)",
+  "scopeName": "source.deliberate-pad-javascript",
+  "patterns": [{ "include": "source.js" }]
+}

@@ -1,0 +1,94 @@
+{
+  "commands": [
+    {
+      "command": "deliberate.warmup",
+      "title": "Warm-up (60 s of due items)",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.practiceWhileWaiting",
+      "title": "Practice While You Wait",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.retryPlan",
+      "title": "Retry the Roadmap",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.gate",
+      "title": "Open the Plan Check for This Task",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.placement",
+      "title": "Open the Placement Check",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.reveal",
+      "title": "Reveal the Stuck Piece",
+      "category": "Deliberate"
+    }
+  ],
+  "menus": {
+    "commandPalette": [
+      {
+        "command": "deliberate.gate",
+        "when": "false"
+      },
+      {
+        "command": "deliberate.placement",
+        "when": "false"
+      },
+      {
+        "command": "deliberate.practiceWhileWaiting",
+        "when": "!deliberate.building"
+      },
+      {
+        "command": "deliberate.reveal",
+        "when": "deliberate.building"
+      }
+    ]
+  },
+  "settings": {
+    "deliberate.planEffort": {
+      "type": "string",
+      "enum": [
+        "medium",
+        "high"
+      ],
+      "enumDescriptions": [
+        "The roadmap is designed at medium effort (about 40-70 s, in the background while you do the placement checks).",
+        "Higher effort for the roadmap call only: slower, and uses more of your plan."
+      ],
+      "default": "medium",
+      "description": "Reasoning effort for the background roadmap call (PlanOutline)."
+    },
+    "deliberate.maxFollowUps": {
+      "type": "number",
+      "default": 2,
+      "minimum": 0,
+      "description": "Maximum chained follow-up tasks on one concept. A follow-up is only created when the weakest task concept is below P 0.6 or has an active misconception."
+    },
+    "deliberate.backgroundConcurrency": {
+      "type": "number",
+      "default": 2,
+      "minimum": 1,
+      "maximum": 3,
+      "description": "How many background preparation calls (roadmap, task prep, practice packs, hints) may run at once."
+    },
+    "deliberate.backgroundCallsPerHour": {
+      "type": "number",
+      "default": 20,
+      "minimum": 6,
+      "description": "Rolling hourly budget for background model calls (4 of them are reserved for hint ladders). Halved for the session after a usage-limit error."
+    }
+  },
+  "_notes": [
+    "deliberate.sprint (Ctrl+Alt+S) is already in pad.package.json; register it as coach.sprint().",
+    "Remove the old deliberate.speedDrill command (the LLM drill is gone; the sprint replaces it).",
+    "deliberate.maxFollowUps changes its default from 4 to 2 (replace the existing setting).",
+    "deliberate.polishReview is in buildloop.package.json; deliberate.jitAtom too."
+  ]
+}

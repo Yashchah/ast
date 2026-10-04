@@ -1,0 +1,247 @@
+{
+  "activationEvents": [
+    "onFileSystem:deliberate-pad"
+  ],
+  "languages": [
+    {
+      "id": "deliberate-pad-python",
+      "aliases": ["Deliberate practice (Python)"],
+      "extensions": [".dlbpy"],
+      "configuration": "./syntaxes/pad-python.language-configuration.json"
+    },
+    {
+      "id": "deliberate-pad-javascript",
+      "aliases": ["Deliberate practice (JavaScript)"],
+      "extensions": [".dlbjs"],
+      "configuration": "./syntaxes/pad-javascript.language-configuration.json"
+    },
+    {
+      "id": "deliberate-pad-typescript",
+      "aliases": ["Deliberate practice (TypeScript)"],
+      "extensions": [".dlbts"],
+      "configuration": "./syntaxes/pad-typescript.language-configuration.json"
+    }
+  ],
+  "grammars": [
+    {
+      "language": "deliberate-pad-python",
+      "scopeName": "source.deliberate-pad-python",
+      "path": "./syntaxes/pad-python.tmLanguage.json"
+    },
+    {
+      "language": "deliberate-pad-javascript",
+      "scopeName": "source.deliberate-pad-javascript",
+      "path": "./syntaxes/pad-javascript.tmLanguage.json"
+    },
+    {
+      "language": "deliberate-pad-typescript",
+      "scopeName": "source.deliberate-pad-typescript",
+      "path": "./syntaxes/pad-typescript.tmLanguage.json"
+    }
+  ],
+  "configurationDefaults": {
+    "[deliberate-pad-python]": {
+      "editor.inlineSuggest.enabled": false,
+      "editor.quickSuggestions": { "other": "off", "comments": "off", "strings": "off" },
+      "editor.suggestOnTriggerCharacters": false,
+      "editor.wordBasedSuggestions": "off",
+      "editor.parameterHints.enabled": false,
+      "editor.insertSpaces": true,
+      "editor.tabSize": 4,
+      "editor.detectIndentation": false,
+      "editor.formatOnSave": false,
+      "editor.formatOnType": false,
+      "files.trimTrailingWhitespace": false,
+      "files.insertFinalNewline": false,
+      "files.trimFinalNewlines": false
+    },
+    "[deliberate-pad-javascript]": {
+      "editor.inlineSuggest.enabled": false,
+      "editor.quickSuggestions": { "other": "off", "comments": "off", "strings": "off" },
+      "editor.suggestOnTriggerCharacters": false,
+      "editor.wordBasedSuggestions": "off",
+      "editor.parameterHints.enabled": false,
+      "editor.insertSpaces": true,
+      "editor.tabSize": 4,
+      "editor.detectIndentation": false,
+      "editor.formatOnSave": false,
+      "editor.formatOnType": false,
+      "files.trimTrailingWhitespace": false,
+      "files.insertFinalNewline": false,
+      "files.trimFinalNewlines": false
+    },
+    "[deliberate-pad-typescript]": {
+      "editor.inlineSuggest.enabled": false,
+      "editor.quickSuggestions": { "other": "off", "comments": "off", "strings": "off" },
+      "editor.suggestOnTriggerCharacters": false,
+      "editor.wordBasedSuggestions": "off",
+      "editor.parameterHints.enabled": false,
+      "editor.insertSpaces": true,
+      "editor.tabSize": 4,
+      "editor.detectIndentation": false,
+      "editor.formatOnSave": false,
+      "editor.formatOnType": false,
+      "files.trimTrailingWhitespace": false,
+      "files.insertFinalNewline": false,
+      "files.trimFinalNewlines": false
+    }
+  },
+  "commands": [
+    {
+      "command": "deliberate.atomSubmit",
+      "title": "Submit Practice Answer",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.atomSubmitGuess",
+      "title": "Submit Practice Answer (I'm Guessing)",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.padYes",
+      "title": "Practice: Yes",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.padNo",
+      "title": "Practice: No",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.padPick",
+      "title": "Practice: Pick an Option",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.atomEscape",
+      "title": "Practice: Escape (twice to leave)",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.leavePractice",
+      "title": "Leave Practice",
+      "category": "Deliberate"
+    },
+    {
+      "command": "deliberate.sprint",
+      "title": "Sprint (3 min)",
+      "category": "Deliberate"
+    }
+  ],
+  "keybindings": [
+    {
+      "command": "deliberate.atomSubmit",
+      "key": "ctrl+enter",
+      "mac": "cmd+enter",
+      "when": "deliberate.atomFocused && editorTextFocus && !suggestWidgetVisible"
+    },
+    {
+      "command": "deliberate.atomSubmitGuess",
+      "key": "ctrl+shift+enter",
+      "mac": "cmd+shift+enter",
+      "when": "deliberate.atomFocused && editorTextFocus && !suggestWidgetVisible"
+    },
+    {
+      "command": "deliberate.padYes",
+      "key": "y",
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == yn"
+    },
+    {
+      "command": "deliberate.padNo",
+      "key": "n",
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == yn"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "1",
+      "args": 1,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick2"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "2",
+      "args": 2,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick2"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "1",
+      "args": 1,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "2",
+      "args": 2,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "3",
+      "args": 3,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "numpad1",
+      "args": 1,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick2"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "numpad2",
+      "args": 2,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick2"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "numpad1",
+      "args": 1,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "numpad2",
+      "args": 2,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+    },
+    {
+      "command": "deliberate.padPick",
+      "key": "numpad3",
+      "args": 3,
+      "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+    },
+    {
+      "command": "deliberate.atomEscape",
+      "key": "escape",
+      "when": "deliberate.atomFocused && editorTextFocus && !suggestWidgetVisible && !inSnippetMode && !findWidgetVisible && !editorHoverVisible && !renameInputVisible && !inlineChatVisible && !notificationToastsVisible && !editorHasSelection && !editorHasMultipleSelections"
+    },
+    {
+      "command": "deliberate.sprint",
+      "key": "ctrl+alt+s"
+    }
+  ],
+  "menus": {
+    "commandPalette": [
+      { "command": "deliberate.atomSubmit", "when": "false" },
+      { "command": "deliberate.atomSubmitGuess", "when": "false" },
+      { "command": "deliberate.padYes", "when": "false" },
+      { "command": "deliberate.padNo", "when": "false" },
+      { "command": "deliberate.padPick", "when": "false" },
+      { "command": "deliberate.atomEscape", "when": "false" },
+      { "command": "deliberate.leavePractice", "when": "deliberate.padOpen" }
+    ]
+  },
+  "settings": {
+    "deliberate.padColumn": {
+      "type": "string",
+      "enum": ["beside", "active"],
+      "enumDescriptions": [
+        "Open the practice pad in the editor group beside your code.",
+        "Open the practice pad in the active editor group, over your code (your file comes back when practice ends)."
+      ],
+      "default": "beside",
+      "description": "Where the practice pad (predict-the-output items, drills, placement) opens."
+    }
+  }
+}

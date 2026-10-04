@@ -1,0 +1,3809 @@
+{
+  "lang": "javascript",
+  "patterns": {
+    "variables-assignment": {
+      "kind": "shape",
+      "name": "Assign and reassign names",
+      "useWhen": "a value must be stored, updated or kept for later",
+      "template": "let <name> = <value>;\n<name> = <new value>;",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Assigning one name never changes another name",
+      "useCases": [
+        "Keep a running score that changes each round",
+        "Remember the old price before applying a discount",
+        "Swap the values of two variables",
+        "Count how many times a button was clicked",
+        "Store a player name typed by the user",
+        "Save the starting level before the game changes it"
+      ]
+    },
+    "numbers-int-float": {
+      "kind": "shape",
+      "name": "Whole and decimal numbers",
+      "useWhen": "you divide, round or compare decimal numbers",
+      "template": "<a> / <b>            // keeps the fraction\nMath.trunc(<x>)       // drops it",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Decimal sums like 0.1 + 0.2 are not exact",
+      "useCases": [
+        "Split a bill evenly between friends",
+        "Work out an average score",
+        "Round a price to whole euros",
+        "Check whether two measured lengths are equal",
+        "Turn 7.9 hours into whole hours worked",
+        "Compute a percentage of a total"
+      ]
+    },
+    "str-vs-number": {
+      "kind": "semantics",
+      "name": "Text versus number values",
+      "useWhen": "values come from text: forms, files, query strings",
+      "template": "",
+      "rule": "+ joins when either side is text; other math converts.",
+      "howItRuns": "'3' + 4 makes '34'; '3' - 1 makes 2; Number('3') turns text into a real number.",
+      "pitfall": "Form inputs are text even when they hold digits",
+      "useCases": [
+        "Add two quantities typed into a form",
+        "Sort version numbers stored as text",
+        "Build an order code from two parts",
+        "Read an age from a query string and add one",
+        "Compare a typed answer with a numeric solution",
+        "Total the numbers read from a CSV line"
+      ]
+    },
+    "string-indexing": {
+      "kind": "shape",
+      "name": "Index into a string",
+      "useWhen": "you need one character at a known position",
+      "template": "<text>[0]                   // first\n<text>[<text>.length - 1]   // last",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "The last index is length - 1; [-1] finds nothing",
+      "useCases": [
+        "Get the first letter of a name for an avatar",
+        "Check whether a sentence ends with a period",
+        "Read the check digit at the end of a code",
+        "Build initials from a first and last name",
+        "Find the middle character of a word",
+        "Test whether a file name starts with a dot"
+      ]
+    },
+    "string-methods": {
+      "kind": "shape",
+      "name": "Call string methods",
+      "useWhen": "text must be cleaned, changed or searched",
+      "template": "<text> = <text>.trim().toLowerCase();",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Methods return a new string; keep the result",
+      "useCases": [
+        "Clean the spaces around a typed email address",
+        "Compare two words ignoring upper and lower case",
+        "Replace a placeholder word in a message",
+        "Turn a title into a shouting headline",
+        "Remove the newline at the end of a line",
+        "Censor every copy of a banned word"
+      ]
+    },
+    "string-formatting": {
+      "kind": "shape",
+      "name": "Format values into text",
+      "useWhen": "values must be shown inside text, aligned or rounded",
+      "template": "`${<name>}: ${<value>.toFixed(2)}`",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "${} fills in only inside backticks",
+      "useCases": [
+        "Show a price with exactly two decimals",
+        "Build a greeting that includes the user name",
+        "Line up names in a column of a receipt",
+        "Print a progress message like 3 of 10",
+        "Pad order numbers with leading zeros",
+        "Show a percentage rounded to one decimal"
+      ]
+    },
+    "comparison-equality": {
+      "kind": "shape",
+      "name": "Compare values",
+      "useWhen": "you order or match strings and numbers",
+      "template": "<a> === <b>\n<low> <= <x> && <x> <= <high>",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Strings compare letter by letter, capitals before lowercase",
+      "useCases": [
+        "Check whether a word comes before another alphabetically",
+        "Test whether a temperature lies inside a range",
+        "Sort a list of names",
+        "Check a typed password against the stored one",
+        "Find the earlier of two dates written as text",
+        "Compare a score with the high score"
+      ]
+    },
+    "conditionals": {
+      "kind": "shape",
+      "name": "Branch with if and else",
+      "useWhen": "different values need different actions",
+      "template": "if (<cond>) {...}\nelse if (<cond2>) {...}\nelse {...}",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Only the first true branch of a chain runs",
+      "useCases": [
+        "Give a grade letter for a score",
+        "Pick a shipping price by order weight",
+        "Show a weather message for a temperature",
+        "Apply a discount only to members",
+        "Check whether a day is a weekend day",
+        "Choose a greeting by the hour of the day"
+      ]
+    },
+    "booleans-truthiness": {
+      "kind": "semantics",
+      "name": "Truthy and falsy values",
+      "useWhen": "a condition tests a value that is not true or false",
+      "template": "",
+      "rule": "Falsy: false, 0, empty string, null, undefined, NaN. All else truthy.",
+      "howItRuns": "if and || convert the value to true or false; || and && then hand back one of the values.",
+      "pitfall": "Empty arrays and '0' are truthy",
+      "useCases": [
+        "Show a fallback title when the title is empty",
+        "Skip an empty shopping cart",
+        "Use a default page size when none is given",
+        "Check whether a search returned any results",
+        "Keep a count of zero instead of replacing it",
+        "Decide whether a form field was filled in"
+      ]
+    },
+    "for-range-bounds": {
+      "kind": "shape",
+      "name": "Count with a range loop",
+      "useWhen": "something must repeat a known number of times",
+      "template": "for (let i = <start>; i < <end>; i++) {\n  <body>\n}",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "i < end stops before end; <= includes it",
+      "useCases": [
+        "Print the numbers 1 to 10",
+        "Visit every index of an array",
+        "Repeat a drawing step five times",
+        "Count down from 10 to 1",
+        "Take every second item of a list",
+        "Build a row of n stars"
+      ]
+    },
+    "loop-accumulator": {
+      "kind": "shape",
+      "name": "Accumulate in a loop",
+      "useWhen": "you need one result built from every item",
+      "template": "let total = <start>;\nfor (const <x> of <xs>) total = total <op> <x>;",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Set the starting value once, before the loop",
+      "useCases": [
+        "Add up the prices in a shopping cart",
+        "Count the words longer than five letters",
+        "Find the highest temperature of the week",
+        "Join names into one comma-separated string",
+        "Multiply all the numbers in a list together",
+        "Total the minutes of a playlist"
+      ]
+    },
+    "list-indexing": {
+      "kind": "shape",
+      "name": "Index into a list",
+      "useWhen": "you need the item at a known position",
+      "template": "<xs>[0]                  // first\n<xs>[<xs>.length - 1]    // last",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "The last index is length - 1; [-1] finds nothing",
+      "useCases": [
+        "Get the first player in a turn order",
+        "Read the newest entry at the end of a log",
+        "Swap the first and last items of a list",
+        "Check the runner-up in a ranked list",
+        "Read a value from a fixed column position",
+        "Get the middle reading of a sorted list"
+      ]
+    },
+    "list-slicing": {
+      "kind": "shape",
+      "name": "Slice a sequence",
+      "useWhen": "you need a run of items from an array or string",
+      "template": "<xs>.slice(<start>, <end>)   // end is excluded",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "The item at the end index is never included",
+      "useCases": [
+        "Take the first three scores from a list",
+        "Drop the header row from a list of lines",
+        "Get the last two characters of a file name",
+        "Keep a list without its first and last items",
+        "Split a list into a first half and a second half",
+        "Show one page of ten results"
+      ]
+    },
+    "list-mutation-methods": {
+      "kind": "shape",
+      "name": "Change a list in place",
+      "useWhen": "an array must grow or shrink in place",
+      "template": "<xs>.push(<item>);\nconst <last> = <xs>.pop();",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "push returns the new length, not the array",
+      "useCases": [
+        "Add a new message to a chat history",
+        "Undo the last action from a history list",
+        "Serve the first customer in a queue",
+        "Collect the even numbers into a new array",
+        "Add several rows to a table at once",
+        "Remove the oldest reading when the list is full"
+      ]
+    },
+    "alias-copy": {
+      "kind": "semantics",
+      "name": "Aliases share one object",
+      "useWhen": "two names might point at the same array or object",
+      "template": "",
+      "rule": "Assignment never copies: both names share one array.",
+      "howItRuns": "b = a makes b another name for the same array; changes through either name show in both.",
+      "pitfall": "Copy with [...a] before changing an array you must keep",
+      "useCases": [
+        "Keep the original list while sorting a copy",
+        "Pass an array to a function without it being changed",
+        "Store snapshots of a list for an undo history",
+        "Build a grid whose rows change independently",
+        "Reset a game board to its starting layout",
+        "Compare a list before and after editing it"
+      ]
+    },
+    "function-def-call": {
+      "kind": "shape",
+      "name": "Define and call a function",
+      "useWhen": "the same steps are needed in several places",
+      "template": "function <name>(<params>) {\n  return <result>;\n}",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "Without () the function is named, not called",
+      "useCases": [
+        "Compute the area of several rectangles",
+        "Format every price on a page the same way",
+        "Check whether a password is long enough",
+        "Convert temperatures from Celsius to Fahrenheit",
+        "Greet each user by name",
+        "Reuse a discount rule at checkout"
+      ]
+    },
+    "function-return-vs-print": {
+      "kind": "shape",
+      "name": "Return a value, not print",
+      "useWhen": "a function computes a value other code needs",
+      "template": "function <name>(<params>) {\n  return <value>;\n}",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "console.log shows a value; only return hands it back",
+      "useCases": [
+        "Compute a total that a later line adds tax to",
+        "Find the largest score and store it",
+        "Check a condition and use the answer in an if",
+        "Build a label string to show in two places",
+        "Stop searching as soon as a match is found",
+        "Convert units and feed the result to another function"
+      ]
+    },
+    "closure-late-binding": {
+      "kind": "semantics",
+      "name": "Closures read variables late",
+      "useWhen": "functions made in a loop run after the loop",
+      "template": "",
+      "rule": "Closures read a variable when they run, not when made.",
+      "howItRuns": "var gives the whole loop one shared i; let gives each pass its own i for its closures.",
+      "pitfall": "Use let, not var, for loop counters used in callbacks",
+      "useCases": [
+        "Attach a click handler to each button in a loop",
+        "Schedule several timers that each print their number",
+        "Build a list of functions that each remember an index",
+        "Create one callback per row of a table",
+        "Delay messages in a loop with setTimeout",
+        "Collect getter functions for each item"
+      ]
+    },
+    "reading-tracebacks": {
+      "kind": "shape",
+      "name": "Read a traceback",
+      "useWhen": "a program stops with an error and a stack trace",
+      "template": "TypeError: <message>\n    at <fn> (pad:<line>:<col>)   // failed here\n    at pad:<line>:<col>          // called from here",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "The first at line is where it failed",
+      "useCases": [
+        "Find which line crashed with a TypeError",
+        "Tell a typo in a name from a missing property",
+        "See which call passed a bad argument",
+        "Fix a function that reads a property of undefined",
+        "Understand a RangeError from a negative count",
+        "Trace an error back from a helper to its caller"
+      ]
+    },
+    "null-undefined": {
+      "kind": "semantics",
+      "name": "Null versus undefined",
+      "useWhen": "a value may be missing, unset or cleared",
+      "template": "",
+      "rule": "Missing is undefined; null is an empty value set on purpose.",
+      "howItRuns": "Unset variables and missing properties read as undefined; null appears only where code stores it.",
+      "pitfall": "typeof null is 'object', so test null with === null",
+      "useCases": [
+        "Read an optional setting that may be missing",
+        "Show a fallback name when a nickname is empty",
+        "Tell a cleared field from one never filled",
+        "Sum values when some entries are missing",
+        "Check whether a lookup found anything",
+        "Give a function parameter a default value"
+      ]
+    },
+    "loose-vs-strict-equality": {
+      "kind": "semantics",
+      "name": "Strict equality with ===",
+      "useWhen": "you compare values that may have different types",
+      "template": "",
+      "rule": "=== compares type and value; == converts types first.",
+      "howItRuns": "'5' == 5 converts the text and says true; '5' === 5 sees two types and says false.",
+      "pitfall": "NaN is never equal to anything, not even NaN",
+      "useCases": [
+        "Check a typed answer against a numeric solution",
+        "Test whether a value is null or undefined",
+        "Detect a failed number conversion",
+        "Compare an id from a URL with a stored id",
+        "Check whether an optional setting was given",
+        "Decide whether a count of zero means missing"
+      ]
+    },
+    "let-const-var-scope": {
+      "kind": "shape",
+      "name": "Block scope: let and const",
+      "useWhen": "you declare a name and decide where it may be used",
+      "template": "const <name> = <value>;   // never reassigned\nlet <name> = <value>;     // reassigned, block-scoped",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "const fixes the name, not the contents of the object",
+      "useCases": [
+        "Keep a loop counter from leaking out of the loop",
+        "Declare a list you will push items into",
+        "Track a running total that changes",
+        "Use a temporary value inside one if block",
+        "Avoid accidentally reusing a name from outer code",
+        "Mark a setting that must never be reassigned"
+      ]
+    },
+    "array-map-filter-reduce": {
+      "kind": "shape",
+      "name": "Map, filter and reduce",
+      "useWhen": "you transform, select or combine every item of an array",
+      "template": "<xs>.map((x) => <new>)\n<xs>.filter((x) => <test>)\n<xs>.reduce((acc, x) => <acc + x>, <start>)",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "An arrow with braces needs an explicit return",
+      "useCases": [
+        "Double every price in a list",
+        "Keep only the passing scores",
+        "Add up the lengths of all words",
+        "Turn a list of users into a list of names",
+        "Drop empty lines from a file",
+        "Find the longest word with one pass"
+      ]
+    },
+    "object-property-access": {
+      "kind": "shape",
+      "name": "Access object properties",
+      "useWhen": "you read or write a named property of an object",
+      "template": "<obj>.<name>        // fixed name\n<obj>[<variable>]   // name held in a variable",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "obj.key never reads the variable key",
+      "useCases": [
+        "Read a setting whose name the user picked",
+        "Count votes per candidate in an object",
+        "Read a nested city from a user address",
+        "Look up a price by product code",
+        "Update one field of a record",
+        "Safely read a property that may be missing"
+      ]
+    },
+    "this-method-call": {
+      "kind": "shape",
+      "name": "this in method calls",
+      "useWhen": "a method reads or changes its own object",
+      "template": "<obj>.<method>()            // this is <obj>\nconst f = <obj>.<method>.bind(<obj>);",
+      "rule": "",
+      "howItRuns": "",
+      "pitfall": "A method stored in a variable loses its this",
+      "useCases": [
+        "Pass an object method as a click handler",
+        "Let a counter object increase its own count",
+        "Chain deposit calls on a bank account object",
+        "Use a method inside an array callback",
+        "Store a method in a variable to call later",
+        "Read an object setting from inside its method"
+      ]
+    }
+  },
+  "templates": [
+    {
+      "id": "js-var-copy-reassign",
+      "tag": "variables-assignment",
+      "family": "copy-reassign",
+      "kind": "probe",
+      "code": "let {{@a}} = {{x}};\nlet {{@b}} = {{@a}};\nconsole.log({{@a}});\n{{@a}} = {{y}};\nconsole.log({{@a}}, {{@b}});",
+      "slots": { "x": { "gen": "int", "min": 1, "max": 9 }, "y": { "gen": "pick", "options": [100, 200, 300, 400, 500] } },
+      "themes": {
+        "price": { "a": "price", "b": "oldPrice" },
+        "score": { "a": "score", "b": "saved" },
+        "level": { "a": "level", "b": "start" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "print-sees-later-assignment",
+          "find": "console.log({{@a}});",
+          "replace": "console.log({{y}});",
+          "belief": "console.log shows a value assigned on a later line",
+          "refutation": "Lines run top to bottom: the first console.log prints before the next line assigns the new value.",
+          "rule": "Each line runs in order; later lines cannot change earlier output."
+        },
+        {
+          "misconceptionId": "assignment-links-names",
+          "find": "console.log({{@a}}, {{@b}});",
+          "replace": "console.log({{@a}}, {{@a}});",
+          "belief": "After b = a, reassigning a also changes b",
+          "refutation": "let {{@b}} = {{@a}} copies the number; reassigning {{@a}} later points only {{@a}} at a new value.",
+          "rule": "Reassigning one name never changes another name."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-var-swap",
+      "tag": "variables-assignment",
+      "family": "swap",
+      "kind": "probe",
+      "code": "let {{@a}} = {{x}};\nlet {{@b}} = {{y}};\n{{@a}} = {{@b}};\n{{@b}} = {{@a}};\nconsole.log({{@a}}, {{@b}});",
+      "slots": { "x": { "gen": "int", "min": 1, "max": 9 }, "y": { "gen": "pick", "options": [100, 200, 300, 400, 500] } },
+      "themes": {
+        "sides": { "a": "left", "b": "right" },
+        "teams": { "a": "home", "b": "away" },
+        "order": { "a": "first", "b": "second" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "swap-without-temp",
+          "find": "{{@b}} = {{@a}};",
+          "replace": "{{@b}} = {{x}};",
+          "belief": "a = b then b = a swaps the two values",
+          "refutation": "After {{@a}} = {{@b}} runs, {{@a}} already holds the value of {{@b}}, so the next line copies that same value back.",
+          "rule": "Swapping needs a temporary name to keep the old value."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-var-derived",
+      "tag": "variables-assignment",
+      "family": "derived",
+      "kind": "probe",
+      "code": "let {{@a}} = {{x}};\nconst {{@b}} = {{@a}} * 2;\n{{@a}} = {{@a}} + {{d}};\nconsole.log({{@a}}, {{@b}});",
+      "slots": { "x": { "gen": "int", "min": 2, "max": 20 }, "d": { "gen": "pick", "options": [11, 22, 33] } },
+      "themes": {
+        "base": { "a": "base", "b": "twice" },
+        "steps": { "a": "steps", "b": "goal" },
+        "hours": { "a": "hours", "b": "pay" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "assignment-links-names",
+          "find": "console.log({{@a}}, {{@b}});",
+          "replace": "console.log({{@a}}, {{@a}} * 2);",
+          "belief": "After b = a, reassigning a also changes b",
+          "refutation": "{{@b}} was computed once, when it was declared; changing {{@a}} afterwards does not recompute it.",
+          "rule": "A computed value stays fixed until you assign it again."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-var-example",
+      "tag": "variables-assignment",
+      "family": "snapshot",
+      "kind": "example",
+      "code": "let {{@total}} = 0;\n{{@total}} = {{@total}} + {{a}};\n{{@total}} = {{@total}} + {{b}};\nconst {{@saved}} = {{@total}};\n{{@total}} = 0;\nconsole.log({{@total}}, {{@saved}});",
+      "slots": { "a": { "gen": "int", "min": 2, "max": 9 }, "b": { "gen": "int", "min": 10, "max": 20 } },
+      "themes": { "cart": { "total": "total", "saved": "subtotal" }, "game": { "total": "points", "saved": "best" } },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "Start the running total" },
+        { "line": 2, "label": "Add the first amount" },
+        { "line": 3, "label": "Add the second amount" },
+        { "line": 4, "label": "Keep a snapshot of it" },
+        { "line": 5, "label": "Reset only the total" },
+        { "line": 6, "label": "Show both names" }
+      ]
+    },
+    {
+      "id": "js-var-complete-swap",
+      "tag": "variables-assignment",
+      "family": "swap-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}(pair) {\n  let first = pair[0];\n  let second = pair[1];\n  const temp = first;\n  first = second;\n  [[1]];\n  return [first, second];\n}",
+      "slots": {
+        "x": { "gen": "int", "min": 1, "max": 9 },
+        "y": { "gen": "int", "min": 10, "max": 20 },
+        "z": { "gen": "int", "min": 21, "max": 40 }
+      },
+      "themes": { "swap": { "fn": "swapPair" }, "flip": { "fn": "flip" }, "rev": { "fn": "reversePair" } },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["second = temp"],
+      "wrongFills": [{ "blank": 1, "fill": "second = first", "misconceptionId": "swap-without-temp" }],
+      "harness": "check(JSON.stringify({{@fn}}([{{x}}, {{y}}])) === '[{{y}},{{x}}]', 'swaps two numbers');\ncheck(JSON.stringify({{@fn}}([{{y}}, {{z}}])) === '[{{z}},{{y}}]', 'swaps another pair');"
+    },
+    {
+      "id": "js-num-divide",
+      "tag": "numbers-int-float",
+      "family": "divide",
+      "kind": "probe",
+      "code": "const {{@total}} = {{a}};\nconst {{@n}} = {{b}};\nconst {{@each}} = {{@total}} / {{@n}};\nconsole.log(JSON.stringify({{@each}}));",
+      "slots": {
+        "b": { "gen": "pick", "options": [2, 4, 5, 8] },
+        "q": { "gen": "int", "min": 2, "max": 9 },
+        "a": { "gen": "derive", "expr": "b * q + 1" }
+      },
+      "themes": {
+        "pizza": { "total": "slices", "n": "friends", "each": "share" },
+        "laps": { "total": "meters", "n": "laps", "each": "perLap" },
+        "budget": { "total": "budget", "n": "days", "each": "daily" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "division-gives-int",
+          "find": "{{@total}} / {{@n}};",
+          "replace": "Math.floor({{@total}} / {{@n}});",
+          "belief": "Dividing two whole numbers gives a whole number",
+          "refutation": "JavaScript has one number type, and / keeps the fraction. Only Math.floor or Math.trunc would drop it.",
+          "rule": "/ always keeps the fraction; Math.floor drops it."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-num-float-sum",
+      "tag": "numbers-int-float",
+      "family": "float-sum",
+      "kind": "probe",
+      "code": "const {{@a}} = 0.{{x}};\nconst {{@b}} = 0.{{y}};\nconst {{@sum}} = {{@a}} + {{@b}};\nconsole.log({{@sum}} === 0.{{z}});\nconsole.log(Math.round({{@sum}} * 10) === {{z}});",
+      "slots": {
+        "xy": { "gen": "pick", "options": [12, 17, 21, 24, 27, 36, 42, 63, 71, 72] },
+        "x": { "gen": "derive", "expr": "xy // 10" },
+        "y": { "gen": "derive", "expr": "xy % 10" },
+        "z": { "gen": "derive", "expr": "x + y" }
+      },
+      "themes": {
+        "price": { "a": "price", "b": "tax", "sum": "total" },
+        "pair": { "a": "first", "b": "second", "sum": "both" },
+        "rain": { "a": "morning", "b": "evening", "sum": "rain" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "float-math-exact",
+          "find": "const {{@sum}} = {{@a}} + {{@b}};",
+          "replace": "const {{@sum}} = 0.{{z}};",
+          "belief": "0.1 + 0.2 equals exactly 0.3",
+          "refutation": "Decimals like 0.{{x}} are stored as tiny binary approximations, so their sum lands a hair away from 0.{{z}}.",
+          "rule": "Compare decimals after rounding, never with ===."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-num-trunc",
+      "tag": "numbers-int-float",
+      "family": "trunc",
+      "kind": "probe",
+      "code": "const {{@raw}} = {{w}}.{{f}};\nconsole.log(JSON.stringify(Math.trunc({{@raw}})));\nconsole.log(JSON.stringify({{w}} / 2));",
+      "slots": {
+        "k": { "gen": "int", "min": 1, "max": 8 },
+        "w": { "gen": "derive", "expr": "10 * k + 9" },
+        "f": { "gen": "int", "min": 6, "max": 9 }
+      },
+      "themes": { "height": { "raw": "height" }, "weight": { "raw": "weight" }, "dist": { "raw": "distance" } },
+      "transforms": [
+        {
+          "misconceptionId": "int-conversion-rounds",
+          "find": "Math.trunc({{@raw}})",
+          "replace": "Math.round({{@raw}})",
+          "belief": "Converting 2.7 to a whole number rounds it to 3",
+          "refutation": "Math.trunc chops off the decimals and never rounds, however close the value is to the next number.",
+          "rule": "Math.trunc drops decimals; Math.round rounds."
+        },
+        {
+          "misconceptionId": "division-gives-int",
+          "find": "{{w}} / 2",
+          "replace": "Math.floor({{w}} / 2)",
+          "belief": "Dividing two whole numbers gives a whole number",
+          "refutation": "{{w}} is odd, and / keeps the half: JavaScript has one number type, so whole numbers can divide into fractions.",
+          "rule": "/ always keeps the fraction; Math.floor drops it."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-num-example",
+      "tag": "numbers-int-float",
+      "family": "share",
+      "kind": "example",
+      "code": "const {{@total}} = {{a}};\nconst {{@people}} = 4;\nconst {{@share}} = {{@total}} / {{@people}};\nconst {{@whole}} = Math.floor({{@share}});\nconst {{@left}} = {{@total}} % {{@people}};\nconsole.log({{@share}}, {{@whole}}, {{@left}});",
+      "slots": {
+        "q": { "gen": "int", "min": 3, "max": 9 },
+        "r": { "gen": "int", "min": 1, "max": 3 },
+        "a": { "gen": "derive", "expr": "4 * q + r" }
+      },
+      "themes": {
+        "cookies": { "total": "cookies", "people": "kids", "share": "each", "whole": "wholeEach", "left": "spare" },
+        "minutes": {
+          "total": "minutes",
+          "people": "tasks",
+          "share": "perTask",
+          "whole": "fullMinutes",
+          "left": "extra"
+        }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "The amount to split" },
+        { "line": 2, "label": "How many shares" },
+        { "line": 3, "label": "Exact share keeps decimals" },
+        { "line": 4, "label": "Round down to whole" },
+        { "line": 5, "label": "Remainder left over" },
+        { "line": 6, "label": "Show all three" }
+      ]
+    },
+    {
+      "id": "js-num-complete-average",
+      "tag": "numbers-int-float",
+      "family": "average-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@xs}}) {\n  let sum = 0;\n  for (const x of {{@xs}}) {\n    sum += x;\n  }\n  return [[1]];\n}",
+      "slots": {
+        "h": { "gen": "int", "min": 2, "max": 9 },
+        "a": { "gen": "int", "min": 0, "max": 4 },
+        "b": { "gen": "derive", "expr": "2 * h + 1 - a" },
+        "k": { "gen": "int", "min": 3, "max": 9 },
+        "g": { "gen": "derive", "expr": "h + k" },
+        "c": { "gen": "int", "min": 0, "max": 4 },
+        "d": { "gen": "derive", "expr": "2 * g + 1 - c" }
+      },
+      "themes": {
+        "scores": { "fn": "average", "xs": "scores" },
+        "temps": { "fn": "meanTemp", "xs": "temps" },
+        "prices": { "fn": "avgPrice", "xs": "prices" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["sum / {{@xs}}.length"],
+      "wrongFills": [
+        { "blank": 1, "fill": "Math.floor(sum / {{@xs}}.length)", "misconceptionId": "division-gives-int" }
+      ],
+      "harness": "check({{@fn}}([{{a}}, {{b}}]) === {{h}}.5, 'averages to a half');\ncheck({{@fn}}([{{c}}, {{d}}]) === {{g}}.5, 'averages another pair');"
+    },
+    {
+      "id": "js-svn-concat",
+      "tag": "str-vs-number",
+      "family": "concat",
+      "kind": "probe",
+      "code": "const {{@a}} = '{{x}}';\nconst {{@b}} = '{{y}}';\nconst {{@both}} = {{@a}} + {{@b}};\nconsole.log(JSON.stringify({{@both}}), typeof {{@both}});",
+      "slots": { "x": { "gen": "int", "min": 1, "max": 9 }, "y": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "code": { "a": "tens", "b": "ones", "both": "code" },
+        "phone": { "a": "area", "b": "line", "both": "phone" },
+        "stamp": { "a": "day", "b": "month", "both": "stamp" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "digit-strings-add",
+          "find": "const {{@both}} = {{@a}} + {{@b}};",
+          "replace": "const {{@both}} = Number({{@a}}) + Number({{@b}});",
+          "belief": "'2' + '3' adds them to make 5",
+          "refutation": "Both values are text in quotes, so + joins them side by side instead of adding them.",
+          "rule": "+ on two strings joins them; convert with Number first."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-svn-mixed",
+      "tag": "str-vs-number",
+      "family": "mixed",
+      "kind": "probe",
+      "code": "const {{@qty}} = '{{x}}';\nconst {{@more}} = {{@qty}} + {{y}};\nconst {{@less}} = {{@qty}} - {{z}};\nconsole.log(JSON.stringify({{@more}}), JSON.stringify({{@less}}));",
+      "slots": {
+        "x": { "gen": "int", "min": 2, "max": 9 },
+        "y": { "gen": "int", "min": 1, "max": 9 },
+        "z": { "gen": "int", "min": 1, "max": 2 }
+      },
+      "themes": {
+        "count": { "qty": "count", "more": "added", "less": "removed" },
+        "age": { "qty": "age", "more": "later", "less": "earlier" },
+        "stock": { "qty": "stock", "more": "restocked", "less": "sold" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "mixed-plus-adds",
+          "find": "const {{@more}} = {{@qty}} + {{y}};",
+          "replace": "const {{@more}} = Number({{@qty}}) + {{y}};",
+          "belief": "Adding a number to digit text does arithmetic",
+          "refutation": "When either side of + is text, JavaScript turns the number into text and joins them; only - forces arithmetic.",
+          "rule": "+ with any string joins text; - always does math."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-svn-compare",
+      "tag": "str-vs-number",
+      "family": "compare-text",
+      "kind": "probe",
+      "code": "const {{@a}} = '{{big}}';\nconst {{@b}} = '{{small}}';\nconsole.log({{@a}} < {{@b}}, {{@a}} > {{@b}});",
+      "slots": { "big": { "gen": "int", "min": 10, "max": 49 }, "small": { "gen": "int", "min": 5, "max": 9 } },
+      "themes": {
+        "page": { "a": "page", "b": "chapter" },
+        "lot": { "a": "lot", "b": "row" },
+        "room": { "a": "roomA", "b": "roomB" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "digit-strings-compare-numerically",
+          "find": "console.log({{@a}} < {{@b}}, {{@a}} > {{@b}});",
+          "replace": "console.log(Number({{@a}}) < Number({{@b}}), Number({{@a}}) > Number({{@b}}));",
+          "belief": "'10' < '9' compares them as numbers",
+          "refutation": "Text compares character by character from the left, so the first characters decide before length matters.",
+          "rule": "Strings compare letter by letter; convert to numbers first."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-svn-contrast",
+      "tag": "str-vs-number",
+      "family": "contrast-add",
+      "kind": "contrast",
+      "code": "const {{@a}} = '{{x}}';\nconst {{@b}} = '{{y}}';\nconsole.log(JSON.stringify(Number({{@a}}) + Number({{@b}})));",
+      "slots": { "x": { "gen": "int", "min": 1, "max": 9 }, "y": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": { "qty": { "a": "apples", "b": "pears" }, "form": { "a": "first", "b": "second" } },
+      "transforms": [],
+      "parSec": 5,
+      "contrastCode": "const {{@a}} = '{{x}}';\nconst {{@b}} = '{{y}}';\nconsole.log(JSON.stringify({{@a}} + {{@b}}));",
+      "misconceptionId": "digit-strings-add",
+      "rule": "+ joins strings; use Number() first to add them."
+    },
+    {
+      "id": "js-svn-example",
+      "tag": "str-vs-number",
+      "family": "convert",
+      "kind": "example",
+      "code": "const {{@input}} = '{{x}}';\nconst {{@extra}} = {{y}};\nconst {{@joined}} = {{@input}} + {{@extra}};\nconst {{@added}} = Number({{@input}}) + {{@extra}};\nconsole.log(JSON.stringify({{@joined}}), typeof {{@joined}});\nconsole.log(JSON.stringify({{@added}}), typeof {{@added}});",
+      "slots": { "x": { "gen": "int", "min": 2, "max": 9 }, "y": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "tickets": { "input": "typed", "extra": "bonus", "joined": "joined", "added": "added" },
+        "guests": { "input": "guests", "extra": "late", "joined": "text", "added": "total" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "Digits typed as text" },
+        { "line": 2, "label": "A real number" },
+        { "line": 3, "label": "Text plus number joins" },
+        { "line": 4, "label": "Convert first, then add" },
+        { "line": 5, "label": "Show the joined text" },
+        { "line": 6, "label": "Show the real sum" }
+      ]
+    },
+    {
+      "id": "js-svn-complete-total",
+      "tag": "str-vs-number",
+      "family": "total-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@items}}) {\n  let total = 0;\n  for (const text of {{@items}}) {\n    total = total + [[1]];\n  }\n  return total;\n}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 20 },
+        "b": { "gen": "int", "min": 1, "max": 20 },
+        "c": { "gen": "int", "min": 1, "max": 20 },
+        "d": { "gen": "int", "min": 1, "max": 20 },
+        "e": { "gen": "int", "min": 1, "max": 20 },
+        "s1": { "gen": "derive", "expr": "a + b" },
+        "s2": { "gen": "derive", "expr": "c + d + e" }
+      },
+      "themes": {
+        "qty": { "fn": "totalQty", "items": "fields" },
+        "inputs": { "fn": "sumInputs", "items": "inputs" },
+        "entries": { "fn": "addAll", "items": "entries" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["Number(text)"],
+      "wrongFills": [{ "blank": 1, "fill": "text", "misconceptionId": "mixed-plus-adds" }],
+      "harness": "check({{@fn}}(['{{a}}', '{{b}}']) === {{s1}}, 'adds two quantities');\ncheck({{@fn}}(['{{c}}', '{{d}}', '{{e}}']) === {{s2}}, 'adds three quantities');"
+    },
+    {
+      "id": "js-cmp-string-order",
+      "tag": "comparison-equality",
+      "family": "string-order",
+      "kind": "probe",
+      "code": "const {{@a}} = '{{w1}}';\nconst {{@b}} = '{{w2}}';\nconsole.log({{@a}} < {{@b}}, {{@a}} > {{@b}});",
+      "slots": {
+        "w1": {
+          "gen": "pick",
+          "options": ["avocado", "banana", "cherry", "apricot", "blueberry", "coconut", "cranberry", "elderberry"]
+        },
+        "w2": { "gen": "pick", "options": ["pear", "plum", "yam", "tea", "rye", "sage", "yuzu", "sloe"] }
+      },
+      "themes": {
+        "pair": { "a": "first", "b": "second" },
+        "sides": { "a": "left", "b": "right" },
+        "owners": { "a": "mine", "b": "yours" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "string-compare-by-length",
+          "find": "console.log({{@a}} < {{@b}}, {{@a}} > {{@b}});",
+          "replace": "console.log({{@a}}.length < {{@b}}.length, {{@a}}.length > {{@b}}.length);",
+          "belief": "Comparing two strings compares their lengths",
+          "refutation": "Strings compare like a dictionary: the first differing letter decides, and length only matters when one word is a prefix.",
+          "rule": "Strings compare letter by letter, like dictionary order."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-cmp-capitals",
+      "tag": "comparison-equality",
+      "family": "capitals",
+      "kind": "probe",
+      "code": "const {{@names}} = ['{{w}}', '{{N}}'];\n{{@names}}.sort();\nconsole.log({{@names}}.join(', '));",
+      "slots": { "w": { "gen": "word", "pool": "fruits" }, "N": { "gen": "word", "pool": "names" } },
+      "themes": {
+        "guests": { "names": "guests" },
+        "labels": { "names": "labels" },
+        "entries": { "names": "entries" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "capitals-compare-bigger",
+          "find": "{{@names}}.sort();",
+          "replace": "{{@names}}.sort().reverse();",
+          "belief": "Capital letters compare as bigger than lowercase ones",
+          "refutation": "Default sort compares character codes, and every capital letter has a smaller code than every lowercase letter.",
+          "rule": "Capitals sort before lowercase; compare lowercase copies for alphabetical order."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-cmp-chained",
+      "tag": "comparison-equality",
+      "family": "chained",
+      "kind": "probe",
+      "code": "const {{@x}} = {{v}};\nconsole.log({{lo}} < {{@x}} < {{hi}}, {{hi}} > {{@x}} > {{lo}});",
+      "slots": {
+        "lo": { "gen": "int", "min": 1, "max": 3 },
+        "hi": { "gen": "int", "min": 5, "max": 9 },
+        "k": { "gen": "int", "min": 1, "max": 20 },
+        "v": { "gen": "derive", "expr": "hi + k" }
+      },
+      "themes": { "temp": { "x": "temp" }, "age": { "x": "age" }, "speed": { "x": "speed" } },
+      "transforms": [
+        {
+          "misconceptionId": "chained-compare-math",
+          "find": "console.log({{lo}} < {{@x}} < {{hi}}, {{hi}} > {{@x}} > {{lo}});",
+          "replace": "console.log({{lo}} < {{@x}} && {{@x}} < {{hi}}, {{hi}} > {{@x}} && {{@x}} > {{lo}});",
+          "belief": "a < b < c checks both comparisons like in math",
+          "refutation": "JavaScript compares left to right: {{lo}} < {{@x}} becomes true or false first, and that boolean is then compared with {{hi}}.",
+          "rule": "Write a < b && b < c; chains compare a boolean."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-cmp-example",
+      "tag": "comparison-equality",
+      "family": "earlier-word",
+      "kind": "example",
+      "code": "const {{@a}} = '{{w1}}';\nconst {{@b}} = '{{w2}}';\nconst {{@first}} = {{@a}} < {{@b}} ? {{@a}} : {{@b}};\nconst {{@same}} = {{@a}}.toLowerCase() === {{@b}}.toLowerCase();\nconsole.log({{@first}}, {{@same}});",
+      "slots": { "w1": { "gen": "word", "pool": "fruits" }, "w2": { "gen": "word", "pool": "animals" } },
+      "themes": {
+        "words": { "a": "one", "b": "two", "first": "earlier", "same": "same" },
+        "tags": { "a": "tagA", "b": "tagB", "first": "firstTag", "same": "match" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "First word" },
+        { "line": 2, "label": "Second word" },
+        { "line": 3, "label": "Pick the earlier word" },
+        { "line": 4, "label": "Compare ignoring case" },
+        { "line": 5, "label": "Show both results" }
+      ]
+    },
+    {
+      "id": "js-cmp-complete-range",
+      "tag": "comparison-equality",
+      "family": "range-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}(low, value, high) {\n  if ([[1]]) {\n    return true;\n  }\n  return false;\n}",
+      "slots": {
+        "lo": { "gen": "int", "min": 1, "max": 3 },
+        "hi": { "gen": "int", "min": 6, "max": 9 },
+        "mid": { "gen": "derive", "expr": "lo + 2" },
+        "k": { "gen": "int", "min": 1, "max": 9 },
+        "big": { "gen": "derive", "expr": "hi + k" }
+      },
+      "themes": { "range": { "fn": "inRange" }, "between": { "fn": "isBetween" }, "limits": { "fn": "withinLimits" } },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["low <= value && value <= high"],
+      "wrongFills": [{ "blank": 1, "fill": "low <= value <= high", "misconceptionId": "chained-compare-math" }],
+      "harness": "check({{@fn}}({{lo}}, {{mid}}, {{hi}}) === true, 'a value inside the range');\ncheck({{@fn}}({{lo}}, {{big}}, {{hi}}) === false, 'a value above the range');\ncheck({{@fn}}({{lo}}, 0, {{hi}}) === false, 'a value below the range');"
+    },
+    {
+      "id": "js-eq-string-number",
+      "tag": "loose-vs-strict-equality",
+      "family": "string-number",
+      "kind": "probe",
+      "code": "const {{@input}} = '{{x}}';\nconst {{@target}} = {{x}};\nconsole.log({{@input}} == {{@target}});\nconsole.log({{@input}} === {{@target}});",
+      "slots": { "x": { "gen": "int", "min": 1, "max": 99 } },
+      "themes": {
+        "typed": { "input": "typed", "target": "answer" },
+        "field": { "input": "field", "target": "code" },
+        "raw": { "input": "raw", "target": "id" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "loose-equals-strict",
+          "find": "console.log({{@input}} == {{@target}});",
+          "replace": "console.log({{@input}} === {{@target}});",
+          "belief": "== and === always give the same answer",
+          "refutation": "== converts the text to a number before comparing; only === refuses to convert, so the two lines differ.",
+          "rule": "== converts types first; === compares type and value."
+        },
+        {
+          "misconceptionId": "strict-converts-types",
+          "find": "console.log({{@input}} === {{@target}});",
+          "replace": "console.log(Number({{@input}}) === {{@target}});",
+          "belief": "'1' === 1 is true",
+          "refutation": "=== never converts: text and a number are different types, so they are never strictly equal.",
+          "rule": "=== needs the same type and the same value."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-eq-nan",
+      "tag": "loose-vs-strict-equality",
+      "family": "nan",
+      "kind": "probe",
+      "code": "const {{@n}} = Number('{{w}}');\nconsole.log({{@n}} === {{@n}});\nconsole.log(Number.isNaN({{@n}}), typeof {{@n}});",
+      "slots": { "w": { "gen": "word", "pool": "fruits" } },
+      "themes": { "parsed": { "n": "parsed" }, "amount": { "n": "amount" }, "qty": { "n": "qty" } },
+      "transforms": [
+        {
+          "misconceptionId": "nan-equals-itself",
+          "find": "console.log({{@n}} === {{@n}});",
+          "replace": "console.log(Object.is({{@n}}, {{@n}}));",
+          "belief": "NaN === NaN is true",
+          "refutation": "Converting a word with Number gives NaN, the one value that is never equal to anything, itself included.",
+          "rule": "NaN never equals itself; test it with Number.isNaN."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-eq-null-zero",
+      "tag": "loose-vs-strict-equality",
+      "family": "null-zero",
+      "kind": "probe",
+      "code": "const {{@count}} = null;\nconsole.log({{@count}} == 0, {{@count}} >= 0);\nconsole.log({{@count}} == undefined);\nconsole.log({{@count}} ?? {{d}});",
+      "slots": { "d": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": { "stock": { "count": "stock" }, "score": { "count": "score" }, "selected": { "count": "selected" } },
+      "transforms": [
+        {
+          "misconceptionId": "null-loose-zero",
+          "find": "console.log({{@count}} == 0, {{@count}} >= 0);",
+          "replace": "console.log(Number({{@count}}) == 0, {{@count}} >= 0);",
+          "belief": "null == 0 is true",
+          "refutation": "== treats null as equal only to null and undefined; it never converts null to a number, unlike >=.",
+          "rule": "null == only matches null and undefined."
+        },
+        {
+          "misconceptionId": "loose-equals-strict",
+          "find": "console.log({{@count}} == undefined);",
+          "replace": "console.log({{@count}} === undefined);",
+          "belief": "== and === always give the same answer",
+          "refutation": "== counts null and undefined as equal, while === sees two different values.",
+          "rule": "== converts types first; === compares type and value."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-eq-contrast",
+      "tag": "loose-vs-strict-equality",
+      "family": "contrast-eq",
+      "kind": "contrast",
+      "code": "const {{@a}} = '{{x}}';\nconsole.log({{@a}} == {{x}});",
+      "slots": { "x": { "gen": "int", "min": 1, "max": 99 } },
+      "themes": { "input": { "a": "input" }, "code": { "a": "code" } },
+      "transforms": [],
+      "parSec": 5,
+      "contrastCode": "const {{@a}} = '{{x}}';\nconsole.log({{@a}} === {{x}});",
+      "misconceptionId": "strict-converts-types",
+      "rule": "=== never converts types; == converts before comparing."
+    },
+    {
+      "id": "js-eq-example",
+      "tag": "loose-vs-strict-equality",
+      "family": "form-check",
+      "kind": "example",
+      "code": "const {{@input}} = '{{x}}';\nconst {{@wanted}} = {{x}};\nconsole.log({{@input}} == {{@wanted}});\nconsole.log({{@input}} === {{@wanted}});\nconsole.log(Number({{@input}}) === {{@wanted}});",
+      "slots": { "x": { "gen": "int", "min": 1, "max": 99 } },
+      "themes": { "quiz": { "input": "typed", "wanted": "answer" }, "pin": { "input": "pin", "wanted": "stored" } },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "Text from a form" },
+        { "line": 2, "label": "The number we expect" },
+        { "line": 3, "label": "Loose: converts, then compares" },
+        { "line": 4, "label": "Strict: the types differ" },
+        { "line": 5, "label": "Convert first, then compare strictly" }
+      ]
+    },
+    {
+      "id": "js-eq-complete-match",
+      "tag": "loose-vs-strict-equality",
+      "family": "match-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}(text, wanted) {\n  const n = Number(text);\n  if ([[1]]) {\n    return 'match';\n  }\n  return 'no match';\n}",
+      "slots": {
+        "x": { "gen": "int", "min": 1, "max": 50 },
+        "k": { "gen": "int", "min": 1, "max": 9 },
+        "y": { "gen": "derive", "expr": "x + k" },
+        "w": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": { "matches": { "fn": "matches" }, "code": { "fn": "isCode" }, "same": { "fn": "sameNumber" } },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["n === wanted"],
+      "wrongFills": [{ "blank": 1, "fill": "text === wanted", "misconceptionId": "strict-converts-types" }],
+      "harness": "check({{@fn}}('{{x}}', {{x}}) === 'match', 'text digits match the number');\ncheck({{@fn}}('{{y}}', {{x}}) === 'no match', 'different numbers do not match');\ncheck({{@fn}}('{{w}}', NaN) === 'no match', 'a word never matches');"
+    },
+    {
+      "id": "js-nu-missing-prop",
+      "tag": "null-undefined",
+      "family": "missing-prop",
+      "kind": "probe",
+      "code": "const {{@obj}} = { {{@key}}: {{v}} };\nconst {{@got}} = {{@obj}}.{{@other}};\nconsole.log(String({{@got}}), typeof {{@got}});\nconsole.log({{@got}} + {{d}});",
+      "slots": { "v": { "gen": "int", "min": 1, "max": 99 }, "d": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "user": { "obj": "user", "key": "age", "other": "score", "got": "value" },
+        "order": { "obj": "order", "key": "qty", "other": "discount", "got": "found" },
+        "config": { "obj": "config", "key": "size", "other": "limit", "got": "setting" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "missing-property-null",
+          "find": "const {{@got}} = {{@obj}}.{{@other}};",
+          "replace": "const {{@got}} = {{@obj}}.{{@other}} ?? null;",
+          "belief": "A missing property is null",
+          "refutation": "{{@obj}} has no {{@other}} property; JavaScript only gives null where some code stored null on purpose.",
+          "rule": "Missing properties are undefined; null is only set on purpose."
+        },
+        {
+          "misconceptionId": "undefined-plus-number",
+          "find": "console.log({{@got}} + {{d}});",
+          "replace": "console.log(({{@got}} ?? 0) + {{d}});",
+          "belief": "undefined + 1 gives 1",
+          "refutation": "undefined is not zero: arithmetic with it cannot produce a real number. Give it a default with ?? first.",
+          "rule": "Default missing values with ?? before doing math."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-nu-typeof",
+      "tag": "null-undefined",
+      "family": "typeof",
+      "kind": "probe",
+      "code": "const {{@a}} = null;\nlet {{@b}};\nconsole.log(typeof {{@a}}, typeof {{@b}});\nconsole.log({{@a}} === {{@b}});\nconsole.log({{@a}} ?? {{d}}, {{@b}} ?? {{e}});",
+      "slots": { "d": { "gen": "int", "min": 1, "max": 9 }, "e": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "picked": { "a": "picked", "b": "pending" },
+        "winner": { "a": "winner", "b": "next" },
+        "cleared": { "a": "cleared", "b": "unset" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "typeof-null-is-null",
+          "find": "console.log(typeof {{@a}}, typeof {{@b}});",
+          "replace": "console.log(String({{@a}}), typeof {{@b}});",
+          "belief": "typeof null gives 'null'",
+          "refutation": "typeof null is a historical quirk and does not name null; test for null with === null instead.",
+          "rule": "Check for null with === null, not with typeof."
+        },
+        {
+          "misconceptionId": "null-strict-equals-undefined",
+          "find": "console.log({{@a}} === {{@b}});",
+          "replace": "console.log({{@a}} == {{@b}});",
+          "belief": "null === undefined is true",
+          "refutation": "null and undefined are two different values; only the loose == treats them as equal.",
+          "rule": "=== keeps null and undefined apart; == lumps them together."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-nu-undefined-total",
+      "tag": "null-undefined",
+      "family": "undefined-total",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nlet {{@total}};\nfor (const x of {{@xs}}) {\n  {{@total}} += x;\n}\nconsole.log({{@total}}, typeof {{@total}});",
+      "slots": { "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 9 } },
+      "themes": {
+        "prices": { "xs": "prices", "total": "total" },
+        "steps": { "xs": "steps", "total": "count" },
+        "scores": { "xs": "scores", "total": "sum" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "undefined-plus-number",
+          "find": "let {{@total}};",
+          "replace": "let {{@total}} = 0;",
+          "belief": "undefined + 1 gives 1",
+          "refutation": "{{@total}} starts as undefined, not zero, so the very first += already spoils the sum.",
+          "rule": "Start a running total at 0, never undefined."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-nu-contrast",
+      "tag": "null-undefined",
+      "family": "contrast-missing",
+      "kind": "contrast",
+      "code": "const {{@obj}} = { {{@key}}: null };\nconsole.log({{@obj}}.{{@key}}, {{n}});",
+      "slots": { "n": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": { "user": { "obj": "user", "key": "nickname" }, "order": { "obj": "order", "key": "coupon" } },
+      "transforms": [],
+      "parSec": 5,
+      "contrastCode": "const {{@obj}} = {};\nconsole.log({{@obj}}.{{@key}}, {{n}});",
+      "misconceptionId": "missing-property-null",
+      "rule": "A missing property is undefined; null is stored on purpose."
+    },
+    {
+      "id": "js-nu-example",
+      "tag": "null-undefined",
+      "family": "profile",
+      "kind": "example",
+      "code": "const {{@user}} = { name: '{{n}}', nickname: null };\nconsole.log({{@user}}.nickname, {{@user}}.age);\nconsole.log(typeof {{@user}}.nickname, typeof {{@user}}.age);\nconsole.log({{@user}}.nickname ?? 'none', {{@user}}.age ?? 'unknown');\nconsole.log({{@user}}.nickname == undefined, {{@user}}.nickname === undefined);",
+      "slots": { "n": { "gen": "word", "pool": "names" } },
+      "themes": { "user": { "user": "user" }, "member": { "user": "member" } },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "nickname cleared, age never set" },
+        { "line": 2, "label": "Read both properties" },
+        { "line": 3, "label": "typeof tells them apart" },
+        { "line": 4, "label": "?? fills in either one" },
+        { "line": 5, "label": "== lumps both together" }
+      ]
+    },
+    {
+      "id": "js-nu-complete-default",
+      "tag": "null-undefined",
+      "family": "default-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@opts}}) {\n  let value = {{@opts}}.{{@prop}};\n  if ([[1]]) {\n    value = {{dflt}};\n  }\n  return value;\n}",
+      "slots": { "dflt": { "gen": "int", "min": 10, "max": 20 }, "v": { "gen": "int", "min": 21, "max": 40 } },
+      "themes": {
+        "size": { "fn": "getSize", "opts": "options", "prop": "size" },
+        "limit": { "fn": "pageLimit", "opts": "query", "prop": "limit" },
+        "tries": { "fn": "retries", "opts": "settings", "prop": "tries" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["value === undefined"],
+      "wrongFills": [{ "blank": 1, "fill": "value === null", "misconceptionId": "missing-property-null" }],
+      "harness": "check({{@fn}}({}) === {{dflt}}, 'uses the default when missing');\ncheck({{@fn}}({ {{@prop}}: {{v}} }) === {{v}}, 'keeps a given value');"
+    },
+    {
+      "id": "js-if-chain",
+      "tag": "conditionals",
+      "family": "else-if-chain",
+      "kind": "probe",
+      "code": "const {{@n}} = {{v}};\nif ({{@n}} > {{a}}) {\n  console.log('{{@m1}}');\n} else if ({{@n}} > {{b}}) {\n  console.log('{{@m2}}');\n} else {\n  console.log('{{@m3}}');\n}",
+      "slots": {
+        "b": { "gen": "int", "min": 10, "max": 30 },
+        "a": { "gen": "derive", "expr": "b + 20" },
+        "k": { "gen": "int", "min": 1, "max": 30 },
+        "v": { "gen": "derive", "expr": "a + k" }
+      },
+      "themes": {
+        "temp": { "n": "temp", "m1": "hot", "m2": "warm", "m3": "cold" },
+        "medal": { "n": "score", "m1": "gold", "m2": "silver", "m3": "bronze" },
+        "speed": { "n": "speed", "m1": "fast", "m2": "steady", "m3": "slow" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "all-true-branches-run",
+          "find": "} else if ({{@n}} > {{b}}) {",
+          "replace": "} if ({{@n}} > {{b}}) {",
+          "belief": "Every branch whose condition is true runs",
+          "refutation": "else if is only checked when every condition above it was false; the first true branch ends the chain.",
+          "rule": "In an if/else chain only the first true branch runs."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-if-separate",
+      "tag": "conditionals",
+      "family": "separate-ifs",
+      "kind": "probe",
+      "code": "const {{@n}} = {{v}};\nif ({{@n}} > {{a}}) console.log('{{@m1}}');\nif ({{@n}} > {{b}}) console.log('{{@m2}}');\nconsole.log('{{@m3}}');",
+      "slots": {
+        "a": { "gen": "int", "min": 5, "max": 20 },
+        "b": { "gen": "int", "min": 5, "max": 20 },
+        "k": { "gen": "int", "min": 1, "max": 9 },
+        "v": { "gen": "derive", "expr": "max(a, b) + k" }
+      },
+      "themes": {
+        "points": { "n": "points", "m1": "bonus", "m2": "badge", "m3": "done" },
+        "cart": { "n": "items", "m1": "discount", "m2": "free shipping", "m3": "checkout" },
+        "level": { "n": "level", "m1": "unlock", "m2": "reward", "m3": "saved" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "separate-ifs-exclusive",
+          "find": "if ({{@n}} > {{b}}) console.log('{{@m2}}');",
+          "replace": "else if ({{@n}} > {{b}}) console.log('{{@m2}}');",
+          "belief": "Separate ifs act like elif: only one runs",
+          "refutation": "Two separate if statements are checked one after the other; without else, the second runs whether or not the first did.",
+          "rule": "Separate ifs are all checked; only else makes them exclusive."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-if-or",
+      "tag": "conditionals",
+      "family": "or-compare",
+      "kind": "probe",
+      "code": "const {{@thing}} = '{{w}}';\nif ({{@thing}} === '{{x}}' || '{{y}}') {\n  console.log('{{@yes}}');\n} else {\n  console.log('{{@no}}');\n}",
+      "slots": {
+        "w": { "gen": "pick", "options": ["red", "blue", "green", "pink", "teal"] },
+        "x": { "gen": "pick", "options": ["black", "white"] },
+        "y": { "gen": "pick", "options": ["gold", "gray"] }
+      },
+      "themes": {
+        "paint": { "thing": "color", "yes": "neutral", "no": "vivid" },
+        "shirt": { "thing": "shirt", "yes": "formal", "no": "casual" },
+        "car": { "thing": "car", "yes": "classic", "no": "modern" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "or-compares-both",
+          "find": "if ({{@thing}} === '{{x}}' || '{{y}}') {",
+          "replace": "if ({{@thing}} === '{{x}}' || {{@thing}} === '{{y}}') {",
+          "belief": "x == 'a' or 'b' compares x with both",
+          "refutation": "|| joins two separate conditions; '{{y}}' on its own is a non-empty string, which always counts as true.",
+          "rule": "Repeat the variable: x === 'a' || x === 'b'."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-if-example",
+      "tag": "conditionals",
+      "family": "advice",
+      "kind": "example",
+      "code": "const {{@temp}} = {{t}};\nlet {{@advice}};\nif ({{@temp}} > 25) {{@advice}} = 'shorts';\nelse if ({{@temp}} > 15) {{@advice}} = 'sweater';\nelse {{@advice}} = 'coat';\nconsole.log({{@advice}});",
+      "slots": { "t": { "gen": "int", "min": 5, "max": 35 } },
+      "themes": { "temp": { "temp": "temp", "advice": "advice" }, "wear": { "temp": "celsius", "advice": "wear" } },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "The value to test" },
+        { "line": 2, "label": "Filled in by one branch" },
+        { "line": 3, "label": "Checked first" },
+        { "line": 4, "label": "Only if the first failed" },
+        { "line": 5, "label": "Only if both failed" },
+        { "line": 6, "label": "Show the one result" }
+      ]
+    },
+    {
+      "id": "js-if-complete-label",
+      "tag": "conditionals",
+      "family": "label-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}(score) {\n  let label = 'low';\n  if (score >= {{hi}}) {\n    label = 'high';\n  } [[1]] (score >= {{lo}}) {\n    label = 'mid';\n  }\n  return label;\n}",
+      "slots": {
+        "lo": { "gen": "int", "min": 40, "max": 60 },
+        "hi": { "gen": "derive", "expr": "lo + 30" },
+        "k": { "gen": "int", "min": 1, "max": 9 },
+        "top": { "gen": "derive", "expr": "hi + k" },
+        "m": { "gen": "derive", "expr": "lo + 5" },
+        "bottom": { "gen": "derive", "expr": "lo - 10" }
+      },
+      "themes": { "grade": { "fn": "grade" }, "level": { "fn": "level" }, "band": { "fn": "band" } },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["else if"],
+      "wrongFills": [{ "blank": 1, "fill": "if", "misconceptionId": "separate-ifs-exclusive" }],
+      "harness": "check({{@fn}}({{top}}) === 'high', 'a top score');\ncheck({{@fn}}({{m}}) === 'mid', 'a middle score');\ncheck({{@fn}}({{bottom}}) === 'low', 'a low score');"
+    },
+    {
+      "id": "js-tru-empty-array",
+      "tag": "booleans-truthiness",
+      "family": "empty-array",
+      "kind": "probe",
+      "code": "const {{@items}} = [];\nif ({{@items}}) {\n  console.log('{{@yes}}');\n} else {\n  console.log('{{@no}}');\n}\nconsole.log({{@items}}.length || {{d}});",
+      "slots": { "d": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "cart": { "items": "cart", "yes": "checkout", "no": "browse" },
+        "inbox": { "items": "inbox", "yes": "read", "no": "relax" },
+        "queue": { "items": "queue", "yes": "serve", "no": "wait" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "empty-array-falsy",
+          "find": "if ({{@items}}) {",
+          "replace": "if ({{@items}}.length) {",
+          "belief": "An empty array counts as false in an if",
+          "refutation": "Every array is an object, and objects are always truthy, even with nothing inside; only its length can be zero.",
+          "rule": "Every array is truthy; test emptiness with .length."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-tru-zero-string",
+      "tag": "booleans-truthiness",
+      "family": "zero-string",
+      "kind": "probe",
+      "code": "const {{@count}} = '0';\nconst {{@n}} = {{d}};\nconsole.log({{@count}} ? 'yes' : 'no');\nconsole.log(Number({{@count}}) ? 'yes' : 'no');\nconsole.log({{@count}} || {{@n}});",
+      "slots": { "d": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "typed": { "count": "typed", "n": "fallback" },
+        "qty": { "count": "qty", "n": "standard" },
+        "field": { "count": "field", "n": "preset" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "zero-string-falsy",
+          "find": "console.log({{@count}} ? 'yes' : 'no');",
+          "replace": "console.log(Number({{@count}}) ? 'yes' : 'no');",
+          "belief": "The string '0' counts as false",
+          "refutation": "Only the empty string is falsy; '0' holds one character, so it counts as true until Number converts it.",
+          "rule": "Non-empty strings are truthy, even '0' and 'false'."
+        },
+        {
+          "misconceptionId": "and-or-return-bool",
+          "find": "console.log({{@count}} || {{@n}});",
+          "replace": "console.log(Boolean({{@count}} || {{@n}}));",
+          "belief": "and / or always give a boolean, never one of the values",
+          "refutation": "|| hands back one of its two values, the first truthy one, rather than a plain true or false.",
+          "rule": "a || b gives back a or b itself."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-tru-and-or",
+      "tag": "booleans-truthiness",
+      "family": "and-or-values",
+      "kind": "probe",
+      "code": "const {{@name}} = '{{w}}';\nconst {{@count}} = {{d}};\nconsole.log({{@name}} && {{@count}});\nconsole.log(0 || {{@name}});",
+      "slots": { "w": { "gen": "word", "pool": "names" }, "d": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": {
+        "user": { "name": "user", "count": "unread" },
+        "owner": { "name": "owner", "count": "pets" },
+        "player": { "name": "player", "count": "lives" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "and-or-return-bool",
+          "find": "console.log({{@name}} && {{@count}});",
+          "replace": "console.log(Boolean({{@name}} && {{@count}}));",
+          "belief": "and / or always give a boolean, never one of the values",
+          "refutation": "&& hands back one of its values: the first falsy one, or the last value when both are truthy.",
+          "rule": "a && b gives back a or b itself."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-tru-contrast",
+      "tag": "booleans-truthiness",
+      "family": "contrast-empty",
+      "kind": "contrast",
+      "code": "const {{@xs}} = [];\nconsole.log({{@xs}}.length ? '{{@full}}' : '{{@empty}}', {{n}});",
+      "slots": { "n": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "cart": { "xs": "cart", "full": "pay", "empty": "shop" },
+        "list": { "xs": "list", "full": "show", "empty": "hide" }
+      },
+      "transforms": [],
+      "parSec": 5,
+      "contrastCode": "const {{@xs}} = [];\nconsole.log({{@xs}} ? '{{@full}}' : '{{@empty}}', {{n}});",
+      "misconceptionId": "empty-array-falsy",
+      "rule": "Every array is truthy; test emptiness with .length."
+    },
+    {
+      "id": "js-tru-example",
+      "tag": "booleans-truthiness",
+      "family": "fallbacks",
+      "kind": "example",
+      "code": "const {{@tags}} = [];\nconst {{@title}} = '';\nconst {{@count}} = 0;\nconsole.log({{@tags}} ? 'truthy' : 'falsy');\nconsole.log({{@title}} || 'untitled');\nconsole.log({{@count}} || {{d}}, {{@count}} ?? {{d}});",
+      "slots": { "d": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": {
+        "post": { "tags": "tags", "title": "title", "count": "count" },
+        "photo": { "tags": "photos", "title": "caption", "count": "likes" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "An empty array" },
+        { "line": 2, "label": "An empty string" },
+        { "line": 3, "label": "Zero" },
+        { "line": 4, "label": "Arrays are always truthy" },
+        { "line": 5, "label": "Empty string falls back" },
+        { "line": 6, "label": "|| skips 0; ?? keeps it" }
+      ]
+    },
+    {
+      "id": "js-tru-complete-empty",
+      "tag": "booleans-truthiness",
+      "family": "empty-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@xs}}) {\n  if ([[1]]) {\n    return 'empty';\n  }\n  return 'has ' + {{@xs}}.length;\n}",
+      "slots": { "a": { "gen": "int", "min": 1, "max": 9 }, "b": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "items": { "fn": "describe", "xs": "items" },
+        "orders": { "fn": "summary", "xs": "orders" },
+        "tasks": { "fn": "status", "xs": "tasks" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@xs}}.length === 0"],
+      "wrongFills": [{ "blank": 1, "fill": "!{{@xs}}", "misconceptionId": "empty-array-falsy" }],
+      "harness": "check({{@fn}}([]) === 'empty', 'an empty list');\ncheck({{@fn}}([{{a}}, {{b}}]) === 'has 2', 'a list with two items');\ncheck({{@fn}}([{{a}}]) === 'has 1', 'a list with one item');"
+    },
+    {
+      "id": "js-scope-const-push",
+      "tag": "let-const-var-scope",
+      "family": "const-push",
+      "kind": "probe",
+      "code": "const {{@list}} = {{vals}};\n{{@list}}.push({{n}});\nconsole.log({{@list}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 99 }
+      },
+      "themes": { "scores": { "list": "scores" }, "ids": { "list": "ids" }, "levels": { "list": "levels" } },
+      "transforms": [
+        {
+          "misconceptionId": "const-freezes-contents",
+          "find": "{{@list}}.push({{n}});",
+          "replace": "Object.freeze({{@list}}).push({{n}});",
+          "belief": "const makes an object's contents unchangeable",
+          "refutation": "const only stops {{@list}} from being pointed at another array; the array itself can still change.",
+          "rule": "const fixes the name, not the contents."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-scope-block-let",
+      "tag": "let-const-var-scope",
+      "family": "block-let",
+      "kind": "probe",
+      "code": "let {{@x}} = {{a}};\nif ({{@x}} > 0) {\n  let {{@x}} = {{b}};\n  console.log({{@x}});\n}\nconsole.log({{@x}});",
+      "slots": { "a": { "gen": "int", "min": 1, "max": 9 }, "b": { "gen": "pick", "options": [100, 200, 300, 400, 500] } },
+      "themes": { "level": { "x": "level" }, "count": { "x": "count" }, "size": { "x": "size" } },
+      "transforms": [
+        {
+          "misconceptionId": "let-visible-after-block",
+          "find": "  let {{@x}} = {{b}};",
+          "replace": "  {{@x}} = {{b}};",
+          "belief": "A let inside a block is visible after it",
+          "refutation": "The inner let creates a second {{@x}} that lives only inside the braces; the outer {{@x}} is untouched.",
+          "rule": "A let inside braces disappears when the block ends."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-scope-var-vs-let",
+      "tag": "let-const-var-scope",
+      "family": "var-vs-let",
+      "kind": "probe",
+      "code": "{\n  var {{@a}} = {{x}};\n  let {{@b}} = {{y}};\n}\nconsole.log({{@a}});\nconsole.log(typeof {{@b}});",
+      "slots": { "x": { "gen": "int", "min": 1, "max": 9 }, "y": { "gen": "int", "min": 10, "max": 30 } },
+      "themes": {
+        "box": { "a": "width", "b": "depth" },
+        "trip": { "a": "miles", "b": "stops" },
+        "shop": { "a": "paid", "b": "change" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "var-block-scoped",
+          "find": "var {{@a}} = {{x}};",
+          "replace": "let {{@a}} = {{x}};",
+          "belief": "A var inside a block disappears after the block",
+          "refutation": "var ignores braces: it belongs to the whole function or script, so {{@a}} still exists after the block.",
+          "rule": "var ignores blocks; let and const stay inside them."
+        },
+        {
+          "misconceptionId": "let-visible-after-block",
+          "find": "let {{@b}} = {{y}};",
+          "replace": "var {{@b}} = {{y}};",
+          "belief": "A let inside a block is visible after it",
+          "refutation": "{{@b}} was made with let, so it exists only inside the braces; outside, the name is unknown.",
+          "rule": "A let inside braces disappears when the block ends."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-scope-var-loop",
+      "tag": "let-const-var-scope",
+      "family": "var-loop",
+      "kind": "probe",
+      "code": "let {{@total}} = 0;\nfor (var i = 1; i <= {{n}}; i++) {\n  {{@total}} += i * {{k}};\n}\nconsole.log({{@total}}, i);",
+      "slots": { "n": { "gen": "int", "min": 2, "max": 6 }, "k": { "gen": "int", "min": 1, "max": 5 } },
+      "themes": { "total": { "total": "total" }, "sum": { "total": "sum" }, "points": { "total": "points" } },
+      "transforms": [
+        {
+          "misconceptionId": "var-block-scoped",
+          "find": "for (var i = 1;",
+          "replace": "for (let i = 1;",
+          "belief": "A var inside a block disappears after the block",
+          "refutation": "A var loop counter is not limited to the loop; i survives after it, holding the value that ended the loop.",
+          "rule": "var ignores blocks; let and const stay inside them."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-scope-tdz",
+      "tag": "let-const-var-scope",
+      "family": "tdz",
+      "kind": "probe",
+      "code": "function {{@fn}}() {\n  return {{@second}} + {{d}};\n}\nconsole.log({{@fn}}());\nlet {{@second}} = {{a}};\nconsole.log({{@fn}}());",
+      "slots": { "a": { "gen": "int", "min": 1, "max": 9 }, "d": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "total": { "fn": "withTax", "second": "tax" },
+        "trip": { "fn": "endTime", "second": "start" },
+        "score": { "fn": "finalScore", "second": "bonus" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "use-before-let-undefined",
+          "find": "let {{@second}} = {{a}};",
+          "replace": "var {{@second}} = {{a}};",
+          "belief": "Using a let before its line gives undefined",
+          "refutation": "A let exists only from its own line onward; the first call reads {{@second}} too early, which is an error, not a missing value.",
+          "rule": "Declare let and const before any code that uses them runs."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-scope-example",
+      "tag": "let-const-var-scope",
+      "family": "collect",
+      "kind": "example",
+      "code": "const {{@list}} = [];\nfor (let i = 0; i < 3; i++) {\n  {{@list}}.push(i * {{k}});\n}\nlet {{@last}} = {{@list}}[2];\n{{@last}} = {{@last}} + 1;\nconsole.log({{@list}}, {{@last}});",
+      "slots": { "k": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": { "steps": { "list": "steps", "last": "next" }, "marks": { "list": "marks", "last": "after" } },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "const name, changeable array" },
+        { "line": 2, "label": "i exists only in the loop" },
+        { "line": 3, "label": "Pushing into a const array" },
+        { "line": 5, "label": "let allows reassignment" },
+        { "line": 6, "label": "Reassign the let" },
+        { "line": 7, "label": "Show both" }
+      ]
+    },
+    {
+      "id": "js-scope-complete-best",
+      "tag": "let-const-var-scope",
+      "family": "best-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@xs}}) {\n  let best = {{@xs}}[0];\n  for (const x of {{@xs}}) {\n    if (x > best) {\n      [[1]] = x;\n    }\n  }\n  return best;\n}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 5 },
+        "b": { "gen": "int", "min": 20, "max": 29 },
+        "c": { "gen": "int", "min": 6, "max": 9 },
+        "e": { "gen": "int", "min": 30, "max": 40 }
+      },
+      "themes": {
+        "largest": { "fn": "largest", "xs": "values" },
+        "top": { "fn": "topScore", "xs": "scores" },
+        "peak": { "fn": "peak", "xs": "heights" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["best"],
+      "wrongFills": [{ "blank": 1, "fill": "let best", "misconceptionId": "let-visible-after-block" }],
+      "harness": "check({{@fn}}([{{a}}, {{b}}, {{c}}]) === {{b}}, 'finds the largest');\ncheck({{@fn}}([{{c}}, {{a}}, {{e}}]) === {{e}}, 'finds another largest');"
+    },
+    {
+      "id": "js-si-char-at",
+      "tag": "string-indexing",
+      "family": "char-at",
+      "kind": "probe",
+      "code": "const {{@word}} = '{{w}}';\nconsole.log({{@word}}[{{i}}], {{@word}}[{{j}}]);\nconsole.log({{@word}}[{{@word}}.length - 1]);",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "banana",
+            "orange",
+            "melon",
+            "mango",
+            "grape",
+            "lemon",
+            "peach",
+            "olive",
+            "tiger",
+            "zebra",
+            "panda",
+            "koala",
+            "camel",
+            "horse",
+            "whale",
+            "robin",
+            "tulip",
+            "piano",
+            "river",
+            "candle"
+          ]
+        },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "i0": { "gen": "derive", "expr": "i - 1" },
+        "j": { "gen": "derive", "expr": "i + 2" },
+        "j0": { "gen": "derive", "expr": "i + 1" }
+      },
+      "themes": { "word": { "word": "word" }, "label": { "word": "label" }, "title": { "word": "title" } },
+      "transforms": [
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "{{@word}}[{{i}}], {{@word}}[{{j}}]",
+          "replace": "{{@word}}[{{i0}}], {{@word}}[{{j0}}]",
+          "belief": "The first item is at position 1, not 0",
+          "refutation": "Indexes count from zero, so [{{i}}] and [{{j}}] name characters one place further along than counting from one suggests.",
+          "rule": "Index 0 is the first character."
+        },
+        {
+          "misconceptionId": "last-index-is-length",
+          "find": "{{@word}}[{{@word}}.length - 1]",
+          "replace": "{{@word}}[{{@word}}.length]",
+          "belief": "The last item is at index len, not len - 1",
+          "refutation": "A string of length n has indexes zero to n - 1, so the last character sits one before the length.",
+          "rule": "The last character is at length - 1."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-si-negative",
+      "tag": "string-indexing",
+      "family": "negative-index",
+      "kind": "probe",
+      "code": "const {{@code}} = '{{w}}';\nconsole.log({{@code}}[1], {{@code}}[2], {{@code}}[-1]);\nconsole.log({{@code}}.at(-1));",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "banana",
+            "orange",
+            "melon",
+            "mango",
+            "grape",
+            "lemon",
+            "peach",
+            "olive",
+            "tiger",
+            "zebra",
+            "panda",
+            "koala",
+            "camel",
+            "horse",
+            "whale",
+            "robin",
+            "tulip",
+            "piano",
+            "river",
+            "candle"
+          ]
+        }
+      },
+      "themes": { "code": { "code": "code" }, "tag": { "code": "tag" }, "key": { "code": "key" } },
+      "transforms": [
+        {
+          "misconceptionId": "negative-index-from-end",
+          "find": "{{@code}}[-1]",
+          "replace": "{{@code}}.at(-1)",
+          "belief": "Index -1 gives the last item",
+          "refutation": "Square brackets never count from the end: [-1] looks for a position named -1, which no string has. Use .at(-1).",
+          "rule": "[-1] finds nothing; .at(-1) gives the last character."
+        },
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "{{@code}}[1], {{@code}}[2]",
+          "replace": "{{@code}}[0], {{@code}}[1]",
+          "belief": "The first item is at position 1, not 0",
+          "refutation": "Positions start at zero, so [1] and [2] are the second and third characters of {{@code}}.",
+          "rule": "Index 0 is the first character."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-si-assign",
+      "tag": "string-indexing",
+      "family": "assign-char",
+      "kind": "probe",
+      "code": "let {{@word}} = '{{w}}';\n{{@word}}[0] = '{{c}}';\nconsole.log({{@word}}, {{@word}}[0]);",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "banana",
+            "orange",
+            "melon",
+            "mango",
+            "grape",
+            "lemon",
+            "peach",
+            "olive",
+            "tiger",
+            "zebra",
+            "panda",
+            "koala",
+            "camel",
+            "horse",
+            "whale",
+            "robin",
+            "tulip",
+            "piano",
+            "river",
+            "candle"
+          ]
+        },
+        "c": { "gen": "pick", "options": ["X", "Q", "Z", "J"] }
+      },
+      "themes": { "word": { "word": "word" }, "title": { "word": "title" }, "label": { "word": "label" } },
+      "transforms": [
+        {
+          "misconceptionId": "string-item-assignable",
+          "find": "{{@word}}[0] = '{{c}}';",
+          "replace": "{{@word}} = '{{c}}' + {{@word}}.slice(1);",
+          "belief": "You can change one character with s[0] = 'x'",
+          "refutation": "Strings cannot be changed in place; assigning to [0] is silently ignored. Build a new string instead.",
+          "rule": "Strings never change; build a new one with slice."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-si-example",
+      "tag": "string-indexing",
+      "family": "ends",
+      "kind": "example",
+      "code": "const {{@word}} = '{{w}}';\nconst {{@first}} = {{@word}}[0];\nconst {{@last}} = {{@word}}[{{@word}}.length - 1];\nconst {{@middle}} = {{@word}}[Math.floor({{@word}}.length / 2)];\nconsole.log({{@first}}, {{@middle}}, {{@last}});",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "banana",
+            "orange",
+            "melon",
+            "mango",
+            "grape",
+            "lemon",
+            "peach",
+            "olive",
+            "tiger",
+            "zebra",
+            "panda",
+            "koala",
+            "camel",
+            "horse",
+            "whale",
+            "robin",
+            "tulip",
+            "piano",
+            "river",
+            "candle"
+          ]
+        }
+      },
+      "themes": {
+        "word": { "word": "word", "first": "first", "last": "last", "middle": "middle" },
+        "code": { "word": "code", "first": "head", "last": "tail", "middle": "center" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "The text to index" },
+        { "line": 2, "label": "Index 0 is the first" },
+        { "line": 3, "label": "Last is length minus one" },
+        { "line": 4, "label": "Middle by halving the length" },
+        { "line": 5, "label": "Show the three characters" }
+      ]
+    },
+    {
+      "id": "js-si-complete-last",
+      "tag": "string-indexing",
+      "family": "last-letters-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@words}}) {\n  let out = '';\n  for (const w of {{@words}}) {\n    out += [[1]];\n  }\n  return out;\n}",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "banana",
+            "orange",
+            "melon",
+            "mango",
+            "grape",
+            "lemon",
+            "peach",
+            "olive",
+            "tiger",
+            "zebra",
+            "panda",
+            "koala",
+            "camel",
+            "horse",
+            "whale",
+            "robin",
+            "tulip",
+            "piano",
+            "river",
+            "candle"
+          ]
+        }
+      },
+      "themes": {
+        "pets": { "fn": "lastLetters", "words": "words", "ex": "'cat', 'dog'", "exp": "tg" },
+        "names": { "fn": "endings", "words": "names", "ex": "'Ada', 'Ben', 'Cleo'", "exp": "ano" },
+        "items": { "fn": "tails", "words": "items", "ex": "'pen', 'cup'", "exp": "np" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["w[w.length - 1]"],
+      "wrongFills": [
+        { "blank": 1, "fill": "w[w.length]", "misconceptionId": "last-index-is-length" },
+        { "blank": 1, "fill": "w[-1]", "misconceptionId": "negative-index-from-end" }
+      ],
+      "harness": "check({{@fn}}([{{@ex}}]) === '{{@exp}}', 'takes the last letter of each word');\ncheck({{@fn}}(['{{w}}']) === '{{w}}'.slice(-1), 'works for one word');"
+    },
+    {
+      "id": "js-sm-upper",
+      "tag": "string-methods",
+      "family": "upper-no-mutate",
+      "kind": "probe",
+      "code": "let {{@name}} = '{{w}}';\n{{@name}}.toUpperCase();\nconsole.log({{@name}});\nconsole.log({{@name}}.toUpperCase());",
+      "slots": { "w": { "gen": "word", "pool": "cities" } },
+      "themes": { "city": { "name": "city" }, "place": { "name": "place" }, "stop": { "name": "stop" } },
+      "transforms": [
+        {
+          "misconceptionId": "string-method-mutates",
+          "find": "{{@name}}.toUpperCase();",
+          "replace": "{{@name}} = {{@name}}.toUpperCase();",
+          "belief": "A method like upper changes the string itself",
+          "refutation": "Strings never change in place: toUpperCase returns a new string, and the bare call throws that result away.",
+          "rule": "String methods return new strings; assign the result to keep it."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-sm-replace",
+      "tag": "string-methods",
+      "family": "replace-first",
+      "kind": "probe",
+      "code": "const {{@text}} = '{{a}} {{b}} {{a}}';\nconst {{@fixed}} = {{@text}}.replace('{{a}}', '{{c}}');\nconsole.log({{@fixed}});\nconsole.log({{@text}});",
+      "slots": {
+        "a": { "gen": "word", "pool": "animals" },
+        "b": { "gen": "word", "pool": "colors" },
+        "c": { "gen": "word", "pool": "fruits" }
+      },
+      "themes": {
+        "line": { "text": "line", "fixed": "edited" },
+        "title": { "text": "title", "fixed": "renamed" },
+        "note": { "text": "note", "fixed": "cleaned" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "replace-all",
+          "find": "{{@text}}.replace('{{a}}', '{{c}}')",
+          "replace": "{{@text}}.replaceAll('{{a}}', '{{c}}')",
+          "belief": "replace with a string changes every match",
+          "refutation": "With a string pattern, replace changes only the first match; replaceAll is needed for every match.",
+          "rule": "replace changes the first match; replaceAll changes them all."
+        },
+        {
+          "misconceptionId": "string-method-mutates",
+          "find": "console.log({{@text}});",
+          "replace": "console.log({{@fixed}});",
+          "belief": "A method like upper changes the string itself",
+          "refutation": "replace builds a new string, stored in {{@fixed}}; {{@text}} itself is never changed.",
+          "rule": "String methods return new strings; the original stays the same."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-sm-trim",
+      "tag": "string-methods",
+      "family": "trim",
+      "kind": "probe",
+      "code": "const {{@raw}} = '  {{a}} {{b}}  ';\nconst {{@clean}} = {{@raw}}.trim();\nconsole.log({{@clean}}.split(' '));\nconsole.log({{@raw}} === {{@clean}});",
+      "slots": { "a": { "gen": "word", "pool": "names" }, "b": { "gen": "word", "pool": "cities" } },
+      "themes": {
+        "input": { "raw": "input", "clean": "name" },
+        "typed": { "raw": "typed", "clean": "trimmed" },
+        "line": { "raw": "line", "clean": "tidy" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "strip-removes-inside",
+          "find": "{{@raw}}.trim();",
+          "replace": "{{@raw}}.replaceAll(' ', '');",
+          "belief": "strip/trim also removes spaces inside the text",
+          "refutation": "trim removes spaces only from the two ends; the space between the words stays.",
+          "rule": "trim cleans both ends, never the middle."
+        },
+        {
+          "misconceptionId": "string-method-mutates",
+          "find": "console.log({{@raw}} === {{@clean}});",
+          "replace": "console.log({{@clean}} === {{@clean}});",
+          "belief": "A method like upper changes the string itself",
+          "refutation": "trim returns a new string; {{@raw}} keeps all of its spaces, so the two strings differ.",
+          "rule": "String methods return new strings; the original stays the same."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-sm-example",
+      "tag": "string-methods",
+      "family": "headline",
+      "kind": "example",
+      "code": "const {{@raw}} = '  {{a}}, {{b}}  ';\nconst {{@clean}} = {{@raw}}.trim();\nconst {{@loud}} = {{@clean}}.toUpperCase();\nconst {{@swapped}} = {{@loud}}.replace(',', ' &');\nconsole.log({{@swapped}});\nconsole.log(JSON.stringify({{@raw}}));",
+      "slots": { "a": { "gen": "word", "pool": "fruits" }, "b": { "gen": "word", "pool": "fruits" } },
+      "themes": {
+        "menu": { "raw": "raw", "clean": "clean", "loud": "loud", "swapped": "headline" },
+        "sign": { "raw": "typed", "clean": "trimmed", "loud": "upper", "swapped": "sign" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "Text with extra spaces" },
+        { "line": 2, "label": "Trim both ends" },
+        { "line": 3, "label": "Uppercase copy" },
+        { "line": 4, "label": "Replace the first comma" },
+        { "line": 5, "label": "Show the result" },
+        { "line": 6, "label": "The original is unchanged" }
+      ]
+    },
+    {
+      "id": "js-sm-complete-normalize",
+      "tag": "string-methods",
+      "family": "normalize-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@input}}) {\n  let s = {{@input}};\n  s = s.trim();\n  [[1]];\n  return s;\n}",
+      "slots": { "w": { "gen": "word", "pool": "fruits" } },
+      "themes": {
+        "hello": { "fn": "normalize", "input": "text", "up": "HELLO", "low": "hello" },
+        "news": { "fn": "cleanTag", "input": "tag", "up": "NEWS", "low": "news" },
+        "paris": { "fn": "tidy", "input": "raw", "up": "Paris", "low": "paris" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["s = s.toLowerCase()"],
+      "wrongFills": [{ "blank": 1, "fill": "s.toLowerCase()", "misconceptionId": "string-method-mutates" }],
+      "harness": "check({{@fn}}('  {{@up}} ') === '{{@low}}', 'trims and lowercases');\ncheck({{@fn}}(' {{w}}  ') === '{{w}}', 'already lowercase');"
+    },
+    {
+      "id": "js-fmt-template-quotes",
+      "tag": "string-formatting",
+      "family": "template-quotes",
+      "kind": "probe",
+      "code": "const {{@name}} = '{{n}}';\nconst {{@count}} = {{k}};\nconsole.log('${{{@name}}} has ${{{@count}}}');\nconsole.log(`${{{@name}}} has ${{{@count}}}`);",
+      "slots": { "n": { "gen": "word", "pool": "names" }, "k": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": {
+        "player": { "name": "player", "count": "points" },
+        "owner": { "name": "owner", "count": "pets" },
+        "city": { "name": "city", "count": "visits" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "template-in-quotes",
+          "find": "console.log('${{{@name}}} has ${{{@count}}}');",
+          "replace": "console.log(`${{{@name}}} has ${{{@count}}}`);",
+          "belief": "${name} fills in inside normal quotes too",
+          "refutation": "Only backtick strings fill in ${...}; inside single quotes those characters are printed exactly as typed.",
+          "rule": "${} works only inside backticks."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-fmt-tofixed",
+      "tag": "string-formatting",
+      "family": "tofixed",
+      "kind": "probe",
+      "code": "const {{@price}} = {{w}}.{{d1}}9{{d3}};\nconst {{@shown}} = {{@price}}.toFixed(2);\nconsole.log({{@shown}}, typeof {{@shown}});",
+      "slots": {
+        "w": { "gen": "int", "min": 1, "max": 20 },
+        "d1": { "gen": "int", "min": 0, "max": 8 },
+        "d3": { "gen": "int", "min": 6, "max": 9 }
+      },
+      "themes": {
+        "price": { "price": "price", "shown": "label" },
+        "weight": { "price": "weight", "shown": "display" },
+        "rate": { "price": "rate", "shown": "text" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "format-cuts-digits",
+          "find": "{{@price}}.toFixed(2);",
+          "replace": "(Math.trunc({{@price}} * 100) / 100).toFixed(2);",
+          "belief": "Formatting to 2 decimals just cuts off the extra digits",
+          "refutation": "toFixed rounds to the nearest hundredth, so a third decimal of five or more pushes the second decimal up.",
+          "rule": "toFixed rounds, and it returns a string."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-fmt-pad",
+      "tag": "string-formatting",
+      "family": "pad",
+      "kind": "probe",
+      "code": "const {{@label}} = '{{w}}';\nconsole.log({{@label}}.padStart({{width}}, '*'));\nconsole.log('{{s}}'.padStart({{width}}, '*'));",
+      "slots": {
+        "w": {
+          "gen": "pick",
+          "options": [
+            "avocado",
+            "blueberry",
+            "coconut",
+            "cranberry",
+            "elephant",
+            "kangaroo",
+            "penguin",
+            "dolphin",
+            "giraffe"
+          ]
+        },
+        "width": { "gen": "derive", "expr": "len(w) - 2" },
+        "s": { "gen": "word", "pool": "nouns" }
+      },
+      "themes": { "title": { "label": "title" }, "header": { "label": "header" }, "tag": { "label": "tag" } },
+      "transforms": [
+        {
+          "misconceptionId": "padding-cuts-text",
+          "find": "console.log({{@label}}.padStart({{width}}, '*'));",
+          "replace": "console.log({{@label}}.slice(0, {{width}}).padStart({{width}}, '*'));",
+          "belief": "Padding to a width also cuts longer text",
+          "refutation": "padStart only adds characters until the width is reached; text already longer than {{width}} is left whole.",
+          "rule": "Padding only adds characters, never removes them."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-fmt-example",
+      "tag": "string-formatting",
+      "family": "receipt",
+      "kind": "example",
+      "code": "const {{@item}} = '{{w}}';\nconst {{@price}} = {{p}}.5;\nconst {{@qty}} = {{q}};\nconst {{@total}} = ({{@price}} * {{@qty}}).toFixed(2);\nconsole.log(`${{{@qty}}} x ${{{@item}}}: ${{{@total}}}`);\nconsole.log({{@item}}.padEnd(10, '.') + '|');",
+      "slots": {
+        "w": { "gen": "word", "pool": "fruits" },
+        "p": { "gen": "int", "min": 1, "max": 9 },
+        "q": { "gen": "int", "min": 2, "max": 5 }
+      },
+      "themes": {
+        "shop": { "item": "item", "price": "price", "qty": "qty", "total": "total" },
+        "cafe": { "item": "snack", "price": "cost", "qty": "count", "total": "due" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "The item name" },
+        { "line": 2, "label": "Unit price" },
+        { "line": 3, "label": "How many" },
+        { "line": 4, "label": "Two decimals, as text" },
+        { "line": 5, "label": "Fill values into backticks" },
+        { "line": 6, "label": "Pad to a fixed width" }
+      ]
+    },
+    {
+      "id": "js-fmt-complete-line",
+      "tag": "string-formatting",
+      "family": "line-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@name}}, {{@amount}}) {\n  const money = {{@amount}}.toFixed(2);\n  const label = {{@name}}.padEnd(6, '.');\n  const line = [[1]];\n  return line;\n}",
+      "slots": { "a": { "gen": "int", "min": 2, "max": 9 }, "b": { "gen": "int", "min": 10, "max": 20 } },
+      "themes": {
+        "receipt": { "fn": "receiptLine", "name": "item", "amount": "price" },
+        "menu": { "fn": "menuRow", "name": "dish", "amount": "cost" },
+        "bill": { "fn": "billLine", "name": "product", "amount": "total" }
+      },
+      "transforms": [],
+      "parSec": 30,
+      "solutions": ["`${label} ${money}`"],
+      "wrongFills": [{ "blank": 1, "fill": "'${label} ${money}'", "misconceptionId": "template-in-quotes" }],
+      "harness": "check({{@fn}}('tea', {{a}}) === 'tea... {{a}}.00', 'pads a short name');\ncheck({{@fn}}('coffee', {{b}}.5) === 'coffee {{b}}.50', 'keeps a long name whole');"
+    },
+    {
+      "id": "js-for-count-up",
+      "tag": "for-range-bounds",
+      "family": "count-up",
+      "kind": "probe",
+      "code": "const {{@out}} = [];\nfor (let i = 0; i < {{n}}; i++) {\n  {{@out}}.push(i * {{k}});\n}\nconsole.log({{@out}});",
+      "slots": { "n": { "gen": "int", "min": 2, "max": 4 }, "k": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": { "seats": { "out": "seats" }, "pages": { "out": "pages" }, "days": { "out": "days" } },
+      "transforms": [
+        {
+          "misconceptionId": "range-includes-end",
+          "find": "i < {{n}};",
+          "replace": "i <= {{n}};",
+          "belief": "The loop also runs for the end value",
+          "refutation": "The loop keeps going only while i < {{n}} holds, so it stops before i reaches {{n}}.",
+          "rule": "i < end stops before end; use <= to include it."
+        },
+        {
+          "misconceptionId": "range-starts-at-one",
+          "find": "for (let i = 0; i < {{n}}; i++) {",
+          "replace": "for (let i = 1; i <= {{n}}; i++) {",
+          "belief": "Counting starts at 1, not 0",
+          "refutation": "i starts at whatever value the loop header gives it, which is 0 here, and the test i < {{n}} stops it early.",
+          "rule": "The loop starts at the value given, often 0."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-for-index",
+      "tag": "for-range-bounds",
+      "family": "index-loop",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nlet {{@seen}} = '';\nfor (let i = 0; i < {{@xs}}.length; i++) {\n  {{@seen}} += {{@xs}}[i];\n}\nconsole.log({{@seen}});",
+      "slots": { "vals": { "gen": "intList", "minLen": 3, "maxLen": 5, "min": 1, "max": 9, "distinct": true } },
+      "themes": {
+        "pin": { "xs": "digits", "seen": "pin" },
+        "codes": { "xs": "codes", "seen": "joined" },
+        "serial": { "xs": "parts", "seen": "serial" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "range-includes-end",
+          "find": "i < {{@xs}}.length;",
+          "replace": "i <= {{@xs}}.length;",
+          "belief": "The loop also runs for the end value",
+          "refutation": "The test is i < length, so the last pass uses the index just below the length; the length itself is never an index.",
+          "rule": "i < length visits every index exactly once."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-for-step",
+      "tag": "for-range-bounds",
+      "family": "step",
+      "kind": "probe",
+      "code": "const {{@marks}} = [];\nfor (let i = 0; i < {{end}}; i += {{step}}) {\n  {{@marks}}.push(i);\n}\nconsole.log({{@marks}});",
+      "slots": {
+        "step": { "gen": "int", "min": 2, "max": 4 },
+        "k": { "gen": "int", "min": 2, "max": 4 },
+        "end": { "gen": "derive", "expr": "step * k + 1" }
+      },
+      "themes": { "ticks": { "marks": "ticks" }, "stops": { "marks": "stops" }, "beats": { "marks": "beats" } },
+      "transforms": [
+        {
+          "misconceptionId": "step-reaches-end",
+          "find": "console.log({{@marks}});",
+          "replace": "console.log([...{{@marks}}, {{end}}]);",
+          "belief": "A loop with a step always lands on the end value",
+          "refutation": "Steps of {{step}} jump from 0 by fixed amounts; {{end}} is not a multiple of {{step}}, so no step lands on it.",
+          "rule": "A stepped loop stops at the last step below the end."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-for-example",
+      "tag": "for-range-bounds",
+      "family": "squares",
+      "kind": "example",
+      "code": "const {{@n}} = {{k}};\nconst {{@squares}} = [];\nfor (let i = 1; i <= {{@n}}; i++) {\n  {{@squares}}.push(i * i);\n}\nconsole.log({{@squares}});",
+      "slots": { "k": { "gen": "int", "min": 3, "max": 5 } },
+      "themes": { "squares": { "n": "n", "squares": "squares" }, "tiles": { "n": "sides", "squares": "tiles" } },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "How many values" },
+        { "line": 2, "label": "Collect results here" },
+        { "line": 3, "label": "Count 1 up to n" },
+        { "line": 4, "label": "Use i in each pass" },
+        { "line": 6, "label": "Show the results" }
+      ]
+    },
+    {
+      "id": "js-for-complete-sum",
+      "tag": "for-range-bounds",
+      "family": "sum-range-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}(start, end) {\n  let total = 0;\n  for (let i = start; i [[1]] end; i++) {\n    total += i;\n  }\n  return total;\n}",
+      "slots": {
+        "n": { "gen": "int", "min": 3, "max": 9 },
+        "s1": { "gen": "derive", "expr": "n * (n + 1) // 2" },
+        "a": { "gen": "int", "min": 2, "max": 5 },
+        "m": { "gen": "int", "min": 2, "max": 5 },
+        "b": { "gen": "derive", "expr": "a + m" },
+        "s2": { "gen": "derive", "expr": "(a + b) * (m + 1) // 2" }
+      },
+      "themes": { "sum": { "fn": "sumRange" }, "add": { "fn": "addUp" }, "between": { "fn": "totalBetween" } },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["<="],
+      "wrongFills": [{ "blank": 1, "fill": "<", "misconceptionId": "range-includes-end" }],
+      "harness": "check({{@fn}}(1, {{n}}) === {{s1}}, 'adds 1 up to n, end included');\ncheck({{@fn}}({{a}}, {{b}}) === {{s2}}, 'adds a middle range, end included');"
+    },
+    {
+      "id": "js-acc-sum",
+      "tag": "loop-accumulator",
+      "family": "sum",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nlet {{@total}} = 0;\nfor (const x of {{@xs}}) {\n  {{@total}} += x;\n  console.log({{@total}});\n}",
+      "slots": { "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 9 } },
+      "themes": {
+        "cart": { "xs": "prices", "total": "total" },
+        "playlist": { "xs": "minutes", "total": "time" },
+        "game": { "xs": "points", "total": "score" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "assign-instead-of-add",
+          "find": "{{@total}} += x;",
+          "replace": "{{@total}} = x;",
+          "belief": "total = x adds x to the total",
+          "refutation": "= replaces the total with the current item on each pass; += adds the item to what is already there.",
+          "rule": "Use += to add each item to the total."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-acc-reset",
+      "tag": "loop-accumulator",
+      "family": "reset-inside",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nlet {{@total}};\nfor (const x of {{@xs}}) {\n  {{@total}} = 0;\n  {{@total}} += x;\n  console.log({{@total}});\n}",
+      "slots": { "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 9 } },
+      "themes": {
+        "sales": { "xs": "sales", "total": "sum" },
+        "laps": { "xs": "laps", "total": "distance" },
+        "votes": { "xs": "votes", "total": "count" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "reset-inside-loop",
+          "find": "  {{@total}} = 0;",
+          "replace": "  {{@total}} ||= 0;",
+          "belief": "Setting the total inside the loop still keeps a running sum",
+          "refutation": "The reset line runs on every pass, so the total is wiped back to zero just before each item is added.",
+          "rule": "Set the starting value once, before the loop."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-acc-max",
+      "tag": "loop-accumulator",
+      "family": "max-zero",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nlet {{@best}} = 0;\nfor (const t of {{@xs}}) {\n  if (t > {{@best}}) {{@best}} = t;\n}\nconsole.log({{@best}});",
+      "slots": { "vals": { "gen": "intList", "minLen": 3, "maxLen": 5, "min": -9, "max": -1, "distinct": true } },
+      "themes": {
+        "temps": { "xs": "temps", "best": "warmest" },
+        "depths": { "xs": "depths", "best": "shallowest" },
+        "balances": { "xs": "balances", "best": "highest" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "max-starts-at-zero",
+          "find": "let {{@best}} = 0;",
+          "replace": "let {{@best}} = {{@xs}}[0];",
+          "belief": "Starting the best value at 0 works for any numbers",
+          "refutation": "Every value here is below zero, so none of them ever beats the starting 0; start from the first item instead.",
+          "rule": "Start a maximum at the first item, not 0."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-acc-example",
+      "tag": "loop-accumulator",
+      "family": "average",
+      "kind": "example",
+      "code": "const {{@xs}} = {{vals}};\nlet {{@total}} = 0;\nfor (const p of {{@xs}}) {\n  {{@total}} += p;\n}\nconst {{@avg}} = {{@total}} / {{@xs}}.length;\nconsole.log({{@total}}, {{@avg}});",
+      "slots": { "vals": { "gen": "intList", "minLen": 4, "maxLen": 4, "min": 1, "max": 9 } },
+      "themes": {
+        "prices": { "xs": "prices", "total": "total", "avg": "average" },
+        "ratings": { "xs": "ratings", "total": "sum", "avg": "mean" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "The items to combine" },
+        { "line": 2, "label": "Start once, before the loop" },
+        { "line": 3, "label": "Visit every item" },
+        { "line": 4, "label": "Add this item" },
+        { "line": 6, "label": "Use the total afterwards" },
+        { "line": 7, "label": "Show the results" }
+      ]
+    },
+    {
+      "id": "js-acc-complete-filtered",
+      "tag": "loop-accumulator",
+      "family": "filtered-sum-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@xs}}, limit) {\n  let total = 0;\n  for (const {{@x}} of {{@xs}}) {\n    if ({{@x}} > limit) {\n      [[1]];\n    }\n  }\n  return total;\n}",
+      "slots": {
+        "lim": { "gen": "int", "min": 4, "max": 6 },
+        "a": { "gen": "int", "min": 7, "max": 15 },
+        "b": { "gen": "int", "min": 1, "max": 3 },
+        "c": { "gen": "int", "min": 7, "max": 15 },
+        "e1": { "gen": "derive", "expr": "a + c" },
+        "e2": { "gen": "derive", "expr": "b + c + b" }
+      },
+      "themes": {
+        "prices": { "fn": "totalOver", "xs": "prices", "x": "price" },
+        "steps": { "fn": "bigSteps", "xs": "steps", "x": "step" },
+        "scores": { "fn": "highTotal", "xs": "scores", "x": "score" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["total += {{@x}}"],
+      "wrongFills": [{ "blank": 1, "fill": "total = {{@x}}", "misconceptionId": "assign-instead-of-add" }],
+      "harness": "check({{@fn}}([{{a}}, {{b}}, {{c}}], {{lim}}) === {{e1}}, 'adds only the values above the limit');\ncheck({{@fn}}([{{b}}, {{c}}, {{b}}], 0) === {{e2}}, 'adds every value when all are above the limit');"
+    },
+    {
+      "id": "js-li-pick",
+      "tag": "list-indexing",
+      "family": "index-pick",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconsole.log({{@xs}}[{{i}}], {{@xs}}[{{j}}]);\nconsole.log({{@xs}}[{{@xs}}.length - 1]);",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 5, "maxLen": 6, "min": 10, "max": 99, "distinct": true },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "i0": { "gen": "derive", "expr": "i - 1" },
+        "j": { "gen": "derive", "expr": "i + 2" },
+        "j0": { "gen": "derive", "expr": "i + 1" }
+      },
+      "themes": { "scores": { "xs": "scores" }, "temps": { "xs": "temps" }, "ages": { "xs": "ages" } },
+      "transforms": [
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "{{@xs}}[{{i}}], {{@xs}}[{{j}}]",
+          "replace": "{{@xs}}[{{i0}}], {{@xs}}[{{j0}}]",
+          "belief": "The first item is at position 1, not 0",
+          "refutation": "Indexes count from zero, so [{{i}}] and [{{j}}] name items one place further along than counting from one suggests.",
+          "rule": "Index 0 is the first item."
+        },
+        {
+          "misconceptionId": "last-index-is-length",
+          "find": "{{@xs}}[{{@xs}}.length - 1]",
+          "replace": "{{@xs}}[{{@xs}}.length]",
+          "belief": "The last item is at index len, not len - 1",
+          "refutation": "An array of length n has indexes zero to n - 1, so the last item sits one before the length.",
+          "rule": "The last item is at length - 1."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-li-negative",
+      "tag": "list-indexing",
+      "family": "negative",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{names}};\nconsole.log({{@xs}}[-1]);\nconsole.log({{@xs}}.at(-1), {{@xs}}[1]);",
+      "slots": { "names": { "gen": "wordList", "pool": "names", "minLen": 3, "maxLen": 5, "distinct": true } },
+      "themes": { "guests": { "xs": "guests" }, "queue": { "xs": "queue" }, "team": { "xs": "team" } },
+      "transforms": [
+        {
+          "misconceptionId": "negative-index-from-end",
+          "find": "console.log({{@xs}}[-1]);",
+          "replace": "console.log({{@xs}}.at(-1));",
+          "belief": "Index -1 gives the last item",
+          "refutation": "Square brackets never count from the end: [-1] looks for an item named -1, which arrays lack. Use .at(-1).",
+          "rule": "[-1] finds nothing; .at(-1) gives the last item."
+        },
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": "{{@xs}}[1]",
+          "replace": "{{@xs}}[0]",
+          "belief": "The first item is at position 1, not 0",
+          "refutation": "Positions start at zero, so [1] is the second item of {{@xs}}, not the first.",
+          "rule": "Index 0 is the first item."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-li-swap-ends",
+      "tag": "list-indexing",
+      "family": "swap-ends",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@first}} = {{@xs}}[0];\n{{@xs}}[0] = {{@xs}}[{{@xs}}.length - 1];\n{{@xs}}[{{@xs}}.length - 1] = {{@first}};\nconsole.log({{@xs}});",
+      "slots": { "vals": { "gen": "intList", "minLen": 3, "maxLen": 5, "min": 1, "max": 9, "distinct": true } },
+      "themes": {
+        "line": { "xs": "line", "first": "front" },
+        "deck": { "xs": "deck", "first": "top" },
+        "row": { "xs": "row", "first": "head" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "last-index-is-length",
+          "find": "= {{@xs}}[{{@xs}}.length - 1];",
+          "replace": "= {{@xs}}[{{@xs}}.length];",
+          "belief": "The last item is at index len, not len - 1",
+          "refutation": "The last item is at length - 1; reading at length itself would be past the end.",
+          "rule": "The last item is at length - 1."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-li-example",
+      "tag": "list-indexing",
+      "family": "positions",
+      "kind": "example",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@first}} = {{@xs}}[0];\nconst {{@second}} = {{@xs}}[1];\nconst {{@last}} = {{@xs}}[{{@xs}}.length - 1];\nconsole.log({{@first}}, {{@second}}, {{@last}});",
+      "slots": { "vals": { "gen": "intList", "minLen": 4, "maxLen": 6, "min": 10, "max": 99, "distinct": true } },
+      "themes": {
+        "race": { "xs": "times", "first": "winner", "second": "runnerUp", "last": "slowest" },
+        "log": { "xs": "readings", "first": "oldest", "second": "next", "last": "newest" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "The array" },
+        { "line": 2, "label": "Index 0 is first" },
+        { "line": 3, "label": "Index 1 is second" },
+        { "line": 4, "label": "Last is length minus one" },
+        { "line": 5, "label": "Show the three items" }
+      ]
+    },
+    {
+      "id": "js-li-complete-last",
+      "tag": "list-indexing",
+      "family": "last-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@xs}}) {\n  if ({{@xs}}.length === 0) {\n    return null;\n  }\n  return [[1]];\n}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 10, "max": 19 },
+        "d": { "gen": "int", "min": 20, "max": 29 }
+      },
+      "themes": {
+        "items": { "fn": "lastItem", "xs": "items" },
+        "posts": { "fn": "newest", "xs": "posts" },
+        "readings": { "fn": "latest", "xs": "readings" }
+      },
+      "transforms": [],
+      "parSec": 20,
+      "solutions": ["{{@xs}}[{{@xs}}.length - 1]"],
+      "wrongFills": [
+        { "blank": 1, "fill": "{{@xs}}[{{@xs}}.length]", "misconceptionId": "last-index-is-length" },
+        { "blank": 1, "fill": "{{@xs}}[-1]", "misconceptionId": "negative-index-from-end" }
+      ],
+      "harness": "check({{@fn}}([{{a}}, {{b}}, {{c}}]) === {{c}}, 'the last of three');\ncheck({{@fn}}([{{d}}]) === {{d}}, 'a single item');\ncheck({{@fn}}([]) === null, 'an empty list');"
+    },
+    {
+      "id": "js-ls-window",
+      "tag": "list-slicing",
+      "family": "window",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@part}} = {{@xs}}.slice({{i}}, {{j}});\nconsole.log({{@part}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 5, "maxLen": 6, "min": 10, "max": 99, "distinct": true },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "j": { "gen": "derive", "expr": "i + 2" },
+        "j1": { "gen": "derive", "expr": "j + 1" },
+        "i0": { "gen": "derive", "expr": "i - 1" },
+        "j0": { "gen": "derive", "expr": "j - 1" }
+      },
+      "themes": {
+        "scores": { "xs": "scores", "part": "middle" },
+        "temps": { "xs": "temps", "part": "midweek" },
+        "ages": { "xs": "ages", "part": "group" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "slice-end-included",
+          "find": ".slice({{i}}, {{j}})",
+          "replace": ".slice({{i}}, {{j1}})",
+          "belief": "The slice includes the item at the stop index",
+          "refutation": "The end index is left out: slice({{i}}, {{j}}) takes the items at indexes {{i}} up to, but not including, {{j}}.",
+          "rule": "slice includes the start index and excludes the end."
+        },
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": ".slice({{i}}, {{j}})",
+          "replace": ".slice({{i0}}, {{j0}})",
+          "belief": "The first item is at position 1, not 0",
+          "refutation": "Indexes count from zero: the first item is index zero, so index {{i}} is one item further along.",
+          "rule": "Index 0 is the first item."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-ls-past-end",
+      "tag": "list-slicing",
+      "family": "past-end",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconsole.log({{@xs}}.slice({{i}}, {{big}}));\nconsole.log({{@xs}}.slice({{big}}));",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 5, "min": 10, "max": 99, "distinct": true },
+        "i": { "gen": "int", "min": 1, "max": 2 },
+        "i0": { "gen": "derive", "expr": "i - 1" },
+        "big": { "gen": "int", "min": 10, "max": 20 }
+      },
+      "themes": { "queue": { "xs": "queue" }, "batch": { "xs": "batch" }, "recent": { "xs": "recent" } },
+      "transforms": [
+        {
+          "misconceptionId": "slice-past-end-errors",
+          "find": "console.log({{@xs}}.slice({{i}}, {{big}}));",
+          "replace": "throw new RangeError('slice end {{big}} is past the end');",
+          "belief": "Slicing past the end raises an error",
+          "refutation": "slice never complains about a range past the end; it simply stops at the last item that exists.",
+          "rule": "slice clamps out-of-range ends instead of raising errors."
+        },
+        {
+          "misconceptionId": "index-starts-at-one",
+          "find": ".slice({{i}}, {{big}})",
+          "replace": ".slice({{i0}}, {{big}})",
+          "belief": "The first item is at position 1, not 0",
+          "refutation": "Indexes count from zero, so slice({{i}}, ...) starts {{i}} items after the first one.",
+          "rule": "Index 0 is the first item."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-ls-copy",
+      "tag": "list-slicing",
+      "family": "slice-copy",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@part}} = {{@xs}}.slice(0, {{k}});\n{{@part}}[0] = {{n}};\nconsole.log({{@xs}}[0], {{@part}}[0]);",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 4, "maxLen": 5, "min": 1, "max": 9 },
+        "k": { "gen": "int", "min": 2, "max": 3 },
+        "n": { "gen": "pick", "options": [100, 200, 300, 400, 500] }
+      },
+      "themes": {
+        "roster": { "xs": "roster", "part": "starters" },
+        "menu": { "xs": "menu", "part": "specials" },
+        "files": { "xs": "files", "part": "recent" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "slice-aliases-original",
+          "find": "const {{@part}} = {{@xs}}.slice(0, {{k}});",
+          "replace": "const {{@part}} = {{@xs}};",
+          "belief": "Changing a slice also changes the original list",
+          "refutation": "slice copies the chosen items into a brand-new array, so changing {{@part}} leaves {{@xs}} alone.",
+          "rule": "slice returns a new array; the original is untouched."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-ls-example",
+      "tag": "list-slicing",
+      "family": "pieces",
+      "kind": "example",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@head}} = {{@xs}}.slice(0, 2);\nconst {{@tail}} = {{@xs}}.slice(2);\nconst {{@lastTwo}} = {{@xs}}.slice(-2);\nconsole.log({{@head}}, {{@tail}}, {{@lastTwo}});",
+      "slots": { "vals": { "gen": "intList", "minLen": 5, "maxLen": 6, "min": 10, "max": 99, "distinct": true } },
+      "themes": {
+        "laps": { "xs": "laps", "head": "start", "tail": "rest", "lastTwo": "finish" },
+        "rows": { "xs": "rows", "head": "header", "tail": "body", "lastTwo": "footer" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "The full array" },
+        { "line": 2, "label": "First two items" },
+        { "line": 3, "label": "Everything from index 2" },
+        { "line": 4, "label": "Negative start counts back" },
+        { "line": 5, "label": "Show the three pieces" }
+      ]
+    },
+    {
+      "id": "js-ls-complete-middle",
+      "tag": "list-slicing",
+      "family": "middle-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@xs}}) {\n  if ({{@xs}}.length < 3) {\n    return [];\n  }\n  return {{@xs}}.slice([[1]]);\n}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 },
+        "d": { "gen": "int", "min": 1, "max": 9 },
+        "e": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "items": { "fn": "middle", "xs": "items" },
+        "readings": { "fn": "trimEnds", "xs": "readings" },
+        "frames": { "fn": "inner", "xs": "frames" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["1, {{@xs}}.length - 1"],
+      "wrongFills": [
+        { "blank": 1, "fill": "1, {{@xs}}.length - 2", "misconceptionId": "slice-end-included" },
+        { "blank": 1, "fill": "2, {{@xs}}.length - 1", "misconceptionId": "index-starts-at-one" }
+      ],
+      "harness": "check(JSON.stringify({{@fn}}([{{a}}, {{b}}, {{c}}, {{d}}])) === '[{{b}},{{c}}]', 'drops the first and last');\ncheck(JSON.stringify({{@fn}}([{{e}}, {{a}}, {{d}}])) === '[{{a}}]', 'keeps the one middle item');\ncheck(JSON.stringify({{@fn}}([{{a}}])) === '[]', 'too short to have a middle');"
+    },
+    {
+      "id": "js-lm-push-returns",
+      "tag": "list-mutation-methods",
+      "family": "push-returns",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@result}} = {{@xs}}.push({{n}});\nconsole.log({{@result}});\nconsole.log({{@xs}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 99 }
+      },
+      "themes": {
+        "cart": { "xs": "cart", "result": "added" },
+        "queue": { "xs": "queue", "result": "back" },
+        "log": { "xs": "log", "result": "out" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "append-returns-list",
+          "find": "console.log({{@result}});",
+          "replace": "console.log({{@xs}});",
+          "belief": "Adding an item gives back the updated list",
+          "refutation": "push changes the array in place and hands back only the new length, not the array.",
+          "rule": "push returns the new length; the array changes in place."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-lm-push-array",
+      "tag": "list-mutation-methods",
+      "family": "push-array",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\n{{@xs}}.push([{{a}}, {{b}}]);\nconsole.log({{@xs}}.length);\nconsole.log({{@xs}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 3, "min": 1, "max": 9 },
+        "a": { "gen": "int", "min": 10, "max": 50 },
+        "b": { "gen": "int", "min": 51, "max": 99 }
+      },
+      "themes": { "rows": { "xs": "rows" }, "groups": { "xs": "groups" }, "batches": { "xs": "batches" } },
+      "transforms": [
+        {
+          "misconceptionId": "append-list-flattens",
+          "find": "{{@xs}}.push([{{a}}, {{b}}]);",
+          "replace": "{{@xs}}.push({{a}}, {{b}});",
+          "belief": "Appending a list adds its items one by one",
+          "refutation": "push adds its argument as one item, so an array argument becomes a single nested item. Spread it with ... to add each.",
+          "rule": "push(arr) adds one nested item; push(...arr) adds each."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-lm-pop",
+      "tag": "list-mutation-methods",
+      "family": "pop",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@gone}} = {{@xs}}.pop();\nconsole.log({{@gone}}, {{@xs}});",
+      "slots": { "vals": { "gen": "intList", "minLen": 3, "maxLen": 5, "min": 1, "max": 9, "distinct": true } },
+      "themes": {
+        "stack": { "xs": "stack", "gone": "top" },
+        "plates": { "xs": "plates", "gone": "taken" },
+        "history": { "xs": "history", "gone": "undone" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "pop-removes-first",
+          "find": "{{@xs}}.pop();",
+          "replace": "{{@xs}}.shift();",
+          "belief": "pop() removes the first item",
+          "refutation": "pop works at the end of the array: it removes and returns the last item. shift is the one that takes the first.",
+          "rule": "pop takes from the end; shift takes from the front."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-lm-example",
+      "tag": "list-mutation-methods",
+      "family": "queue",
+      "kind": "example",
+      "code": "const {{@queue}} = {{vals}};\n{{@queue}}.push({{n}});\nconst {{@first}} = {{@queue}}.shift();\nconst {{@last}} = {{@queue}}.pop();\nconsole.log({{@first}}, {{@last}}, {{@queue}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 5, "min": 1, "max": 9, "distinct": true },
+        "n": { "gen": "int", "min": 10, "max": 99 }
+      },
+      "themes": {
+        "shop": { "queue": "line", "first": "served", "last": "leftEarly" },
+        "print": { "queue": "jobs", "first": "printed", "last": "cancelled" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "Start with some items" },
+        { "line": 2, "label": "push adds at the end" },
+        { "line": 3, "label": "shift removes the front" },
+        { "line": 4, "label": "pop removes the end" },
+        { "line": 5, "label": "The array changed in place" }
+      ]
+    },
+    {
+      "id": "js-lm-complete-push",
+      "tag": "list-mutation-methods",
+      "family": "push-all-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@stack}}, {{@extra}}) {\n  const out = [...{{@stack}}];\n  for (const x of {{@extra}}) {\n    [[1]];\n  }\n  return out;\n}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 10, "max": 19 },
+        "c": { "gen": "int", "min": 20, "max": 29 },
+        "d": { "gen": "int", "min": 30, "max": 39 }
+      },
+      "themes": {
+        "push": { "fn": "pushAll", "stack": "base", "extra": "more" },
+        "extend": { "fn": "extend", "stack": "list", "extra": "items" },
+        "combine": { "fn": "combine", "stack": "first", "extra": "second" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["out.push(x)"],
+      "wrongFills": [{ "blank": 1, "fill": "out = out.push(x)", "misconceptionId": "append-returns-list" }],
+      "harness": "check(JSON.stringify({{@fn}}([{{a}}], [{{b}}, {{c}}])) === '[{{a}},{{b}},{{c}}]', 'adds each extra item');\ncheck(JSON.stringify({{@fn}}([], [{{d}}])) === '[{{d}}]', 'starts from empty');"
+    },
+    {
+      "id": "js-ac-alias-push",
+      "tag": "alias-copy",
+      "family": "alias-push",
+      "kind": "probe",
+      "code": "const {{@a}} = {{vals}};\nconst {{@b}} = {{@a}};\n{{@b}}.push({{n}});\nconsole.log({{@a}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 20 }
+      },
+      "themes": {
+        "cart": { "a": "cart", "b": "order" },
+        "team": { "a": "team", "b": "squad" },
+        "todo": { "a": "todo", "b": "today" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "assignment-copies",
+          "find": "const {{@b}} = {{@a}};",
+          "replace": "const {{@b}} = [...{{@a}}];",
+          "belief": "b = a makes a separate copy of the list",
+          "refutation": "const {{@b}} = {{@a}} copies only the reference: both names point to one array, so the push shows through {{@a}}.",
+          "rule": "Assignment shares one array; [...a] makes a copy."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-ac-param",
+      "tag": "alias-copy",
+      "family": "param",
+      "kind": "probe",
+      "code": "function {{@fn}}({{@list}}) {\n  {{@list}}.push({{n}});\n  return {{@list}}.length;\n}\nconst {{@xs}} = {{vals}};\n{{@fn}}({{@xs}});\nconsole.log({{@xs}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 20 }
+      },
+      "themes": {
+        "bonus": { "fn": "addBonus", "list": "scores", "xs": "points" },
+        "enroll": { "fn": "enroll", "list": "roster", "xs": "students" },
+        "restock": { "fn": "restock", "list": "shelf", "xs": "stock" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "param-gets-copy",
+          "find": "{{@fn}}({{@xs}});",
+          "replace": "{{@fn}}([...{{@xs}}]);",
+          "belief": "A function gets its own copy of a list argument",
+          "refutation": "The function receives the very array the caller has, not a copy, so the push inside {{@fn}} changes {{@xs}}.",
+          "rule": "Arrays passed to functions are shared, not copied."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-ac-rebind",
+      "tag": "alias-copy",
+      "family": "rebind",
+      "kind": "probe",
+      "code": "let {{@a}} = {{vals}};\nconst {{@b}} = {{@a}};\n{{@a}} = [{{n}}];\nconsole.log({{@b}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 20 }
+      },
+      "themes": {
+        "draft": { "a": "draft", "b": "saved" },
+        "page": { "a": "page", "b": "cached" },
+        "current": { "a": "current", "b": "previous" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "rebind-changes-alias",
+          "find": "console.log({{@b}});",
+          "replace": "console.log({{@a}});",
+          "belief": "Pointing a at a new list also changes b",
+          "refutation": "The reassignment points {{@a}} at a brand-new array; {{@b}} still points at the old one, which nobody changed.",
+          "rule": "Reassigning a name never changes what other names point to."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-ac-nested",
+      "tag": "alias-copy",
+      "family": "nested",
+      "kind": "probe",
+      "code": "const {{@grid}} = [[{{a}}, {{b}}], [{{c}}, {{d}}]];\nconst {{@copy}} = [...{{@grid}}];\n{{@copy}}[0][0] = {{n}};\nconsole.log({{@grid}}[0]);",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 },
+        "d": { "gen": "int", "min": 1, "max": 9 },
+        "n": { "gen": "pick", "options": [100, 200, 300, 400, 500] }
+      },
+      "themes": {
+        "board": { "grid": "board", "copy": "backup" },
+        "seats": { "grid": "seats", "copy": "plan" },
+        "matrix": { "grid": "matrix", "copy": "clone" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "shallow-copy-deep",
+          "find": "const {{@copy}} = [...{{@grid}}];",
+          "replace": "const {{@copy}} = structuredClone({{@grid}});",
+          "belief": "Copying a list also copies the lists inside it",
+          "refutation": "Spreading copies only the outer array; the inner rows are still shared, so the change shows in {{@grid}}.",
+          "rule": "[...a] is shallow; inner arrays stay shared."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-ac-contrast",
+      "tag": "alias-copy",
+      "family": "contrast-alias",
+      "kind": "contrast",
+      "code": "const {{@a}} = {{vals}};\nconst {{@b}} = [...{{@a}}];\n{{@b}}.push({{n}});\nconsole.log({{@a}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 3, "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 20 }
+      },
+      "themes": { "cart": { "a": "cart", "b": "order" }, "team": { "a": "team", "b": "squad" } },
+      "transforms": [],
+      "parSec": 5,
+      "contrastCode": "const {{@a}} = {{vals}};\nconst {{@b}} = {{@a}};\n{{@b}}.push({{n}});\nconsole.log({{@a}});",
+      "misconceptionId": "assignment-copies",
+      "rule": "b = a shares one array; [...a] makes a new one."
+    },
+    {
+      "id": "js-ac-example",
+      "tag": "alias-copy",
+      "family": "copy-vs-alias",
+      "kind": "example",
+      "code": "const {{@orig}} = {{vals}};\nconst {{@same}} = {{@orig}};\nconst {{@copy}} = [...{{@orig}}];\n{{@same}}.push({{n}});\n{{@copy}}.push({{m}});\nconsole.log({{@orig}}, {{@copy}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 3, "min": 1, "max": 9 },
+        "n": { "gen": "int", "min": 10, "max": 20 },
+        "m": { "gen": "int", "min": 21, "max": 30 }
+      },
+      "themes": {
+        "list": { "orig": "list", "same": "alias", "copy": "copy" },
+        "deck": { "orig": "deck", "same": "hand", "copy": "spare" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "The original array" },
+        { "line": 2, "label": "A second name, same array" },
+        { "line": 3, "label": "A real copy" },
+        { "line": 4, "label": "Change through the alias" },
+        { "line": 5, "label": "Change only the copy" },
+        { "line": 6, "label": "Original shows the alias change" }
+      ]
+    },
+    {
+      "id": "js-ac-complete-copy",
+      "tag": "alias-copy",
+      "family": "with-item-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@xs}}, item) {\n  const out = [[1]];\n  out.push(item);\n  out.sort((p, q) => p - q);\n  return out;\n}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 3 },
+        "b": { "gen": "int", "min": 4, "max": 6 },
+        "c": { "gen": "int", "min": 7, "max": 9 },
+        "d": { "gen": "int", "min": 10, "max": 20 }
+      },
+      "themes": {
+        "item": { "fn": "withItem", "xs": "items", "kept": "base" },
+        "plus": { "fn": "plusOne", "xs": "values", "kept": "start" },
+        "added": { "fn": "added", "xs": "list", "kept": "orig" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["[...{{@xs}}]"],
+      "wrongFills": [{ "blank": 1, "fill": "{{@xs}}", "misconceptionId": "assignment-copies" }],
+      "harness": "const {{@kept}} = [{{a}}, {{b}}];\ncheck(JSON.stringify({{@fn}}({{@kept}}, {{c}})) === '[{{a}},{{b}},{{c}}]', 'adds the item in order');\ncheck(JSON.stringify({{@kept}}) === '[{{a}},{{b}}]', 'leaves the original alone');\ncheck(JSON.stringify({{@fn}}([], {{d}})) === '[{{d}}]', 'works on an empty list');"
+    },
+    {
+      "id": "js-obj-dot-bracket",
+      "tag": "object-property-access",
+      "family": "dot-vs-bracket",
+      "kind": "probe",
+      "code": "const {{@key}} = '{{k1}}';\nconst {{@obj}} = { {{k1}}: {{a}}, {{@key}}: {{b}} };\nconsole.log({{@obj}}[{{@key}}]);\nconsole.log({{@obj}}.{{@key}});",
+      "slots": {
+        "k1": { "gen": "word", "pool": "colors" },
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "pick", "options": [100, 200, 300, 400, 500] }
+      },
+      "themes": {
+        "paint": { "key": "field", "obj": "paint" },
+        "stock": { "key": "prop", "obj": "stock" },
+        "shelf": { "key": "slot", "obj": "shelf" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "dot-uses-variable",
+          "find": "console.log({{@obj}}.{{@key}});",
+          "replace": "console.log({{@obj}}[{{@key}}]);",
+          "belief": "obj.key uses the value of the variable key",
+          "refutation": "A dot always takes the name literally: {{@obj}}.{{@key}} reads the property called {{@key}}, ignoring the variable.",
+          "rule": "obj.name is literal; obj[name] uses the variable value."
+        },
+        {
+          "misconceptionId": "bracket-literal-name",
+          "find": "console.log({{@obj}}[{{@key}}]);",
+          "replace": "console.log({{@obj}}['{{@key}}']);",
+          "belief": "obj[key] looks up a property literally named key",
+          "refutation": "Brackets evaluate what is inside: [{{@key}}] uses the text stored in {{@key}}, while ['{{@key}}'] would be the literal name.",
+          "rule": "obj[key] looks up the value stored in key."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-obj-undefined-chain",
+      "tag": "object-property-access",
+      "family": "undefined-chain",
+      "kind": "probe",
+      "code": "const {{@user}} = { name: '{{n}}' };\nconsole.log({{@user}}.{{@prop}});\nconsole.log({{@user}}.{{@prop}}.{{@sub}});",
+      "slots": { "n": { "gen": "word", "pool": "names" } },
+      "themes": {
+        "user": { "user": "user", "prop": "address", "sub": "city" },
+        "order": { "user": "order", "prop": "shipping", "sub": "date" },
+        "post": { "user": "post", "prop": "author", "sub": "email" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "property-of-undefined-ok",
+          "find": "console.log({{@user}}.{{@prop}}.{{@sub}});",
+          "replace": "console.log({{@user}}.{{@prop}}?.{{@sub}});",
+          "belief": "Reading a property of undefined just gives undefined",
+          "refutation": "{{@user}} has no {{@prop}}, so the second dot asks a missing value for a property, which throws. ?. would stop safely.",
+          "rule": "Reading a property of undefined throws; guard with ?."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-obj-number-keys",
+      "tag": "object-property-access",
+      "family": "number-keys",
+      "kind": "probe",
+      "code": "const {{@seats}} = {};\n{{@seats}}[{{k}}] = '{{n1}}';\n{{@seats}}['{{k}}'] = '{{n2}}';\nconsole.log(Object.keys({{@seats}}).length, {{@seats}}[{{k}}]);",
+      "slots": {
+        "k": { "gen": "int", "min": 1, "max": 30 },
+        "n1": { "gen": "word", "pool": "names" },
+        "n2": { "gen": "word", "pool": "names" }
+      },
+      "themes": { "seats": { "seats": "seats" }, "lockers": { "seats": "lockers" }, "rooms": { "seats": "rooms" } },
+      "transforms": [
+        {
+          "misconceptionId": "number-keys-distinct",
+          "find": "{{@seats}}['{{k}}'] = '{{n2}}';",
+          "replace": "{{@seats}}['_{{k}}'] = '{{n2}}';",
+          "belief": "obj[1] and obj['1'] are different properties",
+          "refutation": "Object keys are always text, so the number {{k}} becomes the key '{{k}}': both lines write the same property.",
+          "rule": "Object keys are strings: obj[1] and obj['1'] are the same."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-obj-example",
+      "tag": "object-property-access",
+      "family": "book",
+      "kind": "example",
+      "code": "const {{@book}} = { title: '{{t}}', pages: {{p}} };\nconst {{@field}} = 'pages';\nconsole.log({{@book}}.title);\nconsole.log({{@book}}[{{@field}}]);\nconsole.log({{@book}}.author ?? 'unknown');\nconsole.log({{@book}}.author?.name);",
+      "slots": { "t": { "gen": "word", "pool": "cities" }, "p": { "gen": "int", "min": 50, "max": 400 } },
+      "themes": { "book": { "book": "book", "field": "field" }, "guide": { "book": "guide", "field": "wanted" } },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "An object with two properties" },
+        { "line": 2, "label": "A property name in a variable" },
+        { "line": 3, "label": "Dot: a fixed name" },
+        { "line": 4, "label": "Brackets: the variable value" },
+        { "line": 5, "label": "Missing property falls back" },
+        { "line": 6, "label": "?. stops at undefined" }
+      ]
+    },
+    {
+      "id": "js-obj-complete-field",
+      "tag": "object-property-access",
+      "family": "field-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@record}}, {{@field}}) {\n  if (!({{@field}} in {{@record}})) {\n    return 'missing';\n  }\n  return [[1]];\n}",
+      "slots": {
+        "p1": { "gen": "word", "pool": "fruits" },
+        "p2": { "gen": "word", "pool": "animals" },
+        "a": { "gen": "int", "min": 1, "max": 49 },
+        "b": { "gen": "int", "min": 50, "max": 99 }
+      },
+      "themes": {
+        "read": { "fn": "readField", "record": "record", "field": "name" },
+        "lookup": { "fn": "lookup", "record": "table", "field": "key" },
+        "prop": { "fn": "getProp", "record": "item", "field": "prop" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["{{@record}}[{{@field}}]"],
+      "wrongFills": [{ "blank": 1, "fill": "{{@record}}.{{@field}}", "misconceptionId": "dot-uses-variable" }],
+      "harness": "check({{@fn}}({ {{p1}}: {{a}} }, '{{p1}}') === {{a}}, 'reads the named property');\ncheck({{@fn}}({ {{p1}}: {{a}}, {{p2}}: {{b}} }, '{{p2}}') === {{b}}, 'reads another property');\ncheck({{@fn}}({ x: 1 }, 'y') === 'missing', 'reports a missing property');"
+    },
+    {
+      "id": "js-fn-define-only",
+      "tag": "function-def-call",
+      "family": "define-no-call",
+      "kind": "probe",
+      "code": "function {{@fn}}() {\n  console.log('{{@w}}');\n  return {{a}};\n}\nconsole.log('{{@v}}');\nconsole.log({{@fn}}());",
+      "slots": { "a": { "gen": "int", "min": 1, "max": 9 } },
+      "themes": {
+        "greet": { "fn": "greet", "w": "hello", "v": "start" },
+        "beep": { "fn": "beep", "w": "beep", "v": "ready" },
+        "ring": { "fn": "ring", "w": "ding", "v": "waiting" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "def-runs-body",
+          "find": "console.log('{{@v}}');",
+          "replace": "{{@fn}}(); console.log('{{@v}}');",
+          "belief": "Defining a function runs its body",
+          "refutation": "Defining {{@fn}} only stores it; its body runs each time {{@fn}}() is called, which happens only on the last line.",
+          "rule": "A function body runs only when the function is called."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-fn-no-parens",
+      "tag": "function-def-call",
+      "family": "no-parens",
+      "kind": "probe",
+      "code": "function {{@fn}}() {\n  return {{a}} * {{b}};\n}\nconst {{@result}} = {{@fn}};\nconsole.log(typeof {{@result}});\nconsole.log({{@fn}}() + 1);",
+      "slots": { "a": { "gen": "int", "min": 2, "max": 9 }, "b": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": {
+        "area": { "fn": "area", "result": "size" },
+        "total": { "fn": "total", "result": "amount" },
+        "score": { "fn": "score", "result": "points" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "name-without-parens-calls",
+          "find": "const {{@result}} = {{@fn}};",
+          "replace": "const {{@result}} = {{@fn}}();",
+          "belief": "Writing the name without () calls it",
+          "refutation": "Without parentheses, {{@fn}} is the function itself, stored under a new name; only {{@fn}}() runs it.",
+          "rule": "Add () to call a function; the bare name is the function."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-fn-args-position",
+      "tag": "function-def-call",
+      "family": "args-position",
+      "kind": "probe",
+      "code": "function {{@fn}}({{@p1}}, {{@p2}}) {\n  return {{@p1}} / {{@p2}};\n}\nconst {{@p2}} = {{a}};\nconst {{@p1}} = {{t}};\nconsole.log({{@fn}}({{@p2}}, {{@p1}}));",
+      "slots": {
+        "a": { "gen": "int", "min": 2, "max": 6 },
+        "m": { "gen": "pick", "options": [2, 4, 5] },
+        "t": { "gen": "derive", "expr": "a * m" }
+      },
+      "themes": {
+        "share": { "fn": "perPerson", "p1": "total", "p2": "people" },
+        "speed": { "fn": "speed", "p1": "distance", "p2": "hours" },
+        "unit": { "fn": "unitPrice", "p1": "cost", "p2": "count" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "args-match-by-name",
+          "find": "console.log({{@fn}}({{@p2}}, {{@p1}}));",
+          "replace": "console.log({{@fn}}({{@p1}}, {{@p2}}));",
+          "belief": "Arguments match parameters by the caller's variable names",
+          "refutation": "Arguments fill parameters by position: the first value goes to {{@p1}}, whatever the caller's variable is called.",
+          "rule": "Arguments match parameters by order, never by name."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-fn-example",
+      "tag": "function-def-call",
+      "family": "area",
+      "kind": "example",
+      "code": "function {{@fn}}({{@w}}, {{@h}}) {\n  const {{@area}} = {{@w}} * {{@h}};\n  return {{@area}};\n}\nconst {{@small}} = {{@fn}}({{a}}, {{b}});\nconst {{@big}} = {{@fn}}({{c}}, {{d}});\nconsole.log({{@small}}, {{@big}});",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 5 },
+        "b": { "gen": "int", "min": 1, "max": 5 },
+        "c": { "gen": "int", "min": 6, "max": 12 },
+        "d": { "gen": "int", "min": 6, "max": 12 }
+      },
+      "themes": {
+        "rooms": { "fn": "area", "w": "width", "h": "height", "area": "result", "small": "closet", "big": "hall" },
+        "tiles": { "fn": "tileCount", "w": "cols", "h": "rows", "area": "count", "small": "patio", "big": "floor" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "Name it, list its inputs" },
+        { "line": 2, "label": "Work with the parameters" },
+        { "line": 3, "label": "Hand the result back" },
+        { "line": 5, "label": "Call it with values" },
+        { "line": 6, "label": "Call it again" },
+        { "line": 7, "label": "Show both results" }
+      ]
+    },
+    {
+      "id": "js-fn-complete-call",
+      "tag": "function-def-call",
+      "family": "call-fn",
+      "kind": "completion",
+      "code": "function {{@sq}}(n) {\n  return n * n;\n}\nfunction {{@fn}}(a, b) {\n  return [[1]] + {{@sq}}(b);\n}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 },
+        "d": { "gen": "int", "min": 1, "max": 9 },
+        "e1": { "gen": "derive", "expr": "a * a + b * b" },
+        "e2": { "gen": "derive", "expr": "c * c + d * d" }
+      },
+      "themes": {
+        "square": { "sq": "square", "fn": "sumOfSquares" },
+        "sq": { "sq": "sq", "fn": "pythag" },
+        "squared": { "sq": "squared", "fn": "squareSum" }
+      },
+      "transforms": [],
+      "parSec": 20,
+      "solutions": ["{{@sq}}(a)"],
+      "wrongFills": [{ "blank": 1, "fill": "{{@sq}}", "misconceptionId": "name-without-parens-calls" }],
+      "harness": "check({{@fn}}({{a}}, {{b}}) === {{e1}}, 'adds two squares');\ncheck({{@fn}}({{c}}, {{d}}) === {{e2}}, 'adds two other squares');"
+    },
+    {
+      "id": "js-ret-log-not-return",
+      "tag": "function-return-vs-print",
+      "family": "log-not-return",
+      "kind": "probe",
+      "code": "function {{@fn}}(x) {\n  console.log(x * {{k}});\n}\nconst {{@result}} = {{@fn}}({{a}});\nconsole.log({{@result}});",
+      "slots": { "k": { "gen": "int", "min": 2, "max": 5 }, "a": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": {
+        "double": { "fn": "double", "result": "doubled" },
+        "triple": { "fn": "triple", "result": "value" },
+        "scale": { "fn": "scale", "result": "scaled" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "print-is-return",
+          "find": "  console.log(x * {{k}});",
+          "replace": "  console.log(x * {{k}}); return x * {{k}};",
+          "belief": "A function that prints gives back that value",
+          "refutation": "console.log only shows the value on screen; a function gives nothing back unless it says return.",
+          "rule": "Only return gives a value back to the caller."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-ret-silent",
+      "tag": "function-return-vs-print",
+      "family": "return-silent",
+      "kind": "probe",
+      "code": "function {{@fn}}(x) {\n  return x + {{k}};\n  console.log('{{@w}}');\n}\n{{@fn}}({{a}});\nconsole.log({{@fn}}({{b}}));",
+      "slots": {
+        "k": { "gen": "int", "min": 1, "max": 9 },
+        "a": { "gen": "int", "min": 10, "max": 19 },
+        "b": { "gen": "int", "min": 20, "max": 29 }
+      },
+      "themes": {
+        "tax": { "fn": "addTax", "w": "taxed" },
+        "level": { "fn": "nextLevel", "w": "leveled" },
+        "later": { "fn": "later", "w": "waited" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "return-prints",
+          "find": "{{@fn}}({{a}});",
+          "replace": "console.log({{@fn}}({{a}}));",
+          "belief": "return shows the value on the screen",
+          "refutation": "return hands the value back silently; the first call's result is thrown away because nothing logs it.",
+          "rule": "return gives a value back; only console.log shows it."
+        },
+        {
+          "misconceptionId": "code-after-return-runs",
+          "find": "  return x + {{k}};",
+          "replace": "  console.log('{{@w}}'); return x + {{k}};",
+          "belief": "Lines after return still run",
+          "refutation": "return ends the function at once, so the console.log after it can never run.",
+          "rule": "Nothing after return runs in that call."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-ret-in-loop",
+      "tag": "function-return-vs-print",
+      "family": "return-in-loop",
+      "kind": "probe",
+      "code": "function {{@fn}}({{@xs}}) {\n  for (const x of {{@xs}}) {\n    if (x > {{lim}}) return x;\n  }\n  return -1;\n}\nconsole.log({{@fn}}([{{a}}, {{b}}, {{big}}, {{c}}]));",
+      "slots": {
+        "lim": { "gen": "int", "min": 4, "max": 6 },
+        "a": { "gen": "int", "min": 1, "max": 4 },
+        "b": { "gen": "int", "min": 1, "max": 4 },
+        "big": { "gen": "pick", "options": [12, 14, 15, 17, 18] },
+        "c": { "gen": "int", "min": 21, "max": 30 }
+      },
+      "themes": {
+        "big": { "fn": "firstBig", "xs": "values" },
+        "late": { "fn": "firstLate", "xs": "times" },
+        "heavy": { "fn": "firstHeavy", "xs": "weights" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "return-in-loop-continues",
+          "find": "    if (x > {{lim}}) return x;",
+          "replace": "    if (x > {{lim}}) continue;",
+          "belief": "return inside a loop only ends that pass",
+          "refutation": "return leaves the whole function immediately, loop and all, the first time an item passes the test.",
+          "rule": "return inside a loop ends the whole function."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-ret-example",
+      "tag": "function-return-vs-print",
+      "family": "largest",
+      "kind": "example",
+      "code": "function {{@fn}}({{@xs}}) {\n  let {{@best}} = {{@xs}}[0];\n  for (const x of {{@xs}}) {\n    if (x > {{@best}}) {{@best}} = x;\n  }\n  return {{@best}};\n}\nconsole.log({{@fn}}({{vals}}) * 2);",
+      "slots": { "vals": { "gen": "intList", "minLen": 3, "maxLen": 5, "min": 1, "max": 9, "distinct": true } },
+      "themes": {
+        "top": { "fn": "largest", "xs": "values", "best": "best" },
+        "peak": { "fn": "peak", "xs": "heights", "best": "tallest" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "Takes the values in" },
+        { "line": 2, "label": "Start with the first" },
+        { "line": 4, "label": "Keep the larger one" },
+        { "line": 6, "label": "Hand the answer back" },
+        { "line": 8, "label": "Use the returned value" }
+      ]
+    },
+    {
+      "id": "js-ret-complete-total",
+      "tag": "function-return-vs-print",
+      "family": "total-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@xs}}) {\n  let total = 0;\n  for (const x of {{@xs}}) {\n    total += x;\n  }\n  [[1]];\n}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 20 },
+        "b": { "gen": "int", "min": 1, "max": 20 },
+        "c": { "gen": "int", "min": 21, "max": 40 },
+        "s": { "gen": "derive", "expr": "a + b" }
+      },
+      "themes": {
+        "sum": { "fn": "sum", "xs": "values" },
+        "cart": { "fn": "cartTotal", "xs": "prices" },
+        "time": { "fn": "totalTime", "xs": "minutes" }
+      },
+      "transforms": [],
+      "parSec": 20,
+      "solutions": ["return total"],
+      "wrongFills": [{ "blank": 1, "fill": "console.log(total)", "misconceptionId": "print-is-return" }],
+      "harness": "check({{@fn}}([{{a}}, {{b}}]) === {{s}}, 'gives back the sum');\ncheck({{@fn}}([{{c}}]) === {{c}}, 'gives back a single value');"
+    },
+    {
+      "id": "js-mfr-map-original",
+      "tag": "array-map-filter-reduce",
+      "family": "map-original",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@out}} = {{@xs}}.map((x) => x * {{k}});\nconsole.log({{@xs}});\nconsole.log({{@out}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 3, "min": 1, "max": 9 },
+        "k": { "gen": "int", "min": 2, "max": 5 }
+      },
+      "themes": {
+        "prices": { "xs": "prices", "out": "doubled" },
+        "sizes": { "xs": "sizes", "out": "scaled" },
+        "counts": { "xs": "counts", "out": "boosted" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "map-changes-original",
+          "find": "console.log({{@xs}});",
+          "replace": "console.log({{@out}});",
+          "belief": "map changes the original array",
+          "refutation": "map builds a brand-new array from the results; {{@xs}} itself is left exactly as it was.",
+          "rule": "map returns a new array; the original is unchanged."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-mfr-braces",
+      "tag": "array-map-filter-reduce",
+      "family": "braces",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@out}} = {{@xs}}.map((x) => { x + {{k}}; });\nconsole.log({{@out}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 3, "min": 1, "max": 9 },
+        "k": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": {
+        "ages": { "xs": "ages", "out": "nextYear" },
+        "levels": { "xs": "levels", "out": "raised" },
+        "temps": { "xs": "temps", "out": "warmer" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "braces-implicit-return",
+          "find": "{{@xs}}.map((x) => { x + {{k}}; });",
+          "replace": "{{@xs}}.map((x) => x + {{k}});",
+          "belief": "An arrow function with braces returns its last expression",
+          "refutation": "With braces, an arrow function runs a block of statements and gives back nothing unless it says return.",
+          "rule": "With braces, write return; without braces, the value returns."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-mfr-filter",
+      "tag": "array-map-filter-reduce",
+      "family": "filter",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{vals}};\nconst {{@kept}} = {{@xs}}.filter((x) => x > {{lim}});\nconsole.log({{@kept}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 4, "maxLen": 5, "min": 1, "max": 9, "distinct": true },
+        "lim": { "gen": "int", "min": 4, "max": 5 }
+      },
+      "themes": {
+        "scores": { "xs": "scores", "kept": "passed" },
+        "bids": { "xs": "bids", "kept": "high" },
+        "sizes": { "xs": "sizes", "kept": "large" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "filter-keeps-failing",
+          "find": "(x) => x > {{lim}}",
+          "replace": "(x) => !(x > {{lim}})",
+          "belief": "filter keeps the items where the test is false",
+          "refutation": "filter keeps the items whose test comes out true and drops the rest.",
+          "rule": "filter keeps the items that pass the test."
+        }
+      ],
+      "parSec": 5
+    },
+    {
+      "id": "js-mfr-reduce",
+      "tag": "array-map-filter-reduce",
+      "family": "reduce-join",
+      "kind": "probe",
+      "code": "const {{@xs}} = {{names}};\nconst {{@joined}} = {{@xs}}.reduce((acc, x) => acc + '-' + x);\nconsole.log({{@joined}});",
+      "slots": { "names": { "gen": "wordList", "pool": "names", "minLen": 3, "maxLen": 4, "distinct": true } },
+      "themes": {
+        "route": { "xs": "stops", "joined": "route" },
+        "guests": { "xs": "guests", "joined": "list" },
+        "players": { "xs": "players", "joined": "order" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "reduce-starts-at-zero",
+          "find": "(acc, x) => acc + '-' + x)",
+          "replace": "(acc, x) => acc + '-' + x, 0)",
+          "belief": "reduce without a start value starts from 0",
+          "refutation": "Without a start value, reduce starts from the first item itself and combines from the second item on.",
+          "rule": "Without a start value, reduce begins with the first item."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-mfr-example",
+      "tag": "array-map-filter-reduce",
+      "family": "pipeline",
+      "kind": "example",
+      "code": "const {{@prices}} = {{vals}};\nconst {{@doubled}} = {{@prices}}.map((p) => p * 2);\nconst {{@big}} = {{@doubled}}.filter((p) => p > {{lim}});\nconst {{@total}} = {{@big}}.reduce((sum, p) => sum + p, 0);\nconsole.log({{@doubled}}, {{@big}}, {{@total}});",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 3, "maxLen": 4, "min": 1, "max": 9 },
+        "lim": { "gen": "int", "min": 6, "max": 10 }
+      },
+      "themes": {
+        "shop": { "prices": "prices", "doubled": "doubled", "big": "big", "total": "total" },
+        "game": { "prices": "points", "doubled": "boosted", "big": "high", "total": "score" }
+      },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "The original data" },
+        { "line": 2, "label": "map: transform each item" },
+        { "line": 3, "label": "filter: keep passing items" },
+        { "line": 4, "label": "reduce: combine into one" },
+        { "line": 5, "label": "Each step made something new" }
+      ]
+    },
+    {
+      "id": "js-mfr-complete-scale",
+      "tag": "array-map-filter-reduce",
+      "family": "scale-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}({{@xs}}, factor) {\n  const kept = {{@xs}}.filter((x) => x > 0);\n  const scaled = kept.map((x) => {\n    [[1]];\n  });\n  return scaled;\n}",
+      "slots": {
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 },
+        "k": { "gen": "int", "min": 2, "max": 5 },
+        "ak": { "gen": "derive", "expr": "a * k" },
+        "ck": { "gen": "derive", "expr": "c * k" }
+      },
+      "themes": {
+        "scale": { "fn": "scalePositive", "xs": "values" },
+        "boost": { "fn": "boost", "xs": "scores" },
+        "grow": { "fn": "grow", "xs": "sizes" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["return x * factor"],
+      "wrongFills": [{ "blank": 1, "fill": "x * factor", "misconceptionId": "braces-implicit-return" }],
+      "harness": "check(JSON.stringify({{@fn}}([{{a}}, -{{b}}, {{c}}], {{k}})) === '[{{ak}},{{ck}}]', 'scales the positive values');\ncheck(JSON.stringify({{@fn}}([-{{a}}], {{k}})) === '[]', 'drops negatives');"
+    },
+    {
+      "id": "js-this-detached",
+      "tag": "this-method-call",
+      "family": "detached",
+      "kind": "probe",
+      "code": "const {{@obj}} = {\n  name: '{{n}}',\n  greet() { return '{{@hi}} ' + this.name; },\n};\nconst {{@fn}} = {{@obj}}.greet;\nconsole.log({{@obj}}.greet());\nconsole.log({{@fn}}());",
+      "slots": { "n": { "gen": "word", "pool": "names" } },
+      "themes": {
+        "host": { "obj": "host", "fn": "say", "hi": "Hi" },
+        "bot": { "obj": "bot", "fn": "speak", "hi": "Hello" },
+        "guide": { "obj": "guide", "fn": "welcome", "hi": "Welcome" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "detached-keeps-this",
+          "find": "const {{@fn}} = {{@obj}}.greet;",
+          "replace": "const {{@fn}} = {{@obj}}.greet.bind({{@obj}});",
+          "belief": "A method keeps its object as this when stored in a variable",
+          "refutation": "this is decided by how a function is called: {{@fn}}() has no object before the dot, so this is not {{@obj}}.",
+          "rule": "this is the object before the dot at call time."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-this-callback",
+      "tag": "this-method-call",
+      "family": "callback",
+      "kind": "probe",
+      "code": "const {{@obj}} = {\n  {{@items}}: {{vals}},\n  factor: {{k}},\n  scaled() { return this.{{@items}}.map(function (x) { return x * this.factor; }); },\n};\nconsole.log({{@obj}}.scaled());",
+      "slots": {
+        "vals": { "gen": "intList", "minLen": 2, "maxLen": 3, "min": 1, "max": 9 },
+        "k": { "gen": "int", "min": 2, "max": 5 }
+      },
+      "themes": {
+        "recipe": { "obj": "recipe", "items": "grams" },
+        "cart": { "obj": "cart", "items": "prices" },
+        "chart": { "obj": "chart", "items": "points" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "callback-this-outer",
+          "find": "map(function (x) { return x * this.factor; })",
+          "replace": "map((x) => x * this.factor)",
+          "belief": "A regular function callback sees the outer method's this",
+          "refutation": "A regular function passed as a callback gets its own this, not the method's; an arrow function would keep the outer this.",
+          "rule": "Use an arrow callback to keep the method's this."
+        }
+      ],
+      "parSec": 8
+    },
+    {
+      "id": "js-this-counter",
+      "tag": "this-method-call",
+      "family": "counter",
+      "kind": "probe",
+      "code": "const {{@counter}} = {\n  count: {{a}},\n  bump() { this.count += {{d}}; return this.count; },\n};\n{{@counter}}.bump();\nconsole.log({{@counter}}.bump());",
+      "slots": { "a": { "gen": "int", "min": 0, "max": 9 }, "d": { "gen": "int", "min": 1, "max": 5 } },
+      "themes": {
+        "clicks": { "counter": "clicks" },
+        "score": { "counter": "score" },
+        "steps": { "counter": "steps" }
+      },
+      "transforms": [
+        {
+          "misconceptionId": "this-is-function",
+          "find": "  bump() { this.count += {{d}}; return this.count; },",
+          "replace": "  bump() { {{@counter}}.bump.count += {{d}}; return {{@counter}}.bump.count; },",
+          "belief": "this inside a method means the function itself",
+          "refutation": "Called as {{@counter}}.bump(), the method gets {{@counter}} itself as this, the object before the dot, not the function.",
+          "rule": "this is the object before the dot at call time."
+        }
+      ],
+      "parSec": 6
+    },
+    {
+      "id": "js-this-example",
+      "tag": "this-method-call",
+      "family": "account",
+      "kind": "example",
+      "code": "const {{@acct}} = {\n  owner: '{{n}}',\n  balance: {{a}},\n  deposit(amount) { this.balance += amount; return this; },\n};\n{{@acct}}.deposit({{d}}).deposit({{e}});\nconsole.log({{@acct}}.owner, {{@acct}}.balance);",
+      "slots": {
+        "n": { "gen": "word", "pool": "names" },
+        "a": { "gen": "int", "min": 10, "max": 50 },
+        "d": { "gen": "int", "min": 1, "max": 9 },
+        "e": { "gen": "int", "min": 1, "max": 9 }
+      },
+      "themes": { "bank": { "acct": "account" }, "wallet": { "acct": "wallet" } },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "An object with a method" },
+        { "line": 2, "label": "Data the method uses" },
+        { "line": 3, "label": "Starting balance" },
+        { "line": 4, "label": "this is the calling object" },
+        { "line": 6, "label": "Each call names its object" },
+        { "line": 7, "label": "The object changed" }
+      ]
+    },
+    {
+      "id": "js-this-complete-arrow",
+      "tag": "this-method-call",
+      "family": "scaler-fn",
+      "kind": "completion",
+      "code": "function {{@make}}(factor) {\n  return {\n    factor,\n    scale: function ({{@xs}}) {\n      return {{@xs}}.map([[1]]);\n    },\n  };\n}",
+      "slots": {
+        "k": { "gen": "int", "min": 2, "max": 5 },
+        "m": { "gen": "int", "min": 6, "max": 9 },
+        "a": { "gen": "int", "min": 1, "max": 9 },
+        "b": { "gen": "int", "min": 1, "max": 9 },
+        "c": { "gen": "int", "min": 1, "max": 9 },
+        "ak": { "gen": "derive", "expr": "a * k" },
+        "bk": { "gen": "derive", "expr": "b * k" },
+        "cm": { "gen": "derive", "expr": "c * m" }
+      },
+      "themes": {
+        "scaler": { "make": "makeScaler", "xs": "values" },
+        "zoom": { "make": "zoom", "xs": "sizes" },
+        "mult": { "make": "multiplier", "xs": "nums" }
+      },
+      "transforms": [],
+      "parSec": 30,
+      "solutions": ["(x) => x * this.factor"],
+      "wrongFills": [
+        { "blank": 1, "fill": "function (x) { return x * this.factor; }", "misconceptionId": "callback-this-outer" }
+      ],
+      "harness": "check(JSON.stringify({{@make}}({{k}}).scale([{{a}}, {{b}}])) === '[{{ak}},{{bk}}]', 'scales each value');\ncheck(JSON.stringify({{@make}}({{m}}).scale([{{c}}])) === '[{{cm}}]', 'uses the factor of its own object');"
+    },
+    {
+      "id": "js-late-var-loop",
+      "tag": "closure-late-binding",
+      "family": "var-loop",
+      "kind": "probe",
+      "code": "const {{@fns}} = [];\nfor (var i = 0; i < {{n}}; i++) {\n  {{@fns}}.push(() => i * {{k}});\n}\nconsole.log({{@fns}}.map((f) => f()));",
+      "slots": { "n": { "gen": "int", "min": 2, "max": 4 }, "k": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": { "handlers": { "fns": "handlers" }, "tasks": { "fns": "tasks" }, "getters": { "fns": "getters" } },
+      "transforms": [
+        {
+          "misconceptionId": "loop-closure-keeps-value",
+          "find": "for (var i = 0;",
+          "replace": "for (let i = 0;",
+          "belief": "Each function made in a loop remembers that pass's value",
+          "refutation": "var makes one i shared by every pass; each arrow reads i when it is called, after the loop has finished counting.",
+          "rule": "Closures read a variable when they run, not when made."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-late-let-loop",
+      "tag": "closure-late-binding",
+      "family": "let-loop",
+      "kind": "probe",
+      "code": "const {{@fns}} = [];\nfor (let i = 0; i < {{n}}; i++) {\n  {{@fns}}.push(() => i + {{k}});\n}\nconsole.log({{@fns}}.map((f) => f()));",
+      "slots": { "n": { "gen": "int", "min": 2, "max": 4 }, "k": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": { "buttons": { "fns": "buttons" }, "jobs": { "fns": "jobs" }, "callbacks": { "fns": "callbacks" } },
+      "transforms": [
+        {
+          "misconceptionId": "let-same-as-var-loop",
+          "find": "for (let i = 0;",
+          "replace": "for (var i = 0;",
+          "belief": "let and var behave the same in loop callbacks",
+          "refutation": "A let loop variable is created fresh for each pass, so each arrow keeps its own i; var would share one.",
+          "rule": "let gives each pass its own i; var shares one."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-late-timeout",
+      "tag": "closure-late-binding",
+      "family": "timeout-var",
+      "kind": "probe",
+      "code": "for (var i = 1; i <= {{n}}; i++) {\n  setTimeout(() => console.log('{{@label}}', i * {{k}}), 0);\n}",
+      "slots": { "n": { "gen": "int", "min": 2, "max": 3 }, "k": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": { "tick": { "label": "tick" }, "ping": { "label": "ping" }, "step": { "label": "step" } },
+      "transforms": [
+        {
+          "misconceptionId": "loop-closure-keeps-value",
+          "find": "for (var i = 1;",
+          "replace": "for (let i = 1;",
+          "belief": "Each function made in a loop remembers that pass's value",
+          "refutation": "The callbacks run after the loop ends, and they all share the one var i, which by then has gone past {{n}}.",
+          "rule": "Closures read a variable when they run, not when made."
+        }
+      ],
+      "parSec": 7
+    },
+    {
+      "id": "js-late-contrast",
+      "tag": "closure-late-binding",
+      "family": "contrast-loop",
+      "kind": "contrast",
+      "code": "const {{@fs}} = [];\nfor (let i = 0; i < {{n}}; i++) {{@fs}}.push(() => i);\nconsole.log({{@fs}}.map((f) => f()));",
+      "slots": { "n": { "gen": "int", "min": 2, "max": 4 } },
+      "themes": { "fns": { "fs": "fns" }, "later": { "fs": "later" } },
+      "transforms": [],
+      "parSec": 5,
+      "contrastCode": "const {{@fs}} = [];\nfor (var i = 0; i < {{n}}; i++) {{@fs}}.push(() => i);\nconsole.log({{@fs}}.map((f) => f()));",
+      "misconceptionId": "loop-closure-keeps-value",
+      "rule": "var shares one i across passes; let makes one per pass."
+    },
+    {
+      "id": "js-late-example",
+      "tag": "closure-late-binding",
+      "family": "let-vs-var",
+      "kind": "example",
+      "code": "const {{@later}} = [];\nfor (let i = 1; i <= 3; i++) {\n  {{@later}}.push(() => i * {{k}});\n}\nfor (var j = 1; j <= 3; j++) {}\nconsole.log({{@later}}.map((f) => f()), j);",
+      "slots": { "k": { "gen": "int", "min": 2, "max": 9 } },
+      "themes": { "later": { "later": "later" }, "queued": { "later": "queued" } },
+      "transforms": [],
+      "parSec": 10,
+      "subgoals": [
+        { "line": 1, "label": "Functions to call later" },
+        { "line": 2, "label": "let: a fresh i each pass" },
+        { "line": 3, "label": "Each arrow keeps its own i" },
+        { "line": 5, "label": "var: one shared j" },
+        { "line": 6, "label": "Call them after the loop" }
+      ]
+    },
+    {
+      "id": "js-late-complete-let",
+      "tag": "closure-late-binding",
+      "family": "loop-fns-fn",
+      "kind": "completion",
+      "code": "function {{@fn}}(n) {\n  const {{@fns}} = [];\n  for ([[1]] i = 0; i < n; i++) {\n    {{@fns}}.push(() => i * {{k}});\n  }\n  return {{@fns}}.map((f) => f());\n}",
+      "slots": { "k": { "gen": "int", "min": 2, "max": 9 }, "k2": { "gen": "derive", "expr": "2 * k" } },
+      "themes": {
+        "make": { "fn": "makeAll", "fns": "fns" },
+        "multiples": { "fn": "multiples", "fns": "makers" },
+        "steps": { "fn": "stepFns", "fns": "steps" }
+      },
+      "transforms": [],
+      "parSec": 25,
+      "solutions": ["let"],
+      "wrongFills": [{ "blank": 1, "fill": "var", "misconceptionId": "let-same-as-var-loop" }],
+      "harness": "check(JSON.stringify({{@fn}}(3)) === '[0,{{k}},{{k2}}]', 'each function keeps its own i');\ncheck(JSON.stringify({{@fn}}(2)) === '[0,{{k}}]', 'works for two');"
+    },
+    {
+      "id": "js-tb-undefined-prop",
+      "tag": "reading-tracebacks",
+      "family": "tb-undefined-prop",
+      "kind": "traceback",
+      "code": "function {{@fn}}({{@user}}) {\n  return {{@user}}.name.toUpperCase();\n}\nconst {{@users}} = [{ name: '{{n1}}' }, { nick: '{{n2}}' }];\nfor (const u of {{@users}}) {\n  console.log({{@fn}}(u));\n}",
+      "slots": { "n1": { "gen": "word", "pool": "names" }, "n2": { "gen": "word", "pool": "names" } },
+      "themes": {
+        "users": { "fn": "shout", "user": "user", "users": "users" },
+        "members": { "fn": "label", "user": "member", "users": "members" }
+      },
+      "transforms": [],
+      "parSec": 10
+    },
+    {
+      "id": "js-tb-not-function",
+      "tag": "reading-tracebacks",
+      "family": "tb-not-function",
+      "kind": "traceback",
+      "code": "const {{@cart}} = { items: {{vals}}, count() { return this.items.length; } };\nfunction {{@fn}}(c) {\n  return c.cuont();\n}\nconsole.log({{@fn}}({{@cart}}));",
+      "slots": { "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9 } },
+      "themes": { "cart": { "cart": "cart", "fn": "itemCount" }, "bag": { "cart": "bag", "fn": "size" } },
+      "transforms": [],
+      "parSec": 10
+    },
+    {
+      "id": "js-tb-typo-name",
+      "tag": "reading-tracebacks",
+      "family": "tb-typo-name",
+      "kind": "traceback",
+      "code": "function {{@fn}}({{@xs}}) {\n  let total = 0;\n  for (const x of {{@xs}}) total += x;\n  return totl / {{@xs}}.length;\n}\nconsole.log({{@fn}}({{vals}}));",
+      "slots": { "vals": { "gen": "intList", "minLen": 2, "maxLen": 4, "min": 1, "max": 9 } },
+      "themes": { "avg": { "fn": "average", "xs": "scores" }, "mean": { "fn": "mean", "xs": "temps" } },
+      "transforms": [],
+      "parSec": 10
+    },
+    {
+      "id": "js-tb-negative-repeat",
+      "tag": "reading-tracebacks",
+      "family": "tb-negative-repeat",
+      "kind": "traceback",
+      "code": "function {{@fn}}({{@word}}, times) {\n  return {{@word}}.repeat(times);\n}\nconsole.log({{@fn}}('{{w}}', {{a}}));\nconsole.log({{@fn}}('{{w}}', {{a}} - {{b}}));",
+      "slots": {
+        "w": { "gen": "word", "pool": "animals" },
+        "a": { "gen": "int", "min": 1, "max": 3 },
+        "k": { "gen": "int", "min": 1, "max": 3 },
+        "b": { "gen": "derive", "expr": "a + k" }
+      },
+      "themes": { "echo": { "fn": "echo", "word": "word" }, "chant": { "fn": "chant", "word": "sound" } },
+      "transforms": [],
+      "parSec": 10
+    }
+  ]
+}

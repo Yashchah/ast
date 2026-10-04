@@ -1,0 +1,16 @@
+src/**
+test/**
+scripts/**
+docs/**
+node_modules/**
+.vscode/**
+.gitignore
+tsconfig.json
+esbuild.mjs
+package-lock.json
+*.vsix
+**/*.map
+**/*.ts
+**/__pycache__/**
+**/*.pyc
+archive/**

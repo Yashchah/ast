@@ -1,0 +1,685 @@
+{
+  "name": "deliberate-coach",
+  "displayName": "Deliberate — Learn by Building",
+  "description": "A coding coach that keeps you in a fast loop inside the editor: quick predict-the-output checks graded locally, behaviour specs that turn green as you save, and a hint ladder on your own line. You write every line of your project. Runs on your Codex (ChatGPT) plan by default.",
+  "version": "0.2.0",
+  "publisher": "yashc",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Education",
+    "AI",
+    "Other"
+  ],
+  "keywords": [
+    "learning",
+    "tutor",
+    "coach",
+    "deliberate practice",
+    "practice",
+    "claude"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onFileSystem:deliberate-pad"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "In an untrusted workspace Deliberate never runs code: practice uses unverified answer keys, and behaviour specs and own-code checks are off.",
+      "restrictedConfigurations": [
+        "deliberate.localExecution",
+        "deliberate.pythonPath",
+        "deliberate.codexPath"
+      ]
+    }
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "deliberate",
+          "title": "Deliberate",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "deliberate": [
+        {
+          "type": "webview",
+          "id": "deliberate.coach",
+          "name": "Coach"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "deliberate-pad-python",
+        "aliases": [
+          "Deliberate practice (Python)"
+        ],
+        "extensions": [
+          ".dlbpy"
+        ],
+        "configuration": "./syntaxes/pad-python.language-configuration.json"
+      },
+      {
+        "id": "deliberate-pad-javascript",
+        "aliases": [
+          "Deliberate practice (JavaScript)"
+        ],
+        "extensions": [
+          ".dlbjs"
+        ],
+        "configuration": "./syntaxes/pad-javascript.language-configuration.json"
+      },
+      {
+        "id": "deliberate-pad-typescript",
+        "aliases": [
+          "Deliberate practice (TypeScript)"
+        ],
+        "extensions": [
+          ".dlbts"
+        ],
+        "configuration": "./syntaxes/pad-typescript.language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "deliberate-pad-python",
+        "scopeName": "source.deliberate-pad-python",
+        "path": "./syntaxes/pad-python.tmLanguage.json"
+      },
+      {
+        "language": "deliberate-pad-javascript",
+        "scopeName": "source.deliberate-pad-javascript",
+        "path": "./syntaxes/pad-javascript.tmLanguage.json"
+      },
+      {
+        "language": "deliberate-pad-typescript",
+        "scopeName": "source.deliberate-pad-typescript",
+        "path": "./syntaxes/pad-typescript.tmLanguage.json"
+      }
+    ],
+    "configurationDefaults": {
+      "[deliberate-pad-python]": {
+        "editor.inlineSuggest.enabled": false,
+        "editor.quickSuggestions": {
+          "other": "off",
+          "comments": "off",
+          "strings": "off"
+        },
+        "editor.suggestOnTriggerCharacters": false,
+        "editor.wordBasedSuggestions": "off",
+        "editor.parameterHints.enabled": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.detectIndentation": false,
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false,
+        "files.trimTrailingWhitespace": false,
+        "files.insertFinalNewline": false,
+        "files.trimFinalNewlines": false
+      },
+      "[deliberate-pad-javascript]": {
+        "editor.inlineSuggest.enabled": false,
+        "editor.quickSuggestions": {
+          "other": "off",
+          "comments": "off",
+          "strings": "off"
+        },
+        "editor.suggestOnTriggerCharacters": false,
+        "editor.wordBasedSuggestions": "off",
+        "editor.parameterHints.enabled": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.detectIndentation": false,
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false,
+        "files.trimTrailingWhitespace": false,
+        "files.insertFinalNewline": false,
+        "files.trimFinalNewlines": false
+      },
+      "[deliberate-pad-typescript]": {
+        "editor.inlineSuggest.enabled": false,
+        "editor.quickSuggestions": {
+          "other": "off",
+          "comments": "off",
+          "strings": "off"
+        },
+        "editor.suggestOnTriggerCharacters": false,
+        "editor.wordBasedSuggestions": "off",
+        "editor.parameterHints.enabled": false,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4,
+        "editor.detectIndentation": false,
+        "editor.formatOnSave": false,
+        "editor.formatOnType": false,
+        "files.trimTrailingWhitespace": false,
+        "files.insertFinalNewline": false,
+        "files.trimFinalNewlines": false
+      }
+    },
+    "commands": [
+      {
+        "command": "deliberate.open",
+        "title": "Open Coach",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.newProject",
+        "title": "Start a New Goal",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.next",
+        "title": "Do the next thing",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.skipAction",
+        "title": "Not Now (skip the current suggestion)",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.hint",
+        "title": "I'm Stuck: Give Me a Hint",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.gotIt",
+        "title": "Got It (the hint helped)",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.teach",
+        "title": "Teach Me the Concept",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.checkWork",
+        "title": "Check My Work",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.reveal",
+        "title": "Reveal the Stuck Piece",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.predictOwn",
+        "title": "Predict My Function",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.jitAtom",
+        "title": "Practice the Pattern This Spec Needs (60 s drill)",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.sprint",
+        "title": "Sprint (3 min)",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.warmup",
+        "title": "Warm-up (60 s of due items)",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.practiceWhileWaiting",
+        "title": "Practice While You Wait",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.retryPlan",
+        "title": "Retry the Roadmap",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.gate",
+        "title": "Open the Plan Check for This Task",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.placement",
+        "title": "Open the Placement Check",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.ask",
+        "title": "Ask the Coach",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.explainSelection",
+        "title": "Help Me Understand This Code",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.atomSubmit",
+        "title": "Submit Practice Answer",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.atomSubmitGuess",
+        "title": "Submit Practice Answer (I'm Guessing)",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.padYes",
+        "title": "Practice: Yes",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.padNo",
+        "title": "Practice: No",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.padPick",
+        "title": "Practice: Pick an Option",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.atomEscape",
+        "title": "Practice: Escape (twice to leave)",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.leavePractice",
+        "title": "Leave Practice",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.chooseExecution",
+        "title": "Choose What Practice May Run Locally",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.showLog",
+        "title": "Show Log",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.codexLogin",
+        "title": "Sign in to Codex",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.setApiKey",
+        "title": "Set Anthropic API Key",
+        "category": "Deliberate"
+      },
+      {
+        "command": "deliberate.resetProfile",
+        "title": "Erase Learner Profile",
+        "category": "Deliberate"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "deliberate.next",
+        "key": "alt+n",
+        "mac": "ctrl+alt+n",
+        "when": "!inQuickOpen && !suggestWidgetVisible && !inSnippetMode"
+      },
+      {
+        "command": "deliberate.hint",
+        "key": "ctrl+alt+h",
+        "mac": "cmd+alt+h"
+      },
+      {
+        "command": "deliberate.checkWork",
+        "key": "ctrl+alt+enter",
+        "mac": "cmd+alt+enter"
+      },
+      {
+        "command": "deliberate.predictOwn",
+        "key": "ctrl+alt+p",
+        "mac": "ctrl+alt+p",
+        "when": "deliberate.building && editorTextFocus"
+      },
+      {
+        "command": "deliberate.sprint",
+        "key": "ctrl+alt+s"
+      },
+      {
+        "command": "deliberate.atomSubmit",
+        "key": "ctrl+enter",
+        "mac": "cmd+enter",
+        "when": "deliberate.atomFocused && editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "command": "deliberate.atomSubmitGuess",
+        "key": "ctrl+shift+enter",
+        "mac": "cmd+shift+enter",
+        "when": "deliberate.atomFocused && editorTextFocus && !suggestWidgetVisible"
+      },
+      {
+        "command": "deliberate.padYes",
+        "key": "y",
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == yn"
+      },
+      {
+        "command": "deliberate.padNo",
+        "key": "n",
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == yn"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "1",
+        "args": 1,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick2"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "2",
+        "args": 2,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick2"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "1",
+        "args": 1,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "2",
+        "args": 2,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "3",
+        "args": 3,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "numpad1",
+        "args": 1,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick2"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "numpad2",
+        "args": 2,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick2"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "numpad1",
+        "args": 1,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "numpad2",
+        "args": 2,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+      },
+      {
+        "command": "deliberate.padPick",
+        "key": "numpad3",
+        "args": 3,
+        "when": "deliberate.atomFocused && editorTextFocus && deliberate.padAwait == pick3"
+      },
+      {
+        "command": "deliberate.atomEscape",
+        "key": "escape",
+        "when": "deliberate.atomFocused && editorTextFocus && !suggestWidgetVisible && !inSnippetMode && !findWidgetVisible && !editorHoverVisible && !renameInputVisible && !inlineChatVisible && !notificationToastsVisible && !editorHasSelection && !editorHasMultipleSelections"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "deliberate.skipAction",
+          "when": "deliberate.hasAction"
+        },
+        {
+          "command": "deliberate.gotIt",
+          "when": "deliberate.building"
+        },
+        {
+          "command": "deliberate.reveal",
+          "when": "deliberate.building"
+        },
+        {
+          "command": "deliberate.predictOwn",
+          "when": "deliberate.building"
+        },
+        {
+          "command": "deliberate.jitAtom",
+          "when": "false"
+        },
+        {
+          "command": "deliberate.practiceWhileWaiting",
+          "when": "!deliberate.building"
+        },
+        {
+          "command": "deliberate.gate",
+          "when": "false"
+        },
+        {
+          "command": "deliberate.placement",
+          "when": "false"
+        },
+        {
+          "command": "deliberate.atomSubmit",
+          "when": "false"
+        },
+        {
+          "command": "deliberate.atomSubmitGuess",
+          "when": "false"
+        },
+        {
+          "command": "deliberate.padYes",
+          "when": "false"
+        },
+        {
+          "command": "deliberate.padNo",
+          "when": "false"
+        },
+        {
+          "command": "deliberate.padPick",
+          "when": "false"
+        },
+        {
+          "command": "deliberate.atomEscape",
+          "when": "false"
+        },
+        {
+          "command": "deliberate.leavePractice",
+          "when": "deliberate.padOpen"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "deliberate.explainSelection",
+          "when": "editorHasSelection",
+          "group": "navigation@90"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Deliberate",
+      "properties": {
+        "deliberate.provider": {
+          "type": "string",
+          "enum": [
+            "codex",
+            "anthropic",
+            "vscode-lm"
+          ],
+          "enumDescriptions": [
+            "Codex CLI signed in with your ChatGPT account: uses your Codex plan's limits, no API key.",
+            "Claude API with structured outputs (needs an API key: run 'Deliberate: Set Anthropic API Key' or set ANTHROPIC_API_KEY).",
+            "Any model exposed through VS Code's Language Model API (e.g. GitHub Copilot). No extra key."
+          ],
+          "default": "codex",
+          "description": "Which model provider the coach uses."
+        },
+        "deliberate.codexModel": {
+          "type": "string",
+          "default": "gpt-6.1-sol",
+          "description": "Model for the 'codex' provider."
+        },
+        "deliberate.codexFast": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use Codex's Fast service tier for calls you wait on (Ask, Reveal, Check my work). Background preparation never uses it."
+        },
+        "deliberate.codexPath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Path to the codex binary. Empty = auto-detect the newest one (the Codex desktop app's bundled CLI or `codex` on PATH). Machine scope: a workspace cannot change it."
+        },
+        "deliberate.model": {
+          "type": "string",
+          "default": "claude-opus-5-5",
+          "description": "Claude model id when provider is 'anthropic'."
+        },
+        "deliberate.vscodeLmFamily": {
+          "type": "string",
+          "default": "",
+          "description": "Model family to request when provider is 'vscode-lm' (empty = first available)."
+        },
+        "deliberate.localExecution": {
+          "type": "string",
+          "enum": [
+            "ask",
+            "snippets",
+            "all",
+            "off"
+          ],
+          "enumDescriptions": [
+            "Ask the first time something needs to run (the answer is remembered on this machine).",
+            "Run only the short practice snippets, in a temp folder with a 3 s limit and no file, process or network modules.",
+            "Run practice snippets, and call your own functions with test inputs from a temp folder (behaviour specs, predict-your-function, what-ifs).",
+            "Run nothing: practice uses unverified answer keys, and Check my work reviews your tasks instead of specs."
+          ],
+          "default": "ask",
+          "scope": "machine",
+          "markdownDescription": "What Deliberate may run on this machine to grade practice instantly. Everything runs from a fresh temp folder, never with your workspace as the working directory, and only in a trusted workspace. Machine scope: a workspace `.vscode/settings.json` cannot switch execution on. `ask` uses the answer you gave in the consent prompt (change it with **Deliberate: Choose What Practice May Run Locally**)."
+        },
+        "deliberate.pythonPath": {
+          "type": "string",
+          "default": "",
+          "scope": "machine",
+          "description": "Python interpreter for practice and behaviour specs. Empty = the Python extension's selected interpreter, the workspace .venv, python.defaultInterpreterPath, then python/python3/py on PATH. Machine scope: a cloned repository cannot point it at its own script."
+        },
+        "deliberate.stuckThresholdMinutes": {
+          "type": "number",
+          "default": 7,
+          "minimum": 2,
+          "description": "Base minutes of active, progress-free work before the coach offers help. Scaled per concept: weak concepts get help sooner, strong ones get more room."
+        },
+        "deliberate.proactiveHints": {
+          "type": "string",
+          "enum": [
+            "offer",
+            "auto",
+            "off"
+          ],
+          "enumDescriptions": [
+            "Show 'hint ready' in the status bar when you look stuck (Alt+N to take it).",
+            "Give the next hint automatically when you look stuck.",
+            "Only give hints when you ask (no background hint preparation)."
+          ],
+          "default": "offer"
+        },
+        "deliberate.maxFollowUps": {
+          "type": "number",
+          "default": 2,
+          "minimum": 0,
+          "description": "Maximum chained follow-up tasks on one concept. A follow-up is only created when the weakest task concept is below P 0.6 or has an active misconception."
+        },
+        "deliberate.planEffort": {
+          "type": "string",
+          "enum": [
+            "medium",
+            "high"
+          ],
+          "enumDescriptions": [
+            "The roadmap is designed at medium effort (about 1.5-3 min on the Codex plan, in the background while you do the placement checks).",
+            "Higher effort for the roadmap call only: slower, and uses more of your plan."
+          ],
+          "default": "medium",
+          "description": "Reasoning effort for the background roadmap call (PlanOutline)."
+        },
+        "deliberate.backgroundConcurrency": {
+          "type": "number",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 3,
+          "description": "How many background preparation calls (roadmap, task prep, practice packs, hints) may run at once."
+        },
+        "deliberate.backgroundCallsPerHour": {
+          "type": "number",
+          "default": 20,
+          "minimum": 6,
+          "description": "Rolling hourly budget for background model calls (4 of them are reserved for hint ladders). Halved for the session after a usage-limit error."
+        },
+        "deliberate.nameNewMisconceptions": {
+          "type": "boolean",
+          "default": false,
+          "description": "Opt-in enrichment: after a wrong practice answer that matches no known misconception, ask the model in the background to name the belief behind it (at most 2 per task). Off by default."
+        },
+        "deliberate.polishReview": {
+          "type": "boolean",
+          "default": false,
+          "description": "After all behaviour specs pass (hidden ones included), also run a short background review of design, naming and robustness. Off by default: the coach checks understanding with what-if questions on your own code instead."
+        },
+        "deliberate.padColumn": {
+          "type": "string",
+          "enum": [
+            "beside",
+            "active"
+          ],
+          "enumDescriptions": [
+            "Open the practice pad in the editor group beside your code.",
+            "Open the practice pad in the active editor group, over your code (your file comes back when practice ends)."
+          ],
+          "default": "beside",
+          "description": "Where the practice pad (predict-the-output items, drills, placement) opens."
+        },
+        "deliberate.showTimers": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the task timer in the Deliberate status-bar item and the correct-under-par streak in its tooltip."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --tsconfig test/tsconfig.json --test test/*.test.ts",
+    "test:e2e": "tsx test/e2e/runE2E.ts",
+    "verify:seeds": "tsx scripts/verify-seeds.ts",
+    "package": "npm run typecheck && npm test && npm run verify:seeds -- python && npm run verify:seeds -- javascript && npm run verify:seeds -- typescript && node esbuild.mjs --production && vsce package --no-dependencies --allow-missing-repository",
+    "vscode:prepublish": "node esbuild.mjs --production"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "marked": "^18.0.14",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/vscode": "1.93.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
